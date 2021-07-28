@@ -1,9 +1,9 @@
-﻿
-using JetBrains.Annotations;
+﻿using JetBrains.Annotations;
 using UdonSharp;
 using UnityEngine;
 using VRC.SDKBase;
 
+[AddComponentMenu("")]
 public class TemplatePooledObject : UdonSharpBehaviour
 {
     // Who is the current owner of this object. Null if object is not currently in use. 

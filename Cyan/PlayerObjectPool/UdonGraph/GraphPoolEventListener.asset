@@ -14,14 +14,15 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   serializedUdonProgramAsset: {fileID: 11400000, guid: efda9b2ca53bc7242be8424f694da2bc,
     type: 2}
-  udonAssembly: ".data_start\r\n\r\n    \r\n    message_0: %SystemObject, null\r\n
-    \   String_0: %SystemString, null\r\n    message_1: %SystemObject, null\r\n    String_1:
-    %SystemString, null\r\n\r\n.data_end\r\n\r\n.code_start\r\n\r\n    .export _OnAssignmentChanged\r\n
-    \   \r\n    _OnAssignmentChanged:\r\n    \r\n        PUSH, String_0\r\n        PUSH,
-    message_0\r\n        COPY\r\n        PUSH, message_0\r\n        EXTERN, \"UnityEngineDebug.__Log__SystemObject__SystemVoid\"\r\n
+  udonAssembly: ".data_start\r\n\r\n    \r\n    __message_0: %SystemObject, null\r\n
+    \   __String_0: %SystemString, null\r\n    __message_1: %SystemObject, null\r\n
+    \   __String_1: %SystemString, null\r\n\r\n.data_end\r\n\r\n.code_start\r\n\r\n
+    \   .export _OnAssignmentChanged\r\n    \r\n    _OnAssignmentChanged:\r\n    \r\n
+    \       PUSH, __String_0\r\n        PUSH, __message_0\r\n        COPY\r\n        PUSH,
+    __message_0\r\n        EXTERN, \"UnityEngineDebug.__Log__SystemObject__SystemVoid\"\r\n
     \       JUMP, 0xFFFFFFFC\r\n    \r\n    .export _OnLocalPlayerAssigned\r\n    \r\n
-    \   _OnLocalPlayerAssigned:\r\n    \r\n        PUSH, String_1\r\n        PUSH,
-    message_1\r\n        COPY\r\n        PUSH, message_1\r\n        EXTERN, \"UnityEngineDebug.__Log__SystemObject__SystemVoid\"\r\n
+    \   _OnLocalPlayerAssigned:\r\n    \r\n        PUSH, __String_1\r\n        PUSH,
+    __message_1\r\n        COPY\r\n        PUSH, __message_1\r\n        EXTERN, \"UnityEngineDebug.__Log__SystemObject__SystemVoid\"\r\n
     \       JUMP, 0xFFFFFFFC\r\n    \r\n\r\n.code_end\r\n"
   assemblyError: 
   graphData:

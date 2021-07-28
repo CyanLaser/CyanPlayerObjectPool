@@ -13,7 +13,7 @@ While required to run, you may use UdonGraph or CyanTriggers to create your pool
 Setup
 
 1. Drag the PlayerObjectPool prefab into your scene.
-2. Create an udon program to be used for each pooled object, implementing the reqruired items (see template graph or udon sharp script)
+2. Create an udon program to be used for each pooled object, implementing the required items (see template graph or udon sharp script)
 3. Create a new GameObject with this udon program, child it under the PlayerObjectPool prefab. Duplicate it so that there is enough for each players. It is recommended to have 2x the world cap.
 
 See the example scenes for more details on proper setup.
@@ -29,7 +29,7 @@ When creating an udon program to be used as a pooled object, it needs three thin
 
 Pool Event Listener
 
-The PlayerObjectPool has can send optional events to a listener UdonBehaviour so that you can handle different callbacks. 
+The PlayerObjectPool can send optional events to a listener UdonBehaviour so that you can handle different callbacks. 
 - _OnAssignmentChanged - This event is called whenever an object has been assigned to an owner or when an object has been unassigned. 
 - _OnLocalPlayerAssigned - This event is called whenever the local player has been assigned their object. Use this event to enable external features that require the local player to have an assigned object. 
 
@@ -37,7 +37,7 @@ The PlayerObjectPool has can send optional events to a listener UdonBehaviour so
 UdonSharp Helper Methods
 
 The PlayerObjectPool script contains a few helper methods that can be used with UdonSharp (sorry graph users). 
-These methods allow you to easily get the object or udon for a given player.
+These methods allow you to easily get the object or UdonBehaviour for a given player.
 
 GameObject _GetPlayerPooledObject(VRCPlayerApi player)
 GameObject _GetPlayerPooledObjectById(int playerId)
