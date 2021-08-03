@@ -1,5 +1,4 @@
-﻿
-using JetBrains.Annotations;
+﻿using JetBrains.Annotations;
 using UdonSharp;
 using UnityEngine;
 using UnityEngine.UI;
@@ -7,6 +6,7 @@ using VRC.SDKBase;
 
 namespace Cyan.PlayerObjectPool
 {
+    [AddComponentMenu("")]
     public class DemoPooledObject : UdonSharpBehaviour
     {
         // Who is the current owner of this object. Null if object is not currently in use. 
