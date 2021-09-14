@@ -1,4 +1,5 @@
-﻿using JetBrains.Annotations;
+﻿using System;
+using JetBrains.Annotations;
 using UdonSharp;
 using UnityEngine;
 using VRC.SDKBase;
@@ -176,7 +177,56 @@ namespace Cyan.PlayerObjectPool
 
             return pooledUdon[index];
         }
+        
+        
+        /// <summary>
+        /// These methods and variables are used so that Graph and CyanTrigger programs can call the public api methods
+        /// with parameters and read the output data.
+        /// </summary>
+        #region Public API for Graph and CyanTrigger programs
 
+        [HideInInspector, PublicAPI] 
+        public VRCPlayerApi playerInput;
+        
+        [HideInInspector, PublicAPI] 
+        public int playerIdInput;
+        
+        [HideInInspector, PublicAPI]
+        public GameObject poolObjectOutput;
+        
+        [HideInInspector, PublicAPI] 
+        public UdonBehaviour poolUdonOutput;
+        
+        [PublicAPI]
+        [Obsolete("This method is intended only for non UdonSharp programs. Use _GetPlayerPoolObject instead.")]
+        public void _GetPlayerPoolObjectEvent()
+        {
+            poolObjectOutput = _GetPlayerPooledObject(playerInput);
+        }
+        
+        [PublicAPI]
+        [Obsolete("This method is intended only for non UdonSharp programs. Use _GetPlayerPooledObjectById instead.")]
+        public void _GetPlayerPooledObjectByIdEvent()
+        {
+            poolObjectOutput = _GetPlayerPooledObjectById(playerIdInput);
+        }
+
+        [PublicAPI]
+        [Obsolete("This method is intended only for non UdonSharp programs. Use _GetPlayerPooledUdon instead.")]
+        public void _GetPlayerPooledUdonEvent()
+        {
+            poolUdonOutput = (UdonBehaviour)_GetPlayerPooledUdon(playerInput);
+        }
+
+        [PublicAPI]
+        [Obsolete("This method is intended only for non UdonSharp programs. Use _GetPlayerPooledUdonById instead.")]
+        public void _GetPlayerPooledUdonByIdEvent()
+        {
+            poolUdonOutput = (UdonBehaviour)_GetPlayerPooledUdonById(playerIdInput);
+        }
+
+        #endregion
+        
         #endregion
         
         private void Start()
