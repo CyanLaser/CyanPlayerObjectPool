@@ -7,6 +7,7 @@ using VRC.SDKBase;
 namespace Cyan.PlayerObjectPool
 {
     [AddComponentMenu("")]
+    [UdonBehaviourSyncMode(BehaviourSyncMode.Manual)]
     public class DemoPooledObject : UdonSharpBehaviour
     {
         // Who is the current owner of this object. Null if object is not currently in use. 

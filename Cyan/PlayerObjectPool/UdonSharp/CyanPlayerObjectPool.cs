@@ -10,7 +10,9 @@ namespace Cyan.PlayerObjectPool
     /// <summary>
     /// An object pool system that will assign one object for each player that joins the instance. 
     /// </summary>
-    [AddComponentMenu("")]
+    [AddComponentMenu("")] // Do not show this component in the AddComponent menu since it is for Udon only.
+    [DefaultExecutionOrder(1000)] // Have high execution order to ensure that other components update before this one.
+    [UdonBehaviourSyncMode(BehaviourSyncMode.Manual)] // This system requires manual sync. 
     public class CyanPlayerObjectPool : UdonSharpBehaviour
     {
         #region Constants
