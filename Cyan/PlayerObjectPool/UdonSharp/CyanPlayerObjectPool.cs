@@ -48,18 +48,29 @@ namespace Cyan.PlayerObjectPool
 
         #endregion
 
+        #region Public Settings
+        
+        /// <summary>
+        /// When assigning objects to players, should the assigned player also take ownership over this object? If your
+        /// pool objects do not use Synced variables, then this option can be considered for less network overhead.
+        /// Default value is True. 
+        /// </summary>
+        public bool setNetworkOwnershipForPoolObjects = true;
+
         /// <summary>
         /// Setting this to true will print debug logging information about the status of the pool.
         /// Warnings and errors will still be printed even if this is set to false.
         /// </summary>
         public bool printDebugLogs = false;
-        
+
         // UdonBehaviour that will listen for different events from the Object pool system. 
         // Current events:
         // - _OnAssignmentChanged
         // - _OnLocalPlayerAssigned
         public UdonBehaviour poolEventListener;
-        
+
+        #endregion
+
         // The assignment of objects to players. Each index represents an object in the pool. The value stores the
         // player that owns this object, or -1 if no one has been assigned this object.
         [UdonSynced]
@@ -538,7 +549,7 @@ namespace Cyan.PlayerObjectPool
             
             _Log($"Assigning {poolObj.name} to player {playerId}");
 
-            if (player.isLocal)
+            if (player.isLocal && setNetworkOwnershipForPoolObjects)
             {
                 Networking.SetOwner(player, poolObj);
             }
