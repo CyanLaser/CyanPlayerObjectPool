@@ -59,18 +59,21 @@ namespace Cyan.PlayerObjectPool
         /// pool objects do not use Synced variables, then this option can be considered for less network overhead.
         /// Default value is True. 
         /// </summary>
+        [Tooltip("When assigning objects to players, should the assigned player also take ownership over this object? If your pool objects do not use Synced variables, then this option can be considered for less network overhead. Default value is True.")]
         public bool setNetworkOwnershipForPoolObjects = true;
 
         /// <summary>
         /// Setting this to true will print debug logging information about the status of the pool.
         /// Warnings and errors will still be printed even if this is set to false.
         /// </summary>
+        [Tooltip("Setting this to true will print debug logging information about the status of the pool. Warnings and errors will still be printed even if this is set to false.")]
         public bool printDebugLogs = false;
 
         // UdonBehaviour that will listen for different events from the Object pool system. 
         // Current events:
         // - _OnAssignmentChanged
         // - _OnLocalPlayerAssigned
+        [Tooltip("Optional UdonBehaviour that will listen for different events from the Object pool system. Currently supported events: \"_OnAssignmentChanged\", \"_OnLocalPlayerAssigned\"")]
         public UdonBehaviour poolEventListener;
 
         #endregion
@@ -121,7 +124,7 @@ namespace Cyan.PlayerObjectPool
         [PublicAPI]
         public GameObject _GetPlayerPooledObject(VRCPlayerApi player)
         {
-            return Utilities.IsValid(player) ? _GetPlayerPooledObjectById(player.playerId) : null;
+            return VRC.SDKBase.Utilities.IsValid(player) ? _GetPlayerPooledObjectById(player.playerId) : null;
         }
         
         /// <summary>
@@ -159,7 +162,7 @@ namespace Cyan.PlayerObjectPool
         [PublicAPI]
         public Component _GetPlayerPooledUdon(VRCPlayerApi player)
         {
-            return Utilities.IsValid(player) ? _GetPlayerPooledUdonById(player.playerId) : null;
+            return VRC.SDKBase.Utilities.IsValid(player) ? _GetPlayerPooledUdonById(player.playerId) : null;
         }
 
         /// <summary>
@@ -315,6 +318,12 @@ namespace Cyan.PlayerObjectPool
         // O(1) best case. See _ReturnPlayerObject for more details
         public override void OnPlayerLeft(VRCPlayerApi player)
         {
+            // If the local player leaves, the player here will be null. Return early to prevent error in logs.
+            if (player == null)
+            {
+                return;
+            }
+            
             // Have everyone clean up the object locally to ensure owner is properly set for the object before it is
             // eventually disabled.
             _EarlyObjectCleanup(player);
@@ -469,9 +478,9 @@ namespace Cyan.PlayerObjectPool
         // O(1) best case, O(n) assuming another prefab cleared tags.
         private void _ReturnPlayerObject(VRCPlayerApi player)
         {
-            if (!Utilities.IsValid(player))
+            if (!VRC.SDKBase.Utilities.IsValid(player))
             {
-                _LogWarning("Cannot return player object as player is invalid!");
+                _LogError("Cannot return player object as player is invalid!");
                 return;
             }
             _ReturnPlayerObjectByPlayerId(player.playerId);
@@ -605,7 +614,7 @@ namespace Cyan.PlayerObjectPool
             }
 
             // Notify event listener that there was a change in the player/object assignments
-            if (assignmentHasChanged && Utilities.IsValid(poolEventListener))
+            if (assignmentHasChanged && VRC.SDKBase.Utilities.IsValid(poolEventListener))
             {
                 poolEventListener.SendCustomEvent(OnAssignmentChangedEvent);
             }
@@ -626,9 +635,9 @@ namespace Cyan.PlayerObjectPool
             // Ensure this gets set even if player is invalid. The cleanup case should verify and remove the player later.
             _SetPlayerObjectIndexTag(playerId, index);
             
-            if (!Utilities.IsValid(player))
+            if (!VRC.SDKBase.Utilities.IsValid(player))
             {
-                _LogWarning($"Trying to assign invalid player to object! player: {playerId}, obj: {poolObj.name}");
+                _LogError($"Trying to assign invalid player to object! player: {playerId}, obj: {poolObj.name}");
                 return false;
             }
             
@@ -645,7 +654,7 @@ namespace Cyan.PlayerObjectPool
             poolObj.SetActive(true);
                     
             // Notify the event listener that the local player has been assigned an object.
-            if (player.isLocal && Utilities.IsValid(poolEventListener))
+            if (player.isLocal && VRC.SDKBase.Utilities.IsValid(poolEventListener))
             {
                 poolEventListener.SendCustomEvent(OnLocalPlayerAssignedEvent);
             }
@@ -740,7 +749,7 @@ namespace Cyan.PlayerObjectPool
             for (int index = 0; index < MaxPlayers; ++index)
             {
                 VRCPlayerApi player = _allPlayersTemp[index];
-                if (!Utilities.IsValid(player))
+                if (!VRC.SDKBase.Utilities.IsValid(player))
                 {
                     break;
                 }
