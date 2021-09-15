@@ -114,6 +114,17 @@ namespace Cyan.PlayerObjectPool
         // assignment may be considered invalid and needs to be verified again when the player joins.
         private bool _verifyAssignmentsOnPlayerJoin = false;
 
+        // Queue of indices indicating which pool objects have not been assigned. This system allows constant time
+        // assigning objects to players instead of O(n) to find the first unassigned object.
+        private int[] _unclaimedQueue;
+        // The start index into the queue where items should be pulled from.
+        // This may be larger than the queue length if many items have been cycled. 
+        private int _unclaimedQueueStart = 0;
+        // The end index into the queue where new items are added into the queue.
+        // This may be larger than the queue length if many items have been cycled. 
+        private int _unclaimedQueueEnd = 0;
+
+        
         #region Public API
 
         /// <summary>
@@ -277,6 +288,7 @@ namespace Cyan.PlayerObjectPool
                     _assignment[i] = -1;
                 }
                 _isMaster = true;
+                _FillUnclaimedObjectQueue();
                 
                 _DelayRequestSerialization();
                 _DelayUpdateAssignment();
@@ -303,7 +315,7 @@ namespace Cyan.PlayerObjectPool
 
         // On player join, assign that player an object in the pool.
         // Only master handles this request.
-        // O(n) See _AssignObject for more details
+        // O(1) + O(n) next frame - See _AssignObject for more details
         public override void OnPlayerJoined(VRCPlayerApi player)
         {
             // In rare cases, synced data can arrive before all player join messages have happened. In this case, an
@@ -345,17 +357,18 @@ namespace Cyan.PlayerObjectPool
             {
                 return;
             }
-
-            _ReturnPlayerObject(player);
-
+            
             // Master left and local player is the new master.
             if (!_isMaster && Networking.IsMaster)
             {
                 _isMaster = true;
+                _FillUnclaimedObjectQueue();
                 
                 // verify all players have objects, but wait one frame to ensure that all players have left.
                 SendCustomEventDelayedFrames(nameof(_VerifyAllPlayersHaveObjects), 1, EventTiming.LateUpdate);
             }
+
+            _ReturnPlayerObject(player);
         }
 
         // Synced data has changed, check for changes in the player/object assignments.
@@ -432,32 +445,86 @@ namespace Cyan.PlayerObjectPool
         #endregion
 
         #region Player/Object Assigment
-        
-        // Go through all objects, find the first one that is unclaimed and return the index.
-        // If all objects are taken, -1 is returned.
-        // O(n)
-        // TODO optimize to use a queue of free objects to bring runtime to O(1).
-        // TODO Recreate the queue on master change to ensure new master does not have bad data.
-        private int _GetFirstUnclaimedObjectIndex()
+
+        // These methods are for a queue system to hold unassigned objects. The queue is a first in, first out queue.
+        // This system is needed to ensure that assigning objects to players is constant time instead of O(n).
+        #region Unassigned Object Queue
+
+        // Construct the queue given the current state of the assigned objects. 
+        private void _FillUnclaimedObjectQueue()
         {
             int size = _assignment.Length;
+            _unclaimedQueue = new int[size];
+            
             for (int i = 0; i < size; ++i)
             {
+                // Ensure queue is initialized with -1.
+                _unclaimedQueue[i] = -1;
+                
+                // If the current object does not have a player assigned, add it to the queue.
                 if (_assignment[i] == -1)
                 {
-                    return i;
+                    _EnqueueItemToUnclaimedQueue(i);
                 }
             }
+        }
 
-            return -1;
+        // Get the current size of the queue.
+        private int _UnclaimedQueueCount()
+        {
+            return _unclaimedQueueEnd - _unclaimedQueueStart;
+        }
+
+        // Get the first unclaimed object from the queue. Returns -1 if no object is in the queue.
+        // O(1)
+        private int _DequeueItemFromUnclaimedQueue()
+        {
+            // If the queue is empty, return invalid.
+            if (_UnclaimedQueueCount() <= 0)
+            {
+                return -1;
+            }
+
+            // Get the index for the start of the queue and increment the value.
+            int index = _unclaimedQueueStart % _unclaimedQueue.Length;
+            ++_unclaimedQueueStart;
+            
+            // Get the first element in the queue
+            int element = _unclaimedQueue[index];
+            // Clear the value at this index to ensure old elements are never reused.
+            _unclaimedQueue[index] = -1;
+            
+            return element;
         }
         
+        // Add the given unclaimed object into the queue
+        // O(1)
+        private void _EnqueueItemToUnclaimedQueue(int value)
+        {
+            if (_UnclaimedQueueCount() >= _unclaimedQueue.Length)
+            {
+                _LogError("Trying to queue an item when the queue is full!");
+                return;
+            }
+            
+            // Get the index for the end of the queue and increment the value.
+            int index = _unclaimedQueueEnd % _unclaimedQueue.Length;
+            ++_unclaimedQueueEnd;
+            
+            _unclaimedQueue[index] = value;
+        }
+
+        #endregion
+
+
         // Given a player, assign them an object from the pool.
-        // O(n) - Need to loop through all assigned objects to find one free object.
+        // O(1) + O(n) next frame 
+        // Thanks to the UnclaimedQueue, getting a free object is constant time. 
+        // Updating the current objects based on the assignment takes O(n). See _AssignObjectsToPlayers for more details
         private void _AssignObject(VRCPlayerApi player)
         {
             int id = player.playerId;
-            int index = _GetFirstUnclaimedObjectIndex();
+            int index = _DequeueItemFromUnclaimedQueue();
             
             // Pool is empty and could not find an object to assign to the new player.
             // This should be fatal as the owner didn't create enough pool objects.
@@ -516,7 +583,11 @@ namespace Cyan.PlayerObjectPool
                 _LogWarning("Removing assignment to object that wasn't to specified player!" +
                                  $" assignment: {_assignment[index]}, player: {playerId}");
             }
+            
+            // Set the assignment for this object to invalid.
             _assignment[index] = -1;
+            // Return the object into the unclaimed queue.
+            _EnqueueItemToUnclaimedQueue(index);
             
             _DelayRequestSerialization();
             _DelayUpdateAssignment();
