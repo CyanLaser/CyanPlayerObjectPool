@@ -46,7 +46,10 @@ namespace Cyan.PlayerObjectPool
         // Check for this value to ensure that player object index tags are valid.
         // If this is ever unset, then another system cleared tags and needs to be recalculated. 
         private const string PlayerObjectIndexSet = "_player_object_index_valid";
-
+        // The minimum duration between serialization requests to reduce overall network load when multiple people join
+        // at the same time. 
+        private const float DelaySerializationDuration = 0.5f;
+        
         #endregion
 
         #region Public Settings
@@ -94,6 +97,11 @@ namespace Cyan.PlayerObjectPool
 
         // Used to check if we have requested to check for updates on assignment. Only one request can happen at a time.
         private bool _delayUpdateAssignment;
+        
+        // The time of the last request to serialize the object pool assignments. This is used to ensure that only one
+        // serialization request happens within a given duration. This is to help reduce overall networking load
+        // when multiple people join at the same time.
+        private float _lastSerializationRequestTime;
 
         // Temporary data used for verifying each player's object.
         private VRCPlayerApi[] _allPlayersTemp;
@@ -264,7 +272,7 @@ namespace Cyan.PlayerObjectPool
                 }
                 _isMaster = true;
                 
-                RequestSerialization();
+                _DelayRequestSerialization();
                 _DelayUpdateAssignment();
             }
 
@@ -453,7 +461,7 @@ namespace Cyan.PlayerObjectPool
             _assignment[index] = id;
             _Log($"Assigning player {id} to index {index}");
             
-            RequestSerialization();
+            _DelayRequestSerialization();
             _DelayUpdateAssignment();
         }
 
@@ -488,8 +496,35 @@ namespace Cyan.PlayerObjectPool
             }
             _assignment[index] = -1;
             
-            RequestSerialization();
+            _DelayRequestSerialization();
             _DelayUpdateAssignment();
+        }
+
+        // Delay requesting serialization. On each call, it will ensure that serialization does not happen until at
+        // least some duration after the last request. This delay is used to reduce overall network load when multiple
+        // people join at the same time. 
+        private void _DelayRequestSerialization()
+        {
+            // Set the last request time to now.
+            _lastSerializationRequestTime = Time.time;
+            // Delay call to handle serialization.
+            SendCustomEventDelayedSeconds(nameof(_OnDelayRequestSerialization), DelaySerializationDuration);
+        }
+        
+        // Handle delayed request serializations. On each call, it will ensure that serialization does not happen until 
+        // at least some duration after the last request. This delay is used to reduce overall network load when 
+        // multiple people join at the same time. 
+        public void _OnDelayRequestSerialization()
+        {
+            // If the last request time was less than the expected duration, return early since this means another
+            // request has happened since this one was requested.
+            if (Time.time - _lastSerializationRequestTime < DelaySerializationDuration) {
+                return;
+            }
+            
+            // Request serialization of the object pool assignments so that everyone else can see the updated
+            // assignments. 
+            RequestSerialization();
         }
         
         // Check assignment changes in the next frame. This method is used to ensure that only one assignment update
