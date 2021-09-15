@@ -110,6 +110,9 @@ namespace Cyan.PlayerObjectPool
         private VRCPlayerApi[] _allPlayersTemp;
         private int[] _playerIdsWithObjects;
 
+        // In rare cases, synced data can arrive before all player join messages have happened. In this case, an
+        // assignment may be considered invalid and needs to be verified again when the player joins.
+        private bool _verifyAssignmentsOnPlayerJoin = false;
 
         #region Public API
 
@@ -303,6 +306,16 @@ namespace Cyan.PlayerObjectPool
         // O(n) See _AssignObject for more details
         public override void OnPlayerJoined(VRCPlayerApi player)
         {
+            // In rare cases, synced data can arrive before all player join messages have happened. In this case, an
+            // assignment may be considered invalid and needs to be verified again when the player joins. If this value
+            // is true, then an invalid player assignment has been found and all assignments should be verified in case
+            // the player is now valid. This should only happen on non master clients. This assumes that the invalid
+            // player will eventually have a join message.
+            if (_verifyAssignmentsOnPlayerJoin)
+            {
+                _DelayUpdateAssignment();
+            }
+            
             if (!Networking.IsMaster)
             {
                 return;
@@ -579,6 +592,8 @@ namespace Cyan.PlayerObjectPool
         // O(n)
         private void _AssignObjectsToPlayers()
         {
+            _verifyAssignmentsOnPlayerJoin = false;
+            
             bool assignmentHasChanged = false;
             bool requireVerification = false;
             int size = _assignment.Length;
@@ -593,11 +608,6 @@ namespace Cyan.PlayerObjectPool
                     continue;
                 }
                 
-                // Update the previous assignment to match new assignment.
-                _prevAssignment[index] = newAssign;
-
-                assignmentHasChanged = true;
-                
                 // New assignment has no owner. Disable the object and removed cached player owner. 
                 if (newAssign == -1)
                 {
@@ -609,8 +619,17 @@ namespace Cyan.PlayerObjectPool
                     if (!_SetupPlayerObject(index, newAssign))
                     {
                         requireVerification = true;
+                        
+                        // Continue the loop early and prevent setting the _prevAssignment array to allow retrying this
+                        // index.
+                        continue;
                     }
                 }
+                
+                // Update the previous assignment to match new assignment.
+                _prevAssignment[index] = newAssign;
+
+                assignmentHasChanged = true;
             }
 
             // Notify event listener that there was a change in the player/object assignments
@@ -619,9 +638,19 @@ namespace Cyan.PlayerObjectPool
                 poolEventListener.SendCustomEvent(OnAssignmentChangedEvent);
             }
 
-            if (requireVerification && Networking.IsMaster)
+            if (requireVerification)
             {
-                _VerifyAllPlayersHaveObjects();
+                if (Networking.IsMaster)
+                {
+                    // If require verification while master, verify all player assignments
+                    _VerifyAllPlayersHaveObjects();
+                }
+                else
+                {
+                    // Player was not master, but an invalid player was found. Ignore for now and wait for the next
+                    // player join to attempt assigning objects again.
+                    _verifyAssignmentsOnPlayerJoin = true;
+                }
             }
         }
 
