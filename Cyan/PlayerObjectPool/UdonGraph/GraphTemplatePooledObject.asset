@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4f11136daadff0b44ac2278a314682ab, type: 3}
   m_Name: GraphTemplatePooledObject
   m_EditorClassIdentifier: 
-  serializedUdonProgramAsset: {fileID: 11400000, guid: 984c4561acd05834d8d5e1306d1eb854,
+  serializedUdonProgramAsset: {fileID: 11400000, guid: bd79ee398ae5bfa44b8599384415b08c,
     type: 2}
   udonAssembly: ".data_start\r\n\r\n    .export Owner\r\n    \r\n    Owner: %VRCSDKBaseVRCPlayerApi,
     null\r\n\r\n.data_end\r\n\r\n.code_start\r\n\r\n\r\n.code_end\r\n"
@@ -81,7 +81,7 @@ MonoBehaviour:
       Event will be called on all clients when the original owner has left and the
       object is about to be disabled.","layer":0,"elementTypeColor":{"r":0.0,"g":0.0,"b":0.0,"a":0.0}}'
   viewTransform:
-    position: {x: 161.02357, y: 71.260574}
-    scale: 0.65751624
+    position: {x: 121.45589, y: -20.899109}
+    scale: 0.8695652
   version: 1.0.0
   showAssembly: 0

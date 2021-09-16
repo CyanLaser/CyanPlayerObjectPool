@@ -91,8 +91,11 @@ namespace Cyan.PlayerObjectPool
 
             pos = _localPlayer.GetTrackingData(VRCPlayerApi.TrackingDataType.Head).position;
             transform.LookAt(pos);
+        }
 
-            if (Owner.isLocal && Input.GetKeyDown(KeyCode.Alpha0))
+        public void _IncreaseValue()
+        {
+            if (Owner.isLocal)
             {
                 _SetValue((value + 1) % 100);
             }

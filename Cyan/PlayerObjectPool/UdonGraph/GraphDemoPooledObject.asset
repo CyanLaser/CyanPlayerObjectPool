@@ -1066,7 +1066,7 @@ MonoBehaviour:
       - a9a33070-4845-4f9c-9047-abbd31846717
       nodeValues:
       - unityObjectValue: {fileID: 0}
-        stringValue: System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089|IncreaseValue
+        stringValue: System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089|_IncreaseValue
     updateOrder: 0
   graphElementData:
   - type: 2
@@ -1150,7 +1150,7 @@ MonoBehaviour:
     jsonData: '{"uid":"aa011b64-f167-4350-9cb0-21ecfe4c138e","layout":{"serializedVersion":"2","x":943.9954223632813,"y":1776.7159423828125,"width":353.0874328613281,"height":87.25452423095703},"title":"Set
       the text display to the owner''s name, id, and the current value","layer":0,"elementTypeColor":{"r":0.0,"g":0.0,"b":0.0,"a":0.0}}'
   viewTransform:
-    position: {x: -54.223755, y: -2453.135}
-    scale: 0.8695652
+    position: {x: -4.193054, y: -1574.5894}
+    scale: 0.57175326
   version: 1.0.0
   showAssembly: 0

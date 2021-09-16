@@ -108,14 +108,14 @@ MonoBehaviour:
         stringValue: 
     - fullName: Const_SystemString
       uid: 485d7ef4-965e-4526-9576-cba7e7652d50
-      position: {x: 300.80603, y: 555.0425}
+      position: {x: 300.80603, y: 559.01}
       nodeUIDs:
       - 
       flowUIDs: []
       nodeValues:
       - unityObjectValue: {fileID: 0}
         stringValue: System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089|The
-          local player now has its object!
+          local player has been assigned an object from the pool!
     - fullName: UnityEngineDebug.__Log__SystemObject__SystemVoid
       uid: 342c1eaa-9a79-482f-aa74-7b1e4848a87f
       position: {x: 626.577, y: 112.04501}
@@ -479,7 +479,7 @@ MonoBehaviour:
       interact until the user has their pool object","layer":0,"elementTypeColor":{"r":0.0,"g":0.0,"b":0.0,"a":0.0}}'
   - type: 2
     uid: fc8dd40f-3bcd-4486-beb6-3424edcbaa0b
-    jsonData: '{"uid":"fc8dd40f-3bcd-4486-beb6-3424edcbaa0b","layout":{"serializedVersion":"2","x":275.8059997558594,"y":380.4423828125,"width":816.0,"height":283.0},"containedElements":["0ec21c7e-467f-4888-a267-afda60c7ceeb","610022c6-706f-4cc8-bcde-7d78b291ed08","14f8e559-ec93-4ed7-a81a-be76c9290846","485d7ef4-965e-4526-9576-cba7e7652d50","fc48f253-4338-4bba-b4fc-fb88bc58433c"],"title":"Event
+    jsonData: '{"uid":"fc8dd40f-3bcd-4486-beb6-3424edcbaa0b","layout":{"serializedVersion":"2","x":275.8059997558594,"y":378.44232177734377,"width":812.0,"height":289.0},"containedElements":["0ec21c7e-467f-4888-a267-afda60c7ceeb","610022c6-706f-4cc8-bcde-7d78b291ed08","14f8e559-ec93-4ed7-a81a-be76c9290846","485d7ef4-965e-4526-9576-cba7e7652d50","fc48f253-4338-4bba-b4fc-fb88bc58433c"],"title":"Event
       called when the local user has been assigned an object","layer":0,"elementTypeColor":{"r":0.0,"g":0.0,"b":0.0,"a":0.0}}'
   - type: 2
     uid: 37bddb90-db6b-4063-8425-4400fa708acc
@@ -490,7 +490,7 @@ MonoBehaviour:
     jsonData: '{"uid":"0c4f63ca-3d2d-4ecf-bd7f-577e0561dd35","layout":{"serializedVersion":"2","x":117.3105239868164,"y":1335.2567138671875,"width":1263.0,"height":274.0},"containedElements":["c215591a-5628-45f3-8278-b255f3ae9d54","0915a4a8-9f51-4eee-b63f-f944d25394bd","ec2aac90-587f-441e-ac39-1d78d5eda3d9","d2e96ff0-e60b-4dc8-82bd-252d0d3f8ace","77fc2607-3542-4e90-b9c9-0fd029a6cd44","5bd2ac63-afc9-492e-99df-fcfec3a6f2e6","04f621fb-c533-401f-907f-9258e52442f3","4dc2e53c-b1c5-43cc-a55a-cacd24fbd2a9","b2683a92-e169-405a-847e-8a3462a7beea","86137cf6-1f11-4305-85ac-b04149fe94a1","deb9430c-7f34-4623-b620-c38fdb5ecb10","c9faca65-4373-47c7-92d0-8bcff9f55688","51d85026-254f-43a3-aa94-712681d7a8e0"],"title":"Check
       if local user''s pool object is valid and enable interact","layer":0,"elementTypeColor":{"r":0.0,"g":0.0,"b":0.0,"a":0.0}}'
   viewTransform:
-    position: {x: 204.62355, y: 27.206598}
-    scale: 0.2842624
+    position: {x: 12.194031, y: -448.60217}
+    scale: 0.8695652
   version: 1.0.0
   showAssembly: 0
