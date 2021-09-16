@@ -1,27 +1,27 @@
 CyanPlayerObjectPool
 Created by CyanLaser#4695
-2021-07-06
+2021-09-16
 
 Assigns a unique object to every player in the world.
 
 
 Dependencies
 UdonSharp - https://github.com/Merlin-san/UdonSharp
-While required to run, you may use UdonGraph or CyanTriggers to create your pooled object programs.
+While UdonSharp is required to run, you may use UdonGraph or CyanTrigger to create your pooled object programs.
 
 
 Setup
 
 1. Drag the PlayerObjectPool prefab into your scene.
-2. Create an udon program to be used for each pooled object, implementing the required items (see template graph or udon sharp script)
-3. Create a new GameObject with this udon program, child it under the PlayerObjectPool prefab. Duplicate it so that there is enough for each players. It is recommended to have 2x the world cap.
+2. Create an Udon program to be used for each pooled object, implementing the required items (see template UdonGraph, CyanTrigger, or UdonSharp script)
+3. Create a new GameObject with this Udon program, child it under the PlayerObjectPool prefab. Duplicate it so that there is enough for each players. It is recommended to have 2x the world cap.
 
 See the example scenes for more details on proper setup.
 
 
 Pooled Object Requirements
 
-When creating an udon program to be used as a pooled object, it needs three things:
+When creating an Udon program to be used as a pooled object, it needs three things:
 1. A public VRCPlayerApi variable named "Owner". This variable will store the current assigned owner for the object, or null if no owner has been assigned.
 2. A public event named "_OnOwnerSet". This event will be called by everyone when the object is assigned a new owner.
 3. A public event named "_OnCleanup". This event will be called by everyone when the object owner is leaving the world and the object is about to be unassigned. 
