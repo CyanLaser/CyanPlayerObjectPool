@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 4f11136daadff0b44ac2278a314682ab, type: 3}
-  m_Name: GraphDemoPooledObject
+  m_Name: DemoGraphPooledObject
   m_EditorClassIdentifier: 
   serializedUdonProgramAsset: {fileID: 11400000, guid: fd72ab7c0d40667499e551e7ccf034a4,
     type: 2}
@@ -1150,7 +1150,7 @@ MonoBehaviour:
     jsonData: '{"uid":"aa011b64-f167-4350-9cb0-21ecfe4c138e","layout":{"serializedVersion":"2","x":943.9954223632813,"y":1776.7159423828125,"width":353.0874328613281,"height":87.25452423095703},"title":"Set
       the text display to the owner''s name, id, and the current value","layer":0,"elementTypeColor":{"r":0.0,"g":0.0,"b":0.0,"a":0.0}}'
   viewTransform:
-    position: {x: -4.193054, y: -1574.5894}
-    scale: 0.57175326
+    position: {x: 35.0029, y: -1913.6366}
+    scale: 0.8695652
   version: 1.0.0
   showAssembly: 0

@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 4f11136daadff0b44ac2278a314682ab, type: 3}
-  m_Name: GraphPoolEventListener
+  m_Name: DemoGraphPoolEventListener
   m_EditorClassIdentifier: 
   serializedUdonProgramAsset: {fileID: 11400000, guid: efda9b2ca53bc7242be8424f694da2bc,
     type: 2}
@@ -490,7 +490,7 @@ MonoBehaviour:
     jsonData: '{"uid":"0c4f63ca-3d2d-4ecf-bd7f-577e0561dd35","layout":{"serializedVersion":"2","x":117.3105239868164,"y":1335.2567138671875,"width":1263.0,"height":274.0},"containedElements":["c215591a-5628-45f3-8278-b255f3ae9d54","0915a4a8-9f51-4eee-b63f-f944d25394bd","ec2aac90-587f-441e-ac39-1d78d5eda3d9","d2e96ff0-e60b-4dc8-82bd-252d0d3f8ace","77fc2607-3542-4e90-b9c9-0fd029a6cd44","5bd2ac63-afc9-492e-99df-fcfec3a6f2e6","04f621fb-c533-401f-907f-9258e52442f3","4dc2e53c-b1c5-43cc-a55a-cacd24fbd2a9","b2683a92-e169-405a-847e-8a3462a7beea","86137cf6-1f11-4305-85ac-b04149fe94a1","deb9430c-7f34-4623-b620-c38fdb5ecb10","c9faca65-4373-47c7-92d0-8bcff9f55688","51d85026-254f-43a3-aa94-712681d7a8e0"],"title":"Check
       if local user''s pool object is valid and enable interact","layer":0,"elementTypeColor":{"r":0.0,"g":0.0,"b":0.0,"a":0.0}}'
   viewTransform:
-    position: {x: 12.194031, y: -448.60217}
-    scale: 0.8695652
+    position: {x: -160.85954, y: -273.5823}
+    scale: 0.7561437
   version: 1.0.0
   showAssembly: 0
