@@ -318,6 +318,11 @@ namespace Cyan.PlayerObjectPool
         // O(1) + O(n) next frame - See _AssignObject for more details
         public override void OnPlayerJoined(VRCPlayerApi player)
         {
+            // There is currently a bug in VRChat where OnPlayerLeft player will return -1 if the player id is never
+            // checked before they left. This line is here only to ensure the id is checked for non master clients.
+            // https://vrchat.canny.io/vrchat-udon-closed-alpha-bugs/p/vrcplayerapiplayerid-may-returns-1-in-onplayerleft
+            int temp = player.playerId;
+            
             // In rare cases, synced data can arrive before all player join messages have happened. In this case, an
             // assignment may be considered invalid and needs to be verified again when the player joins. If this value
             // is true, then an invalid player assignment has been found and all assignments should be verified in case
