@@ -202,8 +202,118 @@ namespace Cyan.PlayerObjectPool
 
             return pooledUdon[index];
         }
+
+        /// <summary>
+        /// Get an ordered list of players based on the pool's assignment. This list will be the same order for all
+        /// clients and is useful for randomization.
+        /// O(n) to iterate over all players
+        /// </summary>
+        /// <returns>
+        /// Returns an ordered array of players that have currently been assigned an object.
+        /// </returns>
+        [PublicAPI]
+        public VRCPlayerApi[] _GetOrderedPlayers()
+        {
+            // Go through assignment array and find all valid players and store them into a temporary location.
+            int count = 0;
+            int size = _assignment.Length;
+            for (int i = 0; i < size; ++i)
+            {
+                // Get player id for this object's index.
+                int id = _assignment[i];
+                
+                // ID is invalid, skip this index.
+                if (id == -1)
+                {
+                    continue;
+                }
+                
+                // Get the player for the given id.
+                VRCPlayerApi player = VRCPlayerApi.GetPlayerById(id);
+                
+                // Player is invalid, skip this player.
+                if (!VRC.SDKBase.Utilities.IsValid(player))
+                {
+                    continue;
+                }
+                
+                // Store player in temporary location to be moved over later.
+                _allPlayersTemp[count] = player;
+                ++count;
+            }
+
+            // Copy over players from temp array into the array to return.
+            // This is to ensure correct size in the array.
+            VRCPlayerApi[] players = new VRCPlayerApi[count];
+            for (int i = 0; i < count; ++i)
+            {
+                players[i] = _allPlayersTemp[i];
+            }
+
+            return players;
+        }
         
-        
+        /// <summary>
+        /// Get an ordered list of players based on the pool's assignment. This list will be the same order for all
+        /// clients and is useful for randomization.
+        /// </summary>
+        /// <param name="players">
+        /// A valid player array to store the list of players who have been assigned an object. This array should be
+        /// large enough to store all players. It is recommended to use the same size as the total number of player
+        /// objects since this also represents the max player count.
+        /// </param>
+        /// <returns>
+        /// Returns the number of valid players added into the input array.
+        /// </returns>
+        [PublicAPI]
+        public int _GetOrderedPlayersNoAlloc(VRCPlayerApi[] players)
+        {
+            // The input array is null. No players can be stored in it. Return early.
+            if (players == null)
+            {
+                _LogError("_GetOrderedPlayersNoAlloc provided with a null array!");
+                return 0;
+            }
+            
+            // Go through the assignment array and find all valid players.
+            int count = 0;
+            int size = _assignment.Length;
+            int maxCount = players.Length;
+            for (int i = 0; i < size; ++i)
+            {
+                // Get player id for this object's index.
+                int id = _assignment[i];
+                
+                // ID is invalid, skip this index.
+                if (id == -1)
+                {
+                    continue;
+                }
+                
+                // Get the player for the given id.
+                VRCPlayerApi player = VRCPlayerApi.GetPlayerById(id);
+                
+                // Player is invalid, skip this player.
+                if (!VRC.SDKBase.Utilities.IsValid(player))
+                {
+                    continue;
+                }
+
+                // VRChat's GetPlayers will throw an error if you call it with an array to small. 
+                if (count >= maxCount)
+                {
+                    Debug.LogError("_GetOrderedPlayersNoAlloc called with an array too small to fit all players!");
+                    return count;
+                }
+
+                // Assign the player in the array and increment our total count
+                players[count] = player;
+                ++count;
+            }
+
+            return count;
+        }
+
         /// <summary>
         /// These methods and variables are used so that Graph and CyanTrigger programs can call the public api methods
         /// with parameters and read the output data.
@@ -215,12 +325,21 @@ namespace Cyan.PlayerObjectPool
         
         [HideInInspector, PublicAPI] 
         public int playerIdInput;
+
+        [HideInInspector, PublicAPI] 
+        public VRCPlayerApi[] playerArrayInput;
         
         [HideInInspector, PublicAPI]
         public GameObject poolObjectOutput;
         
         [HideInInspector, PublicAPI] 
         public UdonBehaviour poolUdonOutput;
+        
+        [HideInInspector, PublicAPI] 
+        public VRCPlayerApi[] playerArrayOutput;
+        
+        [HideInInspector, PublicAPI] 
+        public int playerCountOutput;
         
         [PublicAPI]
         [Obsolete("This method is intended only for non UdonSharp programs. Use _GetPlayerPoolObject instead.")]
@@ -250,6 +369,20 @@ namespace Cyan.PlayerObjectPool
             poolUdonOutput = (UdonBehaviour)_GetPlayerPooledUdonById(playerIdInput);
         }
 
+        [PublicAPI]
+        [Obsolete("This method is intended only for non UdonSharp programs. Use _GetOrderedPlayers instead.")]
+        public void _GetOrderedPlayersEvent()
+        {
+            playerArrayOutput = _GetOrderedPlayers();
+        }
+        
+        [PublicAPI]
+        [Obsolete("This method is intended only for non UdonSharp programs. Use _GetOrderedPlayersNoAlloc instead.")]
+        public void _GetOrderedPlayersNoAllocEvent()
+        {
+            playerCountOutput = _GetOrderedPlayersNoAlloc(playerArrayInput);
+        }
+        
         #endregion
         
         #endregion

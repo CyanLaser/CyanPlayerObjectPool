@@ -32,6 +32,13 @@ namespace Cyan.PlayerObjectPool
         public void _OnAssignmentChanged()
         {
             Debug.Log("Object assignments have changed. Either a player joined or a player left.");
+
+            VRCPlayerApi[] players = objectPool._GetOrderedPlayers();
+            Debug.Log("Printing players after assignment change:");
+            foreach (var player in players)
+            {
+                Debug.Log(player.displayName);
+            }
         }
 
         [PublicAPI]
