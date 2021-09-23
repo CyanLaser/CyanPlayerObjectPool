@@ -10,6 +10,8 @@ A VRChat system that will assign a unique object to every player in the world.
 - Objects stay with the same owner
   - Once an object is assigned to a player, it will not swap to another player.
 
+Note: This object pool system is standalone and can work with multiple instances. Prefab authors can create and distribute systems without it conflicting with another instance of the object pool. 
+
 
 ## Dependencies
 - UdonSharp - https://github.com/Merlin-san/UdonSharp
@@ -37,12 +39,13 @@ When creating an Udon program to be used as a pooled object, it needs three thin
 The PlayerObjectPool can send optional events to a listener UdonBehaviour so that you can handle different callbacks. 
 - _OnAssignmentChanged - This event is called whenever an object has been assigned to an owner or when an object has been unassigned. 
 - _OnLocalPlayerAssigned - This event is called whenever the local player has been assigned their object. Use this event to enable external features that require the local player to have an assigned object. 
+- _OnPlayerAssigned - This event is called when any player is assigned a pool object. When using this event, if the program has a public int variable named "playerAssignedId" or a public UdonBehaviour variable named "playerAssignedPoolObject", it will be set before the event is called.
+- _OnPlayerUnassigned - This event is called when any player's object has been unassigned. When using this event, if the program has a public int variable named "playerUnassignedId" or a public UdonBehaviour variable named "playerUnassignedPoolObject", it will be set before the event is called.
 
 
 ## UdonGraph and CyanTrigger Helper Methods
 
 The PlayerObjectPool script contains a few helper methods that can be used with UdonGraph and CyanTrigger. 
-These methods allow you to easily get the GameObject or UdonBehaviour for a given player.
 For these methods, you will need to use SetProgramVariable on the pool to set the required input and GetProgramVariable to get the output. See the example scenes for more details
 
 - _GetPlayerPooledObjectEvent
@@ -65,16 +68,39 @@ For these methods, you will need to use SetProgramVariable on the pool to set th
   - Output: UdonBehaviour "poolUdonOutput"
   - Description: Given a player id, get the UdonBehaviour that has been assigned to this player.
 
+- _GetOrderedPlayersEvent
+  - Input: Nothing
+  - Output: playerArrayOutput
+  - Description: Get an ordered list of players based on the pool's assignment. This list will be the same order for all clients and is useful for randomization.
+  
+- _GetOrderedPlayersNoAllocEvent
+  - Input: playerArrayInput
+  - Output: playerCountOutput
+  - Description: Fill the input array in order with players based on the pool's assignment. The number of players will be stored in the output variable. This list will be the same order for all clients and is useful for randomization.
+  
+- _GetActivePoolObjectsEvent
+  - Input: Nothing
+  - Output: poolObjectArrayOutput
+  - Description: Get an array of active pool objects based on the current assignments. This list will be the same order for all clients and is useful for randomization.
+  
+- _GetActivePoolObjectsNoAllocEvent
+  - Input: poolObjectArrayInput
+  - Output: poolObjectCountOutput
+  - Description: Fill the input array in order with active pool objects based on the current assignments. The number of pooled objects will be stored in the output variable. This list will be the same order for all clients and is useful for randomization.
+  
 
 ## UdonSharp Helper Methods
 
 The PlayerObjectPool script contains a few helper methods that can be used with UdonSharp. 
-These methods allow you to easily get the GameObject or UdonBehaviour for a given player.
 
 - GameObject _GetPlayerPooledObject(VRCPlayerApi player)
 - GameObject _GetPlayerPooledObjectById(int playerId)
 - Component _GetPlayerPooledUdon(VRCPlayerApi player)
 - Component _GetPlayerPooledUdonById(int playerId)
+- VRCPlayerApi[] _GetOrderedPlayers()
+- int _GetOrderedPlayersNoAlloc(VRCPlayerApi[] players)
+- Component[] _GetActivePoolObjects()
+- int _GetActivePoolObjectsNoAlloc(Component[] pooledObjects)
 
 
 ## Implementation Details
