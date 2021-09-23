@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 4f11136daadff0b44ac2278a314682ab, type: 3}
-  m_Name: GraphTemplatePooledObject
+  m_Name: TemplateGraphPooledObject
   m_EditorClassIdentifier: 
   serializedUdonProgramAsset: {fileID: 11400000, guid: bd79ee398ae5bfa44b8599384415b08c,
     type: 2}
@@ -81,7 +81,7 @@ MonoBehaviour:
       Event will be called on all clients when the original owner has left and the
       object is about to be disabled.","layer":0,"elementTypeColor":{"r":0.0,"g":0.0,"b":0.0,"a":0.0}}'
   viewTransform:
-    position: {x: 121.45589, y: -20.899109}
-    scale: 0.8695652
+    position: {x: 182.95952, y: 168.8643}
+    scale: 0.375937
   version: 1.0.0
   showAssembly: 0
