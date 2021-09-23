@@ -52,5 +52,27 @@ namespace Cyan.PlayerObjectPool
             // Allow the user to interact with this object.
             DisableInteractive = false;
         }
+        
+        [PublicAPI, HideInInspector]
+        public int playerAssignedId;
+        [PublicAPI, HideInInspector]
+        public UdonBehaviour playerAssignedPoolObject;
+        [PublicAPI]
+        public void _OnPlayerAssigned()
+        {
+            VRCPlayerApi player = VRCPlayerApi.GetPlayerById(playerAssignedId);
+            Debug.Log("Object assigned to player " + player.displayName +" " + playerAssignedId);
+        }
+        
+        [PublicAPI, HideInInspector]
+        public int playerUnassignedId;
+        [PublicAPI, HideInInspector]
+        public UdonBehaviour playerUnassignedPoolObject;
+        [PublicAPI]
+        public void _OnPlayerUnassigned()
+        {
+            VRCPlayerApi player = VRCPlayerApi.GetPlayerById(playerUnassignedId);
+            Debug.Log("Object unassigned from player " + player.displayName +" " + playerUnassignedId);
+        }
     }
 }

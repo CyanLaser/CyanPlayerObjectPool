@@ -23,12 +23,50 @@ namespace Cyan.PlayerObjectPool
         /// </summary>
         [PublicAPI]
         public const string OnAssignmentChangedEvent = "_OnAssignmentChanged";
+        
         /// <summary>
-        /// Event name that will be sent to the pool even listener when the local player is assigned an object.
+        /// Event name that will be sent to the pool event listener when the local player is assigned an object.
         /// </summary>
         [PublicAPI]
         public const string OnLocalPlayerAssignedEvent = "_OnLocalPlayerAssigned";
-
+        
+        /// <summary>
+        /// Variable name that will be set before the OnPlayerAssignedEvent is sent to the pool event listener.
+        /// This variable will store the player id of the last player whose object was assigned.
+        /// </summary>
+        [PublicAPI]
+        public const string PlayerAssignedIdVariableName = "playerAssignedId";
+        /// <summary>
+        /// Variable name that will be set before the OnPlayerAssignedEvent is sent to the pool event listener.
+        /// This variable will store the Udon pool object of the last player whose object was assigned.
+        /// </summary>
+        [PublicAPI]
+        public const string PlayerAssignedUdonVariableName = "playerAssignedPoolObject";
+        /// <summary>
+        /// Event name that will be sent to the pool event listener when any player has joined and is assigned an object.
+        /// </summary>
+        [PublicAPI]
+        public const string OnPlayerAssignedEvent = "_OnPlayerAssigned";
+        
+        /// <summary>
+        /// Variable name that will be set before the OnPlayerUnassignedEvent is sent to the pool event listener.
+        /// This variable will store the player id of the last player whose object was unassigned.
+        /// </summary>
+        [PublicAPI]
+        public const string PlayerUnassignedIdVariableName = "playerUnassignedId";
+        /// <summary>
+        /// Variable name that will be set before the OnPlayerUnassignedEvent is sent to the pool event listener.
+        /// This variable will store the Udon pool object of the last player whose object was unassigned.
+        /// </summary>
+        [PublicAPI]
+        public const string PlayerUnassignedUdonVariableName = "playerUnassignedPoolObject";
+        /// <summary>
+        /// Event name that will be sent to the pool event listener when any player has left and their object has been
+        /// unassigned. Note that 
+        /// </summary>
+        [PublicAPI]
+        public const string OnPlayerUnassignedEvent = "_OnPlayerUnassigned";
+        
         
         // If player capacity is increased, then this should be changed. Real max is 82
         private const int MaxPlayers = 100;
@@ -890,7 +928,15 @@ namespace Cyan.PlayerObjectPool
             poolUdon.SetProgramVariable("Owner", player);
             poolUdon.SendCustomEvent("_OnOwnerSet");
             poolObj.SetActive(true);
-                    
+                
+            // Notify pool listener that a player has joined and the object has been assigned.
+            if (VRC.SDKBase.Utilities.IsValid(poolEventListener))
+            {
+                poolEventListener.SetProgramVariable(PlayerAssignedIdVariableName, playerId);
+                poolEventListener.SetProgramVariable(PlayerAssignedUdonVariableName, poolUdon);
+                poolEventListener.SendCustomEvent(OnPlayerAssignedEvent);
+            }
+            
             // Notify the event listener that the local player has been assigned an object.
             if (player.isLocal && VRC.SDKBase.Utilities.IsValid(poolEventListener))
             {
@@ -929,6 +975,14 @@ namespace Cyan.PlayerObjectPool
             UdonBehaviour poolUdon = (UdonBehaviour)pooledUdon[index];
             poolUdon.SendCustomEvent("_OnCleanup");
             poolUdon.SetProgramVariable("Owner", null);
+            
+            // Notify pool listener that a player has left and the object has been unassigned.
+            if (VRC.SDKBase.Utilities.IsValid(poolEventListener))
+            {
+                poolEventListener.SetProgramVariable(PlayerUnassignedIdVariableName, playerId);
+                poolEventListener.SetProgramVariable(PlayerUnassignedUdonVariableName, poolUdon);
+                poolEventListener.SendCustomEvent(OnPlayerUnassignedEvent);
+            }
         }
 
         // Debug method used to print the current player/object assignments
