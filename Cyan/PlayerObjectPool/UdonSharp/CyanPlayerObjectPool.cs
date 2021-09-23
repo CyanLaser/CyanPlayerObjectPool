@@ -150,6 +150,7 @@ namespace Cyan.PlayerObjectPool
         private float _lastSerializationRequestTime;
 
         // Temporary data used for verifying each player's object.
+        private Component[] _poolObjectsTemp;
         private VRCPlayerApi[] _allPlayersTemp;
         private int[] _playerIdsWithObjects;
 
@@ -299,6 +300,7 @@ namespace Cyan.PlayerObjectPool
         /// <summary>
         /// Get an ordered list of players based on the pool's assignment. This list will be the same order for all
         /// clients and is useful for randomization.
+        /// O(n) to iterate over all assignments
         /// </summary>
         /// <param name="players">
         /// A valid player array to store the list of players who have been assigned an object. This array should be
@@ -356,6 +358,119 @@ namespace Cyan.PlayerObjectPool
 
             return count;
         }
+        
+        /// <summary>
+        /// Get an array of active pool objects based on the current assignments. This list will be the same order for
+        /// all clients and is useful for randomization.
+        /// O(n) to iterate over all assignments
+        /// </summary>
+        /// <returns>
+        /// Returns an array of Udon components which is each pool object. Note that this is a component array, making
+        /// it easy to cast to UdonSharpBehaviours or UdonBehaviours.
+        /// </returns>
+        [PublicAPI]
+        public Component[] _GetActivePoolObjects()
+        {
+            // Go through assignment array and find all valid players and store the respective pooled object into a
+            // temporary location.
+            int count = 0;
+            int size = _assignment.Length;
+            for (int i = 0; i < size; ++i)
+            {
+                // Get player id for this object's index.
+                int id = _assignment[i];
+                
+                // ID is invalid, skip this index.
+                if (id == -1)
+                {
+                    continue;
+                }
+                
+                // Get the player for the given id.
+                VRCPlayerApi player = VRCPlayerApi.GetPlayerById(id);
+                
+                // Player is invalid, skip this player.
+                if (!VRC.SDKBase.Utilities.IsValid(player))
+                {
+                    continue;
+                }
+                
+                // Store this player's pool object in temporary location to be moved over later.
+                _poolObjectsTemp[count] = pooledUdon[i];
+                ++count;
+            }
+
+            // Copy over the pool object from temp array into the array to return.
+            // This is to ensure correct size in the array.
+            Component[] pooledObjects = new Component[count];
+            for (int i = 0; i < count; ++i)
+            {
+                pooledObjects[i] = _poolObjectsTemp[i];
+            }
+
+            return pooledObjects;
+        }
+        
+        /// <summary>
+        /// Get an array of active pool objects based on the current assignments. This list will be the same order for
+        /// all clients and is useful for randomization.
+        /// O(n) to iterate over all assignments
+        /// </summary>
+        /// <param name="pooledObjects">
+        /// A valid component array to store the list of pooled objects that have been assigned to a valid player. This 
+        /// array should be large enough to store all pooled objects. 
+        /// </param>
+        /// <returns>
+        /// Returns the number of valid pooled objects added into the input array.
+        /// </returns>
+        [PublicAPI]
+        public int _GetActivePoolObjectsNoAlloc(Component[] pooledObjects)
+        {
+            // The input array is null. No pool objects can be stored in it. Return early.
+            if (pooledObjects == null)
+            {
+                _LogError("_GetActivePoolObjectsNoAlloc provided with a null array!");
+                return 0;
+            }
+            
+            // Go through the assignment array and find all valid players.
+            int count = 0;
+            int size = _assignment.Length;
+            int maxCount = pooledObjects.Length;
+            for (int i = 0; i < size; ++i)
+            {
+                // Get player id for this object's index.
+                int id = _assignment[i];
+                
+                // ID is invalid, skip this index.
+                if (id == -1)
+                {
+                    continue;
+                }
+                
+                // Get the player for the given id.
+                VRCPlayerApi player = VRCPlayerApi.GetPlayerById(id);
+                
+                // Player is invalid, skip this player.
+                if (!VRC.SDKBase.Utilities.IsValid(player))
+                {
+                    continue;
+                }
+
+                // VRChat's GetPlayers will throw an error if you call it with an array to small. 
+                if (count >= maxCount)
+                {
+                    Debug.LogError("_GetActivePoolObjectsNoAlloc called with an array too small to fit all udon components!");
+                    return count;
+                }
+
+                // Store this player's pool object in the array and increment our total count
+                pooledObjects[count] = pooledUdon[i];
+                ++count;
+            }
+
+            return count;
+        }
 
         /// <summary>
         /// These methods and variables are used so that Graph and CyanTrigger programs can call the public api methods
@@ -371,6 +486,9 @@ namespace Cyan.PlayerObjectPool
 
         [HideInInspector, PublicAPI] 
         public VRCPlayerApi[] playerArrayInput;
+
+        [HideInInspector, PublicAPI] 
+        public Component[] poolObjectArrayInput;
         
         [HideInInspector, PublicAPI]
         public GameObject poolObjectOutput;
@@ -383,6 +501,12 @@ namespace Cyan.PlayerObjectPool
         
         [HideInInspector, PublicAPI] 
         public int playerCountOutput;
+
+        [HideInInspector, PublicAPI] 
+        public Component[] poolObjectArrayOutput;
+        
+        [HideInInspector, PublicAPI] 
+        public int poolObjectCountOutput;
         
         [PublicAPI]
         [Obsolete("This method is intended only for non UdonSharp programs. Use _GetPlayerPoolObject instead.")]
@@ -426,6 +550,20 @@ namespace Cyan.PlayerObjectPool
             playerCountOutput = _GetOrderedPlayersNoAlloc(playerArrayInput);
         }
         
+        [PublicAPI]
+        [Obsolete("This method is intended only for non UdonSharp programs. Use _GetActivePoolObjects instead.")]
+        public void _GetActivePoolObjectsEvent()
+        {
+            poolObjectArrayOutput = _GetActivePoolObjects();
+        }
+        
+        [PublicAPI]
+        [Obsolete("This method is intended only for non UdonSharp programs. Use _GetActivePoolObjectsNoAlloc instead.")]
+        public void _GetActivePoolObjectsNoAllocEvent()
+        {
+            poolObjectCountOutput = _GetActivePoolObjectsNoAlloc(poolObjectArrayInput);
+        }
+        
         #endregion
         
         #endregion
@@ -447,6 +585,7 @@ namespace Cyan.PlayerObjectPool
             _prevAssignment = new int[size];
             
             // Initialize temp arrays to not need to recreate them every time.
+            _poolObjectsTemp = new Component[size];
             _allPlayersTemp = new VRCPlayerApi[MaxPlayers];
             _playerIdsWithObjects = new int[MaxPlayers];
             
