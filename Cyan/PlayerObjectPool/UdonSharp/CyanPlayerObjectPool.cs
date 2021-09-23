@@ -114,7 +114,9 @@ namespace Cyan.PlayerObjectPool
         // Current events:
         // - _OnAssignmentChanged
         // - _OnLocalPlayerAssigned
-        [Tooltip("Optional UdonBehaviour that will listen for different events from the Object pool system. Currently supported events: \"_OnAssignmentChanged\", \"_OnLocalPlayerAssigned\"")]
+        // - _OnPlayerAssigned
+        // - _OnPlayerUnassigned
+        [Tooltip("Optional UdonBehaviour that will listen for different events from the Object pool system. Currently supported events: \"_OnAssignmentChanged\", \"_OnLocalPlayerAssigned\", \"_OnPlayerAssigned\", \"_OnPlayerUnassigned\"")]
         public UdonBehaviour poolEventListener;
 
         #endregion
