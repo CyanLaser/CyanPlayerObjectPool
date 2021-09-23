@@ -1162,7 +1162,8 @@ MonoBehaviour:
     - Name: tooltip
       Entry: 1
       Data: 'Optional UdonBehaviour that will listen for different events from the
-        Object pool system. Currently supported events: "_OnAssignmentChanged", "_OnLocalPlayerAssigned"'
+        Object pool system. Currently supported events: "_OnAssignmentChanged", "_OnLocalPlayerAssigned",
+        "_OnPlayerAssigned", "_OnPlayerUnassigned"'
     - Name: 
       Entry: 8
       Data: 
