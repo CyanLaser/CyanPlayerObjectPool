@@ -70,6 +70,9 @@ namespace Cyan.PlayerObjectPool
         
         // If player capacity is increased, then this should be changed. Real max is 82
         private const int MaxPlayers = 100;
+        // Prefix for all tags that will be combined with the pool id to ensure that each pool has unique tags even when
+        // multiple object pool systems exist in the same scene. The id value is based on the object's instance id.
+        private const string PoolIdTagPrefix = "_cyan_object_pool_id_";
         // Generic tag value for verifying if something is valid. Used for verifying object owners and if player object
         // index has been set.
         private const string TagValid = "True";
@@ -135,6 +138,8 @@ namespace Cyan.PlayerObjectPool
         private bool _isMaster = false;
         // Cache the local player variable. Mainly used for player tag based caching.
         private VRCPlayerApi _localPlayer;
+        // Id set for this pool. Used to ensure that multiple instances of this pool will all have unique tags.
+        private int _poolTagId;
 
         // Used to check if we have requested to check for updates on assignment. Only one request can happen at a time.
         private bool _delayUpdateAssignment;
@@ -428,12 +433,22 @@ namespace Cyan.PlayerObjectPool
         private void Start()
         {
             _localPlayer = Networking.LocalPlayer;
+            
+            // Get pool tag id based on instance id.
+            _poolTagId = GetInstanceID();
+            
+            // Initialize tag based caching system.
+            _InitializeTag();
 
             // Initialize the pool arrays
             int size = transform.childCount;
             _poolObjects = new GameObject[size];
             pooledUdon = new Component[size];
             _prevAssignment = new int[size];
+            
+            // Initialize temp arrays to not need to recreate them every time.
+            _allPlayersTemp = new VRCPlayerApi[MaxPlayers];
+            _playerIdsWithObjects = new int[MaxPlayers];
             
             _Log($"Initializing pool with {size} objects. Please make sure there are enough objects " +
                  $"to cover two times the world player cap.");
@@ -464,14 +479,6 @@ namespace Cyan.PlayerObjectPool
                 _DelayRequestSerialization();
                 _DelayUpdateAssignment();
             }
-
-            // Initialize temp arrays to not need to recreate them every time.
-            _allPlayersTemp = new VRCPlayerApi[MaxPlayers];
-            _playerIdsWithObjects = new int[MaxPlayers];
-            
-            // Initialize caching system to say that player object index values have been set.
-            // If everything is valid, checking for assignments will automatically update the cache system.
-            _localPlayer.SetPlayerTag(PlayerObjectIndexSet, TagValid);
         }
 
         #region VRChat callbacks
@@ -559,6 +566,37 @@ namespace Cyan.PlayerObjectPool
 
         #region Player Tag Caching System
         
+        private void _InitializeTag()
+        {
+            // Verify the tag has not been set before setting it valid. 
+            if (!string.IsNullOrEmpty(_GetTag(PlayerObjectIndexSet)))
+            {
+                _LogError("Object pool index set tag was set before initialization!");
+            }
+            
+            // Initialize caching system to say that player object index values have been set.
+            // If everything is valid, checking for assignments will automatically update the cache system.
+            _SetTag(PlayerObjectIndexSet, TagValid);
+        }
+        
+        // Get the tag prefix for this pool, which will be unique for this instance.
+        private string _GetPoolTagIdPrefix()
+        {
+            return PoolIdTagPrefix + _poolTagId + "_";
+        }
+
+        // Cache a value using the player tag system, allowing for constant time lookup.
+        private void _SetTag(string tagName, string value)
+        {
+            _localPlayer.SetPlayerTag(_GetPoolTagIdPrefix() + tagName, value);
+        }
+        
+        // Get the value for a tag using the player tag caching system.
+        private string _GetTag(string tagName)
+        {
+            return _localPlayer.GetPlayerTag(_GetPoolTagIdPrefix() + tagName);
+        }
+        
         // Given a player id, get the object assigned to the player. 
         // Player ids and object indices are cached using player tags.
         // O(1) best case, O(n) if tags were not set. 
@@ -566,13 +604,13 @@ namespace Cyan.PlayerObjectPool
         {
             // Tags have not been set up. This should only happen if another prefab called ClearPlayerTags.
             // O(n)
-            if (_localPlayer.GetPlayerTag(PlayerObjectIndexSet) != TagValid)
+            if (_GetTag(PlayerObjectIndexSet) != TagValid)
             {
                 _SetPlayerIndexTags();
             }
             
             string playerTag = _GetPlayerObjectIndexTag(playerId);
-            string tagValue = _localPlayer.GetPlayerTag(playerTag);
+            string tagValue = _GetTag(playerTag);
             
             // UdonSharp does not support inline variable declarations.
             int results;
@@ -590,6 +628,7 @@ namespace Cyan.PlayerObjectPool
         {
             _LogWarning("Caching all player object index values. Please verify nothing calls " +
                         "VRCPlayerApi.ClearPlayerTags!");
+            
             int size = _assignment.Length;
             for (int index = 0; index < size; ++index)
             {
@@ -602,7 +641,7 @@ namespace Cyan.PlayerObjectPool
                 _SetPlayerObjectIndexTag(ownerId, index);
             }
 
-            _localPlayer.SetPlayerTag(PlayerObjectIndexSet, TagValid);
+            _InitializeTag();
         }
 
         // Given the player id, return the proper tag to store the player's object index.
@@ -615,7 +654,7 @@ namespace Cyan.PlayerObjectPool
         private void _SetPlayerObjectIndexTag(int playerId, int index)
         {
             string playerTag = _GetPlayerObjectIndexTag(playerId);
-            _localPlayer.SetPlayerTag(playerTag, index == -1 ? "" : index.ToString());
+            _SetTag(playerTag, index == -1 ? "" : index.ToString());
         }
 
         #endregion
@@ -1032,7 +1071,7 @@ namespace Cyan.PlayerObjectPool
                 
                 // Set tags for used object owners
                 // This will give us a constant look up if a user has an assigned object.
-                _localPlayer.SetPlayerTag(PlayerPoolOwnerTagPrefix + ownerId, TagValid);
+                _SetTag(PlayerPoolOwnerTagPrefix + ownerId, TagValid);
             }
 
 
@@ -1048,10 +1087,10 @@ namespace Cyan.PlayerObjectPool
                 
                 int id = player.playerId;
                 string tagName = PlayerPoolOwnerTagPrefix + id;
-                string tagValue = _localPlayer.GetPlayerTag(tagName);
+                string tagValue = _GetTag(tagName);
                 
                 // Remove the tag to check later if tag exists from assignments to know player is not in the room.
-                _localPlayer.SetPlayerTag(tagName, "");
+                _SetTag(tagName, "");
                 
                 // Tag is valid. No need to do anything for this player.
                 if (tagValue == TagValid)
@@ -1076,8 +1115,8 @@ namespace Cyan.PlayerObjectPool
                 }
 
                 string tagName = PlayerPoolOwnerTagPrefix + ownerId;
-                string tagValue = _localPlayer.GetPlayerTag(tagName);
-                _localPlayer.SetPlayerTag(tagName, "");
+                string tagValue = _GetTag(tagName);
+                _SetTag(tagName, "");
                 
                 // If tag exists, then this player is no longer in the instance and needs to be removed from the
                 // assignment array.
@@ -1094,22 +1133,23 @@ namespace Cyan.PlayerObjectPool
         #region Logging
 
         private const string LogPrefix = "[Cyan][PlayerPool]";
+
         private void _Log(string message)
         {
             if (printDebugLogs)
             {
-                Debug.Log($"{LogPrefix} {message}");
+                Debug.Log($"{LogPrefix}[{_poolTagId}] {message}");
             }
         }
 
         private void _LogWarning(string message)
         {
-            Debug.LogWarning($"{LogPrefix} {message}");
+            Debug.LogWarning($"{LogPrefix}[{_poolTagId}] {message}");
         }
         
         private void _LogError(string message)
         {
-            Debug.LogError($"{LogPrefix} {message}");
+            Debug.LogError($"{LogPrefix}[{_poolTagId}] {message}");
         }
 
         #endregion
