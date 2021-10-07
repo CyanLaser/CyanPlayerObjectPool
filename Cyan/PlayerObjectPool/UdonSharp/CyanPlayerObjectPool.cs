@@ -89,7 +89,7 @@ namespace Cyan.PlayerObjectPool
         private const string PlayerObjectIndexSet = "_player_object_index_valid";
         // The minimum duration between serialization requests to reduce overall network load when multiple people join
         // at the same time. 
-        private const float DelaySerializationDuration = 0.5f;
+        private const float DelaySerializationDuration = 2f;
         // The duration to wait to verify all pool objects after a player has become the new master. This delay is
         // needed to ensure that all players have joined/left since the master swap. It is possible that the previous
         // master assigned pool objects to players that have not yet joined on the new master's client. In this case,
