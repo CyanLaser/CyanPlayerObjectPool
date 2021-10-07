@@ -38,6 +38,12 @@ namespace Cyan.PlayerObjectPool
         public const string PlayerAssignedIdVariableName = "playerAssignedId";
         /// <summary>
         /// Variable name that will be set before the OnPlayerAssignedEvent is sent to the pool event listener.
+        /// This variable will store the player api data of the last player whose object was assigned.
+        /// </summary>
+        [PublicAPI]
+        public const string PlayerAssignedPlayerVariableName = "playerAssignedPlayer";
+        /// <summary>
+        /// Variable name that will be set before the OnPlayerAssignedEvent is sent to the pool event listener.
         /// This variable will store the Udon pool object of the last player whose object was assigned.
         /// </summary>
         [PublicAPI]
@@ -54,6 +60,12 @@ namespace Cyan.PlayerObjectPool
         /// </summary>
         [PublicAPI]
         public const string PlayerUnassignedIdVariableName = "playerUnassignedId";
+        /// <summary>
+        /// Variable name that will be set before the OnPlayerUnassignedEvent is sent to the pool event listener.
+        /// This variable will store the player api data of the last player whose object was unassigned.
+        /// </summary>
+        [PublicAPI]
+        public const string PlayerUnassignedPlayerVariableName = "playerUnassignedPlayer";
         /// <summary>
         /// Variable name that will be set before the OnPlayerUnassignedEvent is sent to the pool event listener.
         /// This variable will store the Udon pool object of the last player whose object was unassigned.
@@ -132,6 +144,10 @@ namespace Cyan.PlayerObjectPool
         private int[] _assignment = new int[0];
         private int[] _prevAssignment = new int[0];
 
+        // The assignment array, storing the player apis directly. This is used to send player api data to even listener
+        // as calling GetPlayerById returns null for players leaving the instance.
+        private VRCPlayerApi[] _assignedPlayers;
+        
         // Array of UdonBehaviours that are in the pool. Type is Component so that it can be properly casted to either
         // UdonBehaviour or custom UdonSharpBehaviour while still having valid type checking.
         [HideInInspector]
@@ -139,7 +155,7 @@ namespace Cyan.PlayerObjectPool
 
         // The list of GameObjects in the pool. 
         private GameObject[] _poolObjects;
-        
+
         // Cached is master value. This is used to determine if the local player becomes the new master and thus should
         // verify all pooled objects.
         private bool _isMaster = false;
@@ -591,6 +607,7 @@ namespace Cyan.PlayerObjectPool
             _poolObjects = new GameObject[size];
             pooledUdon = new Component[size];
             _prevAssignment = new int[size];
+            _assignedPlayers = new VRCPlayerApi[size];
             
             // Initialize temp arrays to not need to recreate them every time.
             _poolObjectsTemp = new Component[size];
@@ -1112,6 +1129,9 @@ namespace Cyan.PlayerObjectPool
             {
                 Networking.SetOwner(player, poolObj);
             }
+            
+            // Save the player api assigned to this object.
+            _assignedPlayers[index] = player;
 
             UdonBehaviour poolUdon = (UdonBehaviour)pooledUdon[index];
             poolUdon.SetProgramVariable("Owner", player);
@@ -1122,6 +1142,7 @@ namespace Cyan.PlayerObjectPool
             if (VRC.SDKBase.Utilities.IsValid(poolEventListener))
             {
                 poolEventListener.SetProgramVariable(PlayerAssignedIdVariableName, playerId);
+                poolEventListener.SetProgramVariable(PlayerAssignedPlayerVariableName, player);
                 poolEventListener.SetProgramVariable(PlayerAssignedUdonVariableName, poolUdon);
                 poolEventListener.SendCustomEvent(OnPlayerAssignedEvent);
             }
@@ -1164,6 +1185,9 @@ namespace Cyan.PlayerObjectPool
             
             _Log($"Cleaning up obj {index}: {poolObj.name}, Player: " + playerId);
             
+            VRCPlayerApi player = _assignedPlayers[index];
+            _assignedPlayers[index] = null;
+
             UdonBehaviour poolUdon = (UdonBehaviour)pooledUdon[index];
             poolUdon.SendCustomEvent("_OnCleanup");
             poolUdon.SetProgramVariable("Owner", null);
@@ -1173,6 +1197,7 @@ namespace Cyan.PlayerObjectPool
             if (VRC.SDKBase.Utilities.IsValid(poolEventListener))
             {
                 poolEventListener.SetProgramVariable(PlayerUnassignedIdVariableName, playerId);
+                poolEventListener.SetProgramVariable(PlayerUnassignedPlayerVariableName, player);
                 poolEventListener.SetProgramVariable(PlayerUnassignedUdonVariableName, poolUdon);
                 poolEventListener.SendCustomEvent(OnPlayerUnassignedEvent);
             }

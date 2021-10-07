@@ -2,6 +2,7 @@
 using JetBrains.Annotations;
 using UdonSharp;
 using UnityEngine;
+using VRC.SDKBase;
 using VRC.Udon;
 
 [AddComponentMenu("")]
@@ -26,6 +27,8 @@ public class TemplatePoolEventListener : UdonSharpBehaviour
     [PublicAPI, HideInInspector]
     public int playerAssignedId;
     [PublicAPI, HideInInspector]
+    public VRCPlayerApi playerAssignedPlayer;
+    [PublicAPI, HideInInspector]
     public UdonBehaviour playerAssignedPoolObject;
     [PublicAPI]
     public void _OnPlayerAssigned()
@@ -37,6 +40,8 @@ public class TemplatePoolEventListener : UdonSharpBehaviour
     // The variables will be set before the event is called.
     [PublicAPI, HideInInspector]
     public int playerUnassignedId;
+    [PublicAPI, HideInInspector]
+    public VRCPlayerApi playerUnassignedPlayer;
     [PublicAPI, HideInInspector]
     public UdonBehaviour playerUnassignedPoolObject;
     [PublicAPI]

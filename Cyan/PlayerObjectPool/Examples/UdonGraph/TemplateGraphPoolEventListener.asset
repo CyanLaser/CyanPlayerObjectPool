@@ -18,7 +18,8 @@ MonoBehaviour:
     playerAssignedId\r\n    .export playerUnassignedPoolObject\r\n    .export playerUnassignedId\r\n
     \   \r\n    playerAssignedPoolObject: %VRCUdonUdonBehaviour, this\r\n    playerAssignedId:
     %SystemInt32, null\r\n    playerUnassignedPoolObject: %VRCUdonUdonBehaviour, this\r\n
-    \   playerUnassignedId: %SystemInt32, null\r\n\r\n.data_end\r\n\r\n.code_start\r\n\r\n\r\n.code_end\r\n"
+    \   playerUnassignedId: %SystemInt32, null\r\n    playerAssignedPlayer: %VRCSDKBaseVRCPlayerApi,
+    null\r\n    playerUnassignedPlayer: %VRCSDKBaseVRCPlayerApi, null\r\n\r\n.data_end\r\n\r\n.code_start\r\n\r\n\r\n.code_end\r\n"
   assemblyError: 
   graphData:
     name: 
@@ -148,6 +149,48 @@ MonoBehaviour:
       nodeValues:
       - unityObjectValue: {fileID: 0}
         stringValue: System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089|_OnPlayerUnassigned
+    - fullName: Variable_VRCSDKBaseVRCPlayerApi
+      uid: 4cad0fe2-02cf-464e-85fc-2d8adb10be5a
+      position: {x: 0, y: 0}
+      nodeUIDs:
+      - 
+      - 
+      - 
+      - 
+      - 
+      flowUIDs: []
+      nodeValues:
+      - unityObjectValue: {fileID: 0}
+        stringValue: 
+      - unityObjectValue: {fileID: 0}
+        stringValue: System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089|playerAssignedPlayer
+      - unityObjectValue: {fileID: 0}
+        stringValue: System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089|False
+      - unityObjectValue: {fileID: 0}
+        stringValue: System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089|False
+      - unityObjectValue: {fileID: 0}
+        stringValue: System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089|none
+    - fullName: Variable_VRCSDKBaseVRCPlayerApi
+      uid: d1bfa2f7-335f-481d-88af-1ea07e2da21a
+      position: {x: 0, y: 0}
+      nodeUIDs:
+      - 
+      - 
+      - 
+      - 
+      - 
+      flowUIDs: []
+      nodeValues:
+      - unityObjectValue: {fileID: 0}
+        stringValue: 
+      - unityObjectValue: {fileID: 0}
+        stringValue: System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089|playerUnassignedPlayer
+      - unityObjectValue: {fileID: 0}
+        stringValue: System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089|False
+      - unityObjectValue: {fileID: 0}
+        stringValue: System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089|False
+      - unityObjectValue: {fileID: 0}
+        stringValue: System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089|none
     updateOrder: 0
   graphElementData:
   - type: 2
@@ -159,7 +202,7 @@ MonoBehaviour:
     jsonData: '{"uid":"37bddb90-db6b-4063-8425-4400fa708acc","layout":{"serializedVersion":"2","x":150.19244384765626,"y":186.23056030273438,"width":721.0,"height":172.0},"containedElements":["8a8514f0-215e-4b61-9a1d-a90685338b73","45d314c3-4472-48f5-aa98-7bf3dc3d87b1","dab989a1-7a96-4b96-85ea-27fb71731970","342c1eaa-9a79-482f-aa74-7b1e4848a87f","d6090203-3e69-49c0-8ada-5b1fc1467b15","adde28a6-feff-4f4c-b11a-cfaaefd0d679"],"title":"Event
       called whenever the pool object assignments have changed.","layer":0,"elementTypeColor":{"r":0.0,"g":0.0,"b":0.0,"a":0.0}}'
   - type: 5
-    uid: 4f088016-a3e3-4f19-8137-6b7a810a7254
+    uid: 5c806224-0aa1-4f09-b9b0-b5a669fe9339
     jsonData: '{"visible":true,"layout":{"serializedVersion":"2","x":10.0,"y":130.0,"width":274.0,"height":245.0}}'
   - type: 2
     uid: bf65cbe1-3458-4440-9b3f-b11edcdaf54b

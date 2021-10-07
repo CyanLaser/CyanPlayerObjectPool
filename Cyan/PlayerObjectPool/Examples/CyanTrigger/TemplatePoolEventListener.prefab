@@ -137,6 +137,16 @@ MonoBehaviour:
           typeDef: System.Int32, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089
         sync: 0
       - isVariable: 0
+        name: playeAssignedPlayer
+        variableID: f12c3ee8-e181-499a-8bc7-45ea6a0c41ae
+        data:
+          objEncoded: Lg==
+          unityObjects: []
+        type:
+          typeDef: VRC.SDKBase.VRCPlayerApi, VRCSDKBase, Version=0.0.0.0, Culture=neutral,
+            PublicKeyToken=null
+        sync: 0
+      - isVariable: 0
         name: playerAssignedPoolObject
         variableID: f1aa35c2-8603-48cc-a0fe-d76e26edc067
         data:
@@ -154,6 +164,16 @@ MonoBehaviour:
           unityObjects: []
         type:
           typeDef: System.Int32, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089
+        sync: 0
+      - isVariable: 0
+        name: playerUnassignedPlayer
+        variableID: d725719e-d2e4-424f-be05-f53f3c5dd488
+        data:
+          objEncoded: Lg==
+          unityObjects: []
+        type:
+          typeDef: VRC.SDKBase.VRCPlayerApi, VRCSDKBase, Version=0.0.0.0, Culture=neutral,
+            PublicKeyToken=null
         sync: 0
       - isVariable: 0
         name: playerUnassignedPoolObject
