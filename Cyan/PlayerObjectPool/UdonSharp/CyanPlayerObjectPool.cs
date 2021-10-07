@@ -160,6 +160,7 @@ namespace Cyan.PlayerObjectPool
         private Component[] _poolObjectsTemp;
         private VRCPlayerApi[] _allPlayersTemp;
         private int[] _playerIdsWithObjects;
+        private int[] _playerObjectIds;
 
         // In rare cases, synced data can arrive before all player join messages have happened. In this case, an
         // assignment may be considered invalid and needs to be verified again when the player joins.
@@ -595,6 +596,7 @@ namespace Cyan.PlayerObjectPool
             _poolObjectsTemp = new Component[size];
             _allPlayersTemp = new VRCPlayerApi[MaxPlayers];
             _playerIdsWithObjects = new int[MaxPlayers];
+            _playerObjectIds = new int[MaxPlayers];
             
             _Log($"Initializing pool with {size} objects. Please make sure there are enough objects " +
                  $"to cover two times the world player cap.");
@@ -1237,6 +1239,7 @@ namespace Cyan.PlayerObjectPool
                 }
                 
                 _playerIdsWithObjects[count] = ownerId;
+                _playerObjectIds[count] = index;
                 ++count;
                 
                 // Set tags for used object owners
@@ -1292,7 +1295,7 @@ namespace Cyan.PlayerObjectPool
                 // assignment array.
                 if (tagValue == TagValid)
                 {
-                    int objIndex = _GetPlayerPooledIndexById(ownerId);
+                    int objIndex = _playerObjectIds[index];
                     _LogWarning($"Missing player still owned an object during verification! Player: {ownerId}, Obj: {objIndex}");
                     _ReturnPlayerObjectByPlayerId(ownerId);
                 }
