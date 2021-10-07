@@ -661,6 +661,8 @@ namespace Cyan.PlayerObjectPool
             {
                 return;
             }
+
+            _CheckForMasterSwap();
             
             _AssignObject(player);
         }
@@ -687,15 +689,7 @@ namespace Cyan.PlayerObjectPool
                 return;
             }
             
-            // Master left and local player is the new master.
-            if (!_isMaster && Networking.IsMaster)
-            {
-                _isMaster = true;
-                _FillUnclaimedObjectQueue();
-                
-                // verify all players have objects, but wait a duration to ensure that all players have joined/left.
-                SendCustomEventDelayedSeconds(nameof(_VerifyAllPlayersHaveObjects), DelayNewMasterVerificationDuration);
-            }
+            _CheckForMasterSwap();
 
             _ReturnPlayerObject(player);
         }
@@ -1197,6 +1191,20 @@ namespace Cyan.PlayerObjectPool
             _Log(assignment);
         }
         
+        // When the local player becomes the new master, cache some values and delay verification of all player's having
+        // an object.
+        private void _CheckForMasterSwap()
+        {
+            // Master left and local player is the new master.
+            if (!_isMaster && Networking.IsMaster)
+            {
+                _isMaster = true;
+                _FillUnclaimedObjectQueue();
+                
+                // verify all players have objects, but wait a duration to ensure that all players have joined/left.
+                SendCustomEventDelayedSeconds(nameof(_VerifyAllPlayersHaveObjects), DelayNewMasterVerificationDuration);
+            }
+        }
         
         // Go through all assignments and all players and ensure that each player still has
         // an object and each object has a player.
