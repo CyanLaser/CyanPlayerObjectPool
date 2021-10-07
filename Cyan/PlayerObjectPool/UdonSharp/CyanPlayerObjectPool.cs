@@ -207,7 +207,7 @@ namespace Cyan.PlayerObjectPool
 
             if (index == -1)
             {
-                _LogWarning("Could not find object for player: {playerId}");
+                _LogWarning($"Could not find object for player: {playerId}");
                 return null;
             }
 
@@ -1139,6 +1139,11 @@ namespace Cyan.PlayerObjectPool
         // Once an object has been unassigned, clean up the object by removing the cached index and disable the object.
         private void _CleanupPlayerObject(int index, int playerId)
         {
+            if (playerId == _localPlayer.playerId)
+            {
+                _LogError($"Cleaning up local player's object while still in the instance! player: {playerId}, obj: {index}");
+            }
+            
             GameObject poolObj = _poolObjects[index];
             UdonBehaviour poolUdon = (UdonBehaviour)pooledUdon[index];
             _SetPlayerObjectIndexTag(playerId, -1);
@@ -1287,7 +1292,8 @@ namespace Cyan.PlayerObjectPool
                 // assignment array.
                 if (tagValue == TagValid)
                 {
-                    _LogWarning($"Missing player still owned an object during verification! Player: {ownerId}");
+                    int objIndex = _GetPlayerPooledIndexById(ownerId);
+                    _LogWarning($"Missing player still owned an object during verification! Player: {ownerId}, Obj: {objIndex}");
                     _ReturnPlayerObjectByPlayerId(ownerId);
                 }
             }
