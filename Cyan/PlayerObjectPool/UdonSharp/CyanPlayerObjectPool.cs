@@ -681,10 +681,13 @@ namespace Cyan.PlayerObjectPool
             {
                 return;
             }
+
+            int playerId = player.playerId;
+            int index = _GetPlayerPooledIndexById(playerId);
             
             // Have everyone clean up the object locally to ensure owner is properly set for the object before it is
             // eventually disabled.
-            _EarlyObjectCleanup(player);
+            _CleanupPlayerObject(index, playerId);
             
             if (!Networking.IsMaster)
             {
@@ -693,7 +696,7 @@ namespace Cyan.PlayerObjectPool
             
             _CheckForMasterSwap();
 
-            _ReturnPlayerObject(player);
+            _ReturnPlayerObject(index, playerId);
         }
 
         // Synced data has changed, check for changes in the player/object assignments.
@@ -874,8 +877,8 @@ namespace Cyan.PlayerObjectPool
         #endregion
 
 
-        // Given a player, assign them an object from the pool.
-        // O(1) + O(n) next frame 
+        // Given a player, assign them an object from the pool. This should only be called by Master.
+        // O(1) + O(n) next frame for updating assignments
         // Thanks to the UnclaimedQueue, getting a free object is constant time. 
         // Updating the current objects based on the assignment takes O(n). See _AssignObjectsToPlayers for more details
         private void _AssignObject(VRCPlayerApi player)
@@ -922,27 +925,13 @@ namespace Cyan.PlayerObjectPool
             _DelayUpdateAssignment();
         }
 
-        // Given a player, find their assigned object and return it back to the pool.
-        // O(1) best case, O(n) assuming another prefab cleared tags.
-        private void _ReturnPlayerObject(VRCPlayerApi player)
+        // Clear the assignment for a given index and player. This should only be called by Master.
+        // O(1) + O(n) next frame for updating assignments
+        private void _ReturnPlayerObject(int index, int playerId)
         {
-            if (!VRC.SDKBase.Utilities.IsValid(player))
-            {
-                _LogError("Cannot return player object as player is invalid!");
-                return;
-            }
-            _ReturnPlayerObjectByPlayerId(player.playerId);
-        }
-        
-        // Given a player, find their assigned object and return it back to the pool.
-        // O(1) best case, O(n) assuming another prefab cleared tags.
-        private void _ReturnPlayerObjectByPlayerId(int playerId)
-        {
-            int index = _GetPlayerPooledIndexById(playerId);
-
             if (index == -1)
             {
-                _LogWarning($"Could not return object for player: {playerId}");
+                _LogError($"Cannot return player object if index is invalid! Player: {playerId}");
                 return;
             }
             
@@ -956,6 +945,8 @@ namespace Cyan.PlayerObjectPool
             _assignment[index] = -1;
             // Return the object into the unclaimed queue.
             _EnqueueItemToUnclaimedQueue(index);
+            
+            _SetPlayerObjectIndexTag(playerId, -1);
             
             _DelayRequestSerialization();
             _DelayUpdateAssignment();
@@ -1047,13 +1038,14 @@ namespace Cyan.PlayerObjectPool
                     continue;
                 }
                 
-                // New assignment has no owner. Disable the object and removed cached player owner. 
-                if (newAssign == -1)
+                // Object was previously assigned to a player and needs to be cleaned up.
+                if (prevAssign != -1)
                 {
                     _CleanupPlayerObject(index, prevAssign);
                 }
+                
                 // New assignment is an owner. Assign the object to that player.
-                else
+                if (newAssign != -1)
                 {
                     if (!_SetupPlayerObject(index, newAssign))
                     {
@@ -1139,6 +1131,8 @@ namespace Cyan.PlayerObjectPool
         }
         
         // Once an object has been unassigned, clean up the object by removing the cached index and disable the object.
+        // Called by everyone when any player leaves the instance. This is to clear out the Owner variable and give an
+        // early callback that pool objects can implement. 
         private void _CleanupPlayerObject(int index, int playerId)
         {
             if (playerId == _localPlayer.playerId)
@@ -1146,32 +1140,29 @@ namespace Cyan.PlayerObjectPool
                 _LogError($"Cleaning up local player's object while still in the instance! player: {playerId}, obj: {index}");
             }
             
-            GameObject poolObj = _poolObjects[index];
-            UdonBehaviour poolUdon = (UdonBehaviour)pooledUdon[index];
-            _SetPlayerObjectIndexTag(playerId, -1);
-                    
-            _Log($"Cleaning up obj {poolObj.name}");
-                    
-            poolUdon.SetProgramVariable("Owner", null);
-            poolObj.SetActive(false);
-        }
-
-        // Called by everyone when any player leaves the instance. This is to clear out the Owner variable and give an
-        // early callback that pool objects can implement. The object itself will be disabled later once assignments
-        // have been updated.
-        private void _EarlyObjectCleanup(VRCPlayerApi player)
-        {
-            int playerId = player.playerId;
-            int index = _GetPlayerPooledIndexById(playerId);
             if (index == -1)
             {
                 _LogWarning($"Could not find object for leaving player: {playerId}");
                 return;
             }
             
+            // Cleanup tags to ensure you can't get this object anymore.
+            _SetPlayerObjectIndexTag(playerId, -1);
+            
+            GameObject poolObj = _poolObjects[index];
+            
+            // Pool object has already been cleaned up, return early.
+            if (!poolObj.activeSelf)
+            {
+                return;
+            }
+            
+            _Log($"Cleaning up obj {index}: {poolObj.name}, Player: " + playerId);
+            
             UdonBehaviour poolUdon = (UdonBehaviour)pooledUdon[index];
             poolUdon.SendCustomEvent("_OnCleanup");
             poolUdon.SetProgramVariable("Owner", null);
+            poolObj.SetActive(false);
             
             // Notify pool listener that a player has left and the object has been unassigned.
             if (VRC.SDKBase.Utilities.IsValid(poolEventListener))
@@ -1205,6 +1196,7 @@ namespace Cyan.PlayerObjectPool
             // Master left and local player is the new master.
             if (!_isMaster && Networking.IsMaster)
             {
+                _Log("Local player is now master!");
                 _isMaster = true;
                 _FillUnclaimedObjectQueue();
                 
@@ -1216,7 +1208,7 @@ namespace Cyan.PlayerObjectPool
         // Go through all assignments and all players and ensure that each player still has
         // an object and each object has a player.
         // O(n)
-        // public needed for SendCustomEventDelayedFrames, but should not be called externally!
+        // public needed for SendCustomEventDelayedSeconds, but should not be called externally!
         public void _VerifyAllPlayersHaveObjects()
         {
             if (!Networking.IsMaster)
@@ -1282,10 +1274,6 @@ namespace Cyan.PlayerObjectPool
             for (int index = 0; index < count; ++index)
             {
                 int ownerId = _playerIdsWithObjects[index];
-                if (ownerId == int.MaxValue)
-                {
-                    break;
-                }
 
                 string tagName = PlayerPoolOwnerTagPrefix + ownerId;
                 string tagValue = _GetTag(tagName);
@@ -1297,7 +1285,10 @@ namespace Cyan.PlayerObjectPool
                 {
                     int objIndex = _playerObjectIds[index];
                     _LogWarning($"Missing player still owned an object during verification! Player: {ownerId}, Obj: {objIndex}");
-                    _ReturnPlayerObjectByPlayerId(ownerId);
+                    
+                    // Cleanup the player object first and then remove the assignment.
+                    _CleanupPlayerObject(objIndex, ownerId);
+                    _ReturnPlayerObject(objIndex, ownerId);
                 }
             }
         }
