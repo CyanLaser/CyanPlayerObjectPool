@@ -612,15 +612,20 @@ namespace Cyan.PlayerObjectPool
 
                 _prevAssignment[i] = -1;
             }
-            
-            // Initialize the assignment on master. Nothing should be assigned at this point.
-            if (Networking.IsMaster)
+
+            // Force initialization of the assignment array, even if the local user isn't master. 
+            if (_assignment == null || _assignment.Length != size)
             {
                 _assignment = new int[size];
                 for (int i = 0; i < size; ++i)
                 {
                     _assignment[i] = -1;
                 }
+            }
+            
+            // Initialize the assignment on master. Nothing should be assigned at this point.
+            if (Networking.IsMaster)
+            {
                 _isMaster = true;
                 _FillUnclaimedObjectQueue();
                 
