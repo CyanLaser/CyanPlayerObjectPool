@@ -90,6 +90,11 @@ namespace Cyan.PlayerObjectPool
         // The minimum duration between serialization requests to reduce overall network load when multiple people join
         // at the same time. 
         private const float DelaySerializationDuration = 0.5f;
+        // The duration to wait to verify all pool objects after a player has become the new master. This delay is
+        // needed to ensure that all players have joined/left since the master swap. It is possible that the previous
+        // master assigned pool objects to players that have not yet joined on the new master's client. In this case,
+        // the pool objects would be forced removed from those players and assigned another object.
+        private const float DelayNewMasterVerificationDuration = 1f;
         
         #endregion
 
@@ -688,8 +693,8 @@ namespace Cyan.PlayerObjectPool
                 _isMaster = true;
                 _FillUnclaimedObjectQueue();
                 
-                // verify all players have objects, but wait one frame to ensure that all players have left.
-                SendCustomEventDelayedFrames(nameof(_VerifyAllPlayersHaveObjects), 1, EventTiming.LateUpdate);
+                // verify all players have objects, but wait a duration to ensure that all players have joined/left.
+                SendCustomEventDelayedSeconds(nameof(_VerifyAllPlayersHaveObjects), DelayNewMasterVerificationDuration);
             }
 
             _ReturnPlayerObject(player);
@@ -880,7 +885,15 @@ namespace Cyan.PlayerObjectPool
         private void _AssignObject(VRCPlayerApi player)
         {
             int id = player.playerId;
-            int index = _DequeueItemFromUnclaimedQueue();
+
+            int index = _GetPlayerPooledIndexById(id);
+            if (index != -1)
+            {
+                _LogWarning($"Attempting to assign player {id} an object when they already have one. {index}");
+                return;
+            }
+            
+            index = _DequeueItemFromUnclaimedQueue();
             
             // Pool is empty and could not find an object to assign to the new player.
             // This should be fatal as the owner didn't create enough pool objects.
@@ -905,6 +918,9 @@ namespace Cyan.PlayerObjectPool
             
             _assignment[index] = id;
             _Log($"Assigning player {id} to index {index}");
+            
+            // Set the tag early for caching to know that player has been assigned an object.
+            _SetPlayerObjectIndexTag(id, index);
             
             _DelayRequestSerialization();
             _DelayUpdateAssignment();
