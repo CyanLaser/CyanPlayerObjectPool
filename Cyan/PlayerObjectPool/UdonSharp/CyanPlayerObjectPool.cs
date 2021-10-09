@@ -830,6 +830,18 @@ namespace Cyan.PlayerObjectPool
             _SetTag(playerTag, index == -1 ? "" : index.ToString());
         }
 
+        // Given a player id and an expected object index, clear the cached tag if the current value equals the
+        // expected index value.
+        private void _ClearPlayerObjectIndexTagIfExpected(int playerId, int expectedIndex)
+        {
+            int index = _GetPlayerPooledIndexById(playerId);
+            if (expectedIndex == index)
+            {
+                // Cleanup tags to ensure you can't get this player's object index anymore.
+                _SetPlayerObjectIndexTag(playerId, -1);
+            }
+        }
+
         #endregion
 
         #region Player/Object Assigment
@@ -974,8 +986,10 @@ namespace Cyan.PlayerObjectPool
             // Return the object into the unclaimed queue.
             _EnqueueItemToUnclaimedQueue(index);
             
-            _SetPlayerObjectIndexTag(playerId, -1);
-            
+            // Clear the player tag only if the current tag is equal to the index of the object we are cleaning up.
+            // If players had multiple objects, this will not revert unexpected object tags.
+            _ClearPlayerObjectIndexTagIfExpected(playerId, index);
+
             _DelayRequestSerialization();
             _DelayUpdateAssignment();
         }
@@ -1120,6 +1134,14 @@ namespace Cyan.PlayerObjectPool
             VRCPlayerApi player = VRCPlayerApi.GetPlayerById(playerId);
             GameObject poolObj = _poolObjects[index];
             
+            // Verify the player at the given id does not already have an object. 
+            int curIndex = _GetPlayerPooledIndexById(playerId);
+            if (curIndex != -1 && curIndex != index)
+            {
+                _LogWarning($"Attempting to assign player {playerId} an object when they already have one. TryAssign: {index}, Cur: {curIndex}");
+                return false;
+            }
+            
             // Ensure this gets set even if player is invalid. The cleanup case should verify and remove the player later.
             _SetPlayerObjectIndexTag(playerId, index);
             
@@ -1177,10 +1199,11 @@ namespace Cyan.PlayerObjectPool
                 _LogWarning($"Could not find object for leaving player: {playerId}");
                 return;
             }
-            
-            // Cleanup tags to ensure you can't get this object anymore.
-            _SetPlayerObjectIndexTag(playerId, -1);
-            
+
+            // Clear the player tag only if the current tag is equal to the index of the object we are cleaning up.
+            // If players had multiple objects, this will not revert unexpected object tags.
+            _ClearPlayerObjectIndexTagIfExpected(playerId, index);
+
             GameObject poolObj = _poolObjects[index];
             
             // Pool object has already been cleaned up, return early.
@@ -1270,13 +1293,31 @@ namespace Cyan.PlayerObjectPool
                     continue;
                 }
                 
+                string tagName = PlayerPoolOwnerTagPrefix + ownerId;
+                
+                // Check if this player already had an object assigned. If so, remove the duplicate assignment.
+                // Duplicate is found if the tag has already been set, or if this player has an index assigned that
+                // isn't this index.
+                string tagValue = _GetTag(tagName);
+                int expectedIndex = _GetPlayerPooledIndexById(ownerId);
+                if ((expectedIndex != index && expectedIndex != -1) || tagValue == TagValid)
+                {
+                    _LogWarning($"Player had multiple objects during verification! Player: {ownerId}, Obj: {index}");
+                    
+                    // Cleanup the player object first and then remove the assignment.
+                    _CleanupPlayerObject(index, ownerId);
+                    _ReturnPlayerObject(index, ownerId);
+                    
+                    continue;
+                }
+                
                 _playerIdsWithObjects[count] = ownerId;
                 _playerObjectIds[count] = index;
                 ++count;
                 
                 // Set tags for used object owners
                 // This will give us a constant look up if a user has an assigned object.
-                _SetTag(PlayerPoolOwnerTagPrefix + ownerId, TagValid);
+                _SetTag(tagName, TagValid);
             }
 
 
