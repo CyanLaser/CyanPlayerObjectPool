@@ -773,6 +773,10 @@ namespace Cyan.PlayerObjectPool
             // O(n)
             if (_GetTag(PlayerObjectIndexSet) != TagValid)
             {
+                _LogWarning("Caching all player object index values. Please verify nothing calls " +
+                         "VRCPlayerApi.ClearPlayerTags!");
+                
+                _InitializeTag();
                 _SetPlayerIndexTags();
             }
             
@@ -793,9 +797,6 @@ namespace Cyan.PlayerObjectPool
         // O(n)
         private void _SetPlayerIndexTags()
         {
-            _LogWarning("Caching all player object index values. Please verify nothing calls " +
-                        "VRCPlayerApi.ClearPlayerTags!");
-            
             int size = _assignment.Length;
             for (int index = 0; index < size; ++index)
             {
@@ -805,10 +806,15 @@ namespace Cyan.PlayerObjectPool
                     continue;
                 }
 
+                // Ensure to not overwrite current index set for the given player in case multiple exist due to errors.
+                int expectedIndex = _GetPlayerPooledIndexById(ownerId);
+                if (expectedIndex != -1)
+                {
+                    continue;
+                }
+                
                 _SetPlayerObjectIndexTag(ownerId, index);
             }
-
-            _InitializeTag();
         }
 
         // Given the player id, return the proper tag to store the player's object index.
@@ -1230,6 +1236,10 @@ namespace Cyan.PlayerObjectPool
                 _isMaster = true;
                 _FillUnclaimedObjectQueue();
                 
+                // It's possible that previous master has sent assignment data for players that have not yet "joined"
+                // for this client. Force add them to the tag system to prevent double assignment for the player.
+                _SetPlayerIndexTags();
+
                 // verify all players have objects, but wait a duration to ensure that all players have joined/left.
                 SendCustomEventDelayedSeconds(nameof(_VerifyAllPlayersHaveObjects), DelayNewMasterVerificationDuration);
             }
