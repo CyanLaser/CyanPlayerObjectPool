@@ -4,7 +4,6 @@ using UdonSharp;
 using UnityEngine;
 using VRC.SDKBase;
 using VRC.Udon;
-using VRC.Udon.Common.Enums;
 
 namespace Cyan.PlayerObjectPool
 {
@@ -777,7 +776,7 @@ namespace Cyan.PlayerObjectPool
                          "VRCPlayerApi.ClearPlayerTags!");
                 
                 _InitializeTag();
-                _SetPlayerIndexTags();
+                _SetPlayerIndexTags(true);
             }
             
             string playerTag = _GetPlayerObjectIndexTag(playerId);
@@ -795,7 +794,7 @@ namespace Cyan.PlayerObjectPool
 
         // Go through each object assignment and cache the player id with the assigned object index. 
         // O(n)
-        private void _SetPlayerIndexTags()
+        private void _SetPlayerIndexTags(bool force)
         {
             int size = _assignment.Length;
             for (int index = 0; index < size; ++index)
@@ -806,13 +805,18 @@ namespace Cyan.PlayerObjectPool
                     continue;
                 }
 
-                // Ensure to not overwrite current index set for the given player in case multiple exist due to errors.
-                int expectedIndex = _GetPlayerPooledIndexById(ownerId);
-                if (expectedIndex != -1)
+                // This is called from _GetPlayerPooledIndexById when tags are missing. To prevent double looping,
+                // ignore previous tag value when force setting tags.
+                if (!force)
                 {
-                    continue;
+                    // Ensure to not overwrite current index set for the given player in case multiple exist due to errors.
+                    int expectedIndex = _GetPlayerPooledIndexById(ownerId);
+                    if (expectedIndex != -1)
+                    {
+                        continue;
+                    } 
                 }
-                
+
                 _SetPlayerObjectIndexTag(ownerId, index);
             }
         }
@@ -1261,7 +1265,7 @@ namespace Cyan.PlayerObjectPool
                 
                 // It's possible that previous master has sent assignment data for players that have not yet "joined"
                 // for this client. Force add them to the tag system to prevent double assignment for the player.
-                _SetPlayerIndexTags();
+                _SetPlayerIndexTags(false);
 
                 // verify all players have objects, but wait a duration to ensure that all players have joined/left.
                 SendCustomEventDelayedSeconds(nameof(_VerifyAllPlayersHaveObjects), DelayNewMasterVerificationDuration);
