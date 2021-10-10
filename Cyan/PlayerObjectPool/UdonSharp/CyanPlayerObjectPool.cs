@@ -145,15 +145,15 @@ namespace Cyan.PlayerObjectPool
 
         // The assignment array, storing the player apis directly. This is used to send player api data to even listener
         // as calling GetPlayerById returns null for players leaving the instance.
-        private VRCPlayerApi[] _assignedPlayers;
+        private VRCPlayerApi[] _assignedPlayers = new VRCPlayerApi[0];
         
         // Array of UdonBehaviours that are in the pool. Type is Component so that it can be properly casted to either
         // UdonBehaviour or custom UdonSharpBehaviour while still having valid type checking.
         [HideInInspector]
-        public Component[] pooledUdon;
+        public Component[] pooledUdon = new Component[0];
 
         // The list of GameObjects in the pool. 
-        private GameObject[] _poolObjects;
+        private GameObject[] _poolObjects = new GameObject[0];
 
         // Cached is master value. This is used to determine if the local player becomes the new master and thus should
         // verify all pooled objects.
@@ -172,10 +172,10 @@ namespace Cyan.PlayerObjectPool
         private float _lastSerializationRequestTime;
 
         // Temporary data used for verifying each player's object.
-        private Component[] _poolObjectsTemp;
-        private VRCPlayerApi[] _allPlayersTemp;
-        private int[] _playerIdsWithObjects;
-        private int[] _playerObjectIds;
+        private Component[] _poolObjectsTemp = new Component[0];
+        private VRCPlayerApi[] _allPlayersTemp = new VRCPlayerApi[0];
+        private int[] _playerIdsWithObjects = new int[0];
+        private int[] _playerObjectIds = new int[0];
 
         // In rare cases, synced data can arrive before all player join messages have happened. In this case, an
         // assignment may be considered invalid and needs to be verified again when the player joins.
