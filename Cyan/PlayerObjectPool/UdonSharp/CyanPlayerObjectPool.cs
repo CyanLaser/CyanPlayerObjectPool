@@ -77,8 +77,10 @@ namespace Cyan.PlayerObjectPool
         /// </summary>
         [PublicAPI]
         public const string OnPlayerUnassignedEvent = "_OnPlayerUnassigned";
+
         
-        
+        // Current pool version that will be printed at start. 
+        private const string Version = "v0.0.4";
         // If player capacity is increased, then this should be changed. Real max is 82
         private const int MaxPlayers = 100;
         // Prefix for all tags that will be combined with the pool id to ensure that each pool has unique tags even when
@@ -614,7 +616,8 @@ namespace Cyan.PlayerObjectPool
             _playerIdsWithObjects = new int[MaxPlayers];
             _playerObjectIds = new int[MaxPlayers];
             
-            _Log($"Initializing pool with {size} objects. Please make sure there are enough objects " +
+            _LogInfo($"[{Version}]");
+            _LogDebug($"Initializing pool with {size} objects. Please make sure there are enough objects " +
                  $"to cover two times the world player cap.");
 
             // Go through and get the pool objects. 
@@ -960,7 +963,7 @@ namespace Cyan.PlayerObjectPool
             }
             
             _assignment[index] = id;
-            _Log($"Assigning player {id} to index {index}");
+            _LogDebug($"Assigning player {id} to index {index}");
             
             // Set the tag early for caching to know that player has been assigned an object.
             _SetPlayerObjectIndexTag(id, index);
@@ -1155,7 +1158,7 @@ namespace Cyan.PlayerObjectPool
                 return false;
             }
             
-            _Log($"Assigning {poolObj.name} to player {playerId}");
+            _LogDebug($"Assigning {poolObj.name} to player {playerId}");
 
             if (player.isLocal && setNetworkOwnershipForPoolObjects)
             {
@@ -1216,7 +1219,7 @@ namespace Cyan.PlayerObjectPool
                 return;
             }
             
-            _Log($"Cleaning up obj {index}: {poolObj.name}, Player: " + playerId);
+            _LogDebug($"Cleaning up obj {index}: {poolObj.name}, Player: " + playerId);
             
             VRCPlayerApi player = _assignedPlayers[index];
             _assignedPlayers[index] = null;
@@ -1249,7 +1252,7 @@ namespace Cyan.PlayerObjectPool
                 }
             }
             
-            _Log(assignment);
+            _LogDebug(assignment);
         }
         
         // When the local player becomes the new master, cache some values and delay verification of all player's having
@@ -1259,7 +1262,7 @@ namespace Cyan.PlayerObjectPool
             // Master left and local player is the new master.
             if (!_isMaster && Networking.IsMaster)
             {
-                _Log("Local player is now master!");
+                _LogDebug("Local player is now master!");
                 _isMaster = true;
                 _FillUnclaimedObjectQueue();
                 
@@ -1283,7 +1286,7 @@ namespace Cyan.PlayerObjectPool
                 return;
             }
             
-            _Log("Verifying all players have an object and all objects have a player.");
+            _LogDebug("Verifying all players have an object and all objects have a player.");
 
             // Go through all assignments in the pool and find their assigned owner.
             // Put owner ids into a separate array as the assignment array will be modified.
@@ -1384,7 +1387,12 @@ namespace Cyan.PlayerObjectPool
 
         private const string LogPrefix = "[Cyan][PlayerPool]";
 
-        private void _Log(string message)
+        private void _LogInfo(string message)
+        {
+            Debug.Log($"{LogPrefix}[{_poolTagId}] {message}");
+        }
+        
+        private void _LogDebug(string message)
         {
             if (printDebugLogs)
             {
