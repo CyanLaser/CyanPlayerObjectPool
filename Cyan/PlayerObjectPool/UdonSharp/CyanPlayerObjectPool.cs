@@ -273,6 +273,36 @@ namespace Cyan.PlayerObjectPool
         }
 
         /// <summary>
+        /// Given a player, get the pool index for the given player. The pool index will be a value between 0 and the
+        /// total number of objects in the pool. This is useful since Player Ids will continue to increase with no cap
+        /// as the instance is alive.
+        /// </summary>
+        /// <param name="player"></param>
+        /// <returns>
+        /// Returns the pool index for the current player.
+        /// </returns>
+        [PublicAPI]
+        public int _GetPlayerPoolIndex(VRCPlayerApi player)
+        {
+            return VRC.SDKBase.Utilities.IsValid(player) ? _GetPlayerPooledIndexById(player.playerId) : -1;
+        }
+
+        /// <summary>
+        /// Given a player id, get the pool index for the given player. The pool index will be a value between 0 and the
+        /// total number of objects in the pool. This is useful since Player Ids will continue to increase with no cap
+        /// as the instance is alive.
+        /// </summary>
+        /// <param name="playerId"></param>
+        /// <returns>
+        /// Returns the pool index for the current player.
+        /// </returns>
+        [PublicAPI]
+        public int _GetPlayerPoolIndexById(int playerId)
+        {
+            return _GetPlayerPooledIndexById(playerId);
+        }
+
+        /// <summary>
         /// Get an ordered list of players based on the pool's assignment. This list will be the same order for all
         /// clients and is useful for randomization.
         /// O(n) to iterate over all players
@@ -533,6 +563,9 @@ namespace Cyan.PlayerObjectPool
         [HideInInspector, PublicAPI] 
         public int poolObjectCountOutput;
         
+        [HideInInspector, PublicAPI] 
+        public int playerIndexOutput;
+        
         [PublicAPI]
         [Obsolete("This method is intended only for non UdonSharp programs. Use _GetPlayerPoolObject instead.")]
         public void _GetPlayerPoolObjectEvent()
@@ -587,6 +620,20 @@ namespace Cyan.PlayerObjectPool
         public void _GetActivePoolObjectsNoAllocEvent()
         {
             poolObjectCountOutput = _GetActivePoolObjectsNoAlloc(poolObjectArrayInput);
+        }
+        
+        [PublicAPI]
+        [Obsolete("This method is intended only for non UdonSharp programs. Use _GetPlayerPoolIndex instead.")]
+        public void _GetPlayerPoolIndexEvent(VRCPlayerApi player)
+        {
+            playerIndexOutput = _GetPlayerPoolIndex(playerInput);
+        }
+
+        [PublicAPI]
+        [Obsolete("This method is intended only for non UdonSharp programs. Use _GetPlayerPoolIndexById instead.")]
+        public void _GetPlayerPoolIndexByIdEvent()
+        {
+            playerIndexOutput = _GetPlayerPoolIndexById(playerIdInput);
         }
         
         #endregion

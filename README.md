@@ -70,24 +70,34 @@ For these methods, you will need to use SetProgramVariable on the pool to set th
 
 - _GetOrderedPlayersEvent
   - Input: Nothing
-  - Output: playerArrayOutput
+  - Output: VRCPlayer[] "playerArrayOutput"
   - Description: Get an ordered list of players based on the pool's assignment. This list will be the same order for all clients and is useful for randomization.
   
 - _GetOrderedPlayersNoAllocEvent
-  - Input: playerArrayInput
-  - Output: playerCountOutput
+  - Input: VRCPlayer[] "playerArrayInput"
+  - Output: int "playerCountOutput"
   - Description: Fill the input array in order with players based on the pool's assignment. The number of players will be stored in the output variable. This list will be the same order for all clients and is useful for randomization.
   
 - _GetActivePoolObjectsEvent
   - Input: Nothing
-  - Output: poolObjectArrayOutput
+  - Output: Component[] "poolObjectArrayOutput"
   - Description: Get an array of active pool objects based on the current assignments. This list will be the same order for all clients and is useful for randomization.
   
 - _GetActivePoolObjectsNoAllocEvent
-  - Input: poolObjectArrayInput
-  - Output: poolObjectCountOutput
+  - Input: Component[] "poolObjectArrayInput"
+  - Output: int "poolObjectCountOutput"
   - Description: Fill the input array in order with active pool objects based on the current assignments. The number of pooled objects will be stored in the output variable. This list will be the same order for all clients and is useful for randomization.
+ 
+- _GetPlayerPoolIndexEvent
+  - Input: VRCPlayerApi "playerInput"
+  - Output: int "playerIndexOutput"
+  - Description: Given a player, get the pool index for the given player. The pool index will be a value between 0 and the total number of objects in the pool. This is useful since Player Ids will continue to increase with no cap as the instance is alive.
   
+_GetPlayerPoolIndexByIdEvent
+  - Input: int "playerIdInput"
+  - Output: int "playerIndexOutput"
+  - Description: Given a player id, get the pool index for the given player. The pool index will be a value between 0 and the total number of objects in the pool. This is useful since Player Ids will continue to increase with no cap as the instance is alive.
+
 
 ## UdonSharp Helper Methods
 
@@ -101,6 +111,8 @@ The PlayerObjectPool script contains a few helper methods that can be used with 
 - int _GetOrderedPlayersNoAlloc(VRCPlayerApi[] players)
 - Component[] _GetActivePoolObjects()
 - int _GetActivePoolObjectsNoAlloc(Component[] pooledObjects)
+- int _GetPlayerPoolIndex(VRCPlayerApi player)
+- int _GetPlayerPoolIndexById(int playerId)
 
 
 ## Implementation Details
