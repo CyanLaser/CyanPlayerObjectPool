@@ -3,124 +3,72 @@ using JetBrains.Annotations;
 using UdonSharp;
 using UnityEngine;
 using VRC.SDKBase;
-using VRC.Udon;
 
 namespace Cyan.PlayerObjectPool
 {
     /// <summary>
-    /// An object pool system that will assign one object for each player that joins the instance. 
+    /// An object pool system that will assign an index for each player that joins the instance. 
     /// </summary>
     [AddComponentMenu("")] // Do not show this component in the AddComponent menu since it is for Udon only.
-    [DefaultExecutionOrder(1000)] // Have high execution order to ensure that other components update before this one.
+    [DefaultExecutionOrder(-1000)] // Have low execution order to ensure that this script updates before other behaviours
     [UdonBehaviourSyncMode(BehaviourSyncMode.Manual)] // This system requires manual sync. 
     public class CyanPlayerObjectPool : UdonSharpBehaviour
     {
         #region Constants
 
-        /// <summary>
-        /// Event name that will be sent to the pool event listener when any changes happen to the object assignments.
-        /// </summary>
-        [PublicAPI]
-        public const string OnAssignmentChangedEvent = "_OnAssignmentChanged";
-        
-        /// <summary>
-        /// Event name that will be sent to the pool event listener when the local player is assigned an object.
-        /// </summary>
-        [PublicAPI]
-        public const string OnLocalPlayerAssignedEvent = "_OnLocalPlayerAssigned";
-        
-        /// <summary>
-        /// Variable name that will be set before the OnPlayerAssignedEvent is sent to the pool event listener.
-        /// This variable will store the player id of the last player whose object was assigned.
-        /// </summary>
-        [PublicAPI]
-        public const string PlayerAssignedIdVariableName = "playerAssignedId";
-        /// <summary>
-        /// Variable name that will be set before the OnPlayerAssignedEvent is sent to the pool event listener.
-        /// This variable will store the player api data of the last player whose object was assigned.
-        /// </summary>
-        [PublicAPI]
-        public const string PlayerAssignedPlayerVariableName = "playerAssignedPlayer";
-        /// <summary>
-        /// Variable name that will be set before the OnPlayerAssignedEvent is sent to the pool event listener.
-        /// This variable will store the Udon pool object of the last player whose object was assigned.
-        /// </summary>
-        [PublicAPI]
-        public const string PlayerAssignedUdonVariableName = "playerAssignedPoolObject";
-        /// <summary>
-        /// Event name that will be sent to the pool event listener when any player has joined and is assigned an object.
-        /// </summary>
-        [PublicAPI]
-        public const string OnPlayerAssignedEvent = "_OnPlayerAssigned";
-        
-        /// <summary>
-        /// Variable name that will be set before the OnPlayerUnassignedEvent is sent to the pool event listener.
-        /// This variable will store the player id of the last player whose object was unassigned.
-        /// </summary>
-        [PublicAPI]
-        public const string PlayerUnassignedIdVariableName = "playerUnassignedId";
-        /// <summary>
-        /// Variable name that will be set before the OnPlayerUnassignedEvent is sent to the pool event listener.
-        /// This variable will store the player api data of the last player whose object was unassigned.
-        /// </summary>
-        [PublicAPI]
-        public const string PlayerUnassignedPlayerVariableName = "playerUnassignedPlayer";
-        /// <summary>
-        /// Variable name that will be set before the OnPlayerUnassignedEvent is sent to the pool event listener.
-        /// This variable will store the Udon pool object of the last player whose object was unassigned.
-        /// </summary>
-        [PublicAPI]
-        public const string PlayerUnassignedUdonVariableName = "playerUnassignedPoolObject";
-        /// <summary>
-        /// Event name that will be sent to the pool event listener when any player has left and their object has been
-        /// unassigned. Note that 
-        /// </summary>
-        [PublicAPI]
-        public const string OnPlayerUnassignedEvent = "_OnPlayerUnassigned";
-
-        
         // Current pool version that will be printed at start. 
-        private const string Version = "v0.0.4";
-        // If player capacity is increased, then this should be changed. Real max is 82
-        private const int MaxPlayers = 100;
-        // Prefix for all tags that will be combined with the pool id to ensure that each pool has unique tags even when
-        // multiple object pool systems exist in the same scene. The id value is based on the object's instance id.
-        private const string PoolIdTagPrefix = "_cyan_object_pool_id_";
-        // Generic tag value for verifying if something is valid. Used for verifying object owners and if player object
-        // index has been set.
-        private const string TagValid = "True";
-        // The tag used to store per object, the player that owns it. This is used in verifying if every assigned object
-        // still has its player in the room as well as if every player has properly assigned objects. This is a caching
-        // system to improve runtime.
-        private const string PlayerPoolOwnerTagPrefix = "_player_pool_owner_id_";
-        // The tag prefix used to store each player's object index. The player id will be appended to the end and the
-        // player's assigned object will stored with this tag. This is a caching system used to bring lookups to
-        // constant time.
-        private const string PlayerObjectIndexTagPrefix = "_player_object_index_";
-        // Check for this value to ensure that player object index tags are valid.
-        // If this is ever unset, then another system cleared tags and needs to be recalculated. 
-        private const string PlayerObjectIndexSet = "_player_object_index_valid";
+        private const string Version = "v0.0.5";
+        
+        // These constants affect delays for specific actions
+        #region Delay constants
+
         // The minimum duration between serialization requests to reduce overall network load when multiple people join
         // at the same time. 
         private const float DelaySerializationDuration = 2f;
-        // The duration to wait to verify all pool objects after a player has become the new master. This delay is
+        // The duration to wait to verify all pool indices after a player has become the new master. This delay is
         // needed to ensure that all players have joined/left since the master swap. It is possible that the previous
-        // master assigned pool objects to players that have not yet joined on the new master's client. In this case,
-        // the pool objects would be forced removed from those players and assigned another object.
+        // master assigned pool indices to players that have not yet joined on the new master's client. In this case, 
+        // the new master should wait to assign indices to prevent reassignment for those players.
         private const float DelayNewMasterVerificationDuration = 1f;
+
+        #endregion
+        
+        // Tag based constants. These values should be unique to not cause overlap with other systems and prefabs.
+        #region Tag constants
+
+        // This tag is used to set the path of this pool system. This allows objects to find this pool system without
+        // having a direct reference. There should only be one pool system in the world.
+        public const string PoolPathTag = "_cyan_object_pool_system_path";
+        // Prefix for all tags to prevent player tag overlaps with other systems and prefabs.
+        private const string PoolIdTagPrefix = "_cyan_object_pool_";
+        // Generic tag value for verifying if something is valid. Used for verifying index owners and if player index
+        // index has been set.
+        private const string TagValid = "True";
+        // The tag used to store per index, the player that owns it. This is used in verifying if every assigned index
+        // still has its player in the room as well as if every player has properly assigned indices. This is a caching
+        // system to improve runtime.
+        private const string PlayerPoolOwnerTagPrefix = "_player_pool_owner_id_";
+        // The tag prefix used to store each player's index. The player id will be appended to the end and the
+        // player's assigned index will stored with this tag. This is a caching system used to bring lookups to
+        // constant time.
+        private const string PlayerObjectIndexTagPrefix = "_player_object_index_";
+        // Check for this value to ensure that player index tags are valid.
+        // If this is ever unset, then another system cleared tags and needs to be recalculated. 
+        private const string PlayerObjectIndexSet = "_player_object_index_valid";
+
+        #endregion
         
         #endregion
 
         #region Public Settings
-        
-        /// <summary>
-        /// When assigning objects to players, should the assigned player also take ownership over this object? If your
-        /// pool objects do not use Synced variables, then this option can be considered for less network overhead.
-        /// Default value is True. 
-        /// </summary>
-        [Tooltip("When assigning objects to players, should the assigned player also take ownership over this object? If your pool objects do not use Synced variables, then this option can be considered for less network overhead. Default value is True.")]
-        public bool setNetworkOwnershipForPoolObjects = true;
 
+        /// <summary>
+        /// How large is the object pool? This number should be equal to (world player cap * 2 + 2). All object 
+        /// assigners should also have this many pool objects to ensure each player gets an object.
+        /// </summary>
+        [Tooltip("How large is the object pool? This number should be equal to (world player cap * 2 + 2). All object assigners should also have this many pool objects to ensure each player gets an object.")]
+        public int poolSize = 82;
+        
         /// <summary>
         /// Setting this to true will print debug logging information about the status of the pool.
         /// Warnings and errors will still be printed even if this is set to false.
@@ -128,19 +76,10 @@ namespace Cyan.PlayerObjectPool
         [Tooltip("Setting this to true will print debug logging information about the status of the pool. Warnings and errors will still be printed even if this is set to false.")]
         public bool printDebugLogs = false;
 
-        // UdonBehaviour that will listen for different events from the Object pool system. 
-        // Current events:
-        // - _OnAssignmentChanged
-        // - _OnLocalPlayerAssigned
-        // - _OnPlayerAssigned
-        // - _OnPlayerUnassigned
-        [Tooltip("Optional UdonBehaviour that will listen for different events from the Object pool system. Currently supported events: \"_OnAssignmentChanged\", \"_OnLocalPlayerAssigned\", \"_OnPlayerAssigned\", \"_OnPlayerUnassigned\"")]
-        public UdonBehaviour poolEventListener;
-
         #endregion
 
-        // The assignment of objects to players. Each index represents an object in the pool. The value stores the
-        // player that owns this object, or -1 if no one has been assigned this object.
+        // The assignment of indices to players. The value stores the player that owns this index, or -1 if no one has
+        // been assigned this index.
         [UdonSynced]
         private int[] _assignment = new int[0];
         private int[] _prevAssignment = new int[0];
@@ -149,42 +88,31 @@ namespace Cyan.PlayerObjectPool
         // as calling GetPlayerById returns null for players leaving the instance.
         private VRCPlayerApi[] _assignedPlayers = new VRCPlayerApi[0];
         
-        // Array of UdonBehaviours that are in the pool. Type is Component so that it can be properly casted to either
-        // UdonBehaviour or custom UdonSharpBehaviour while still having valid type checking.
-        [HideInInspector]
-        public Component[] pooledUdon = new Component[0];
-
-        // The list of GameObjects in the pool. 
-        private GameObject[] _poolObjects = new GameObject[0];
-
         // Cached is master value. This is used to determine if the local player becomes the new master and thus should
-        // verify all pooled objects.
+        // verify all pooled indices.
         private bool _isMaster = false;
         // Cache the local player variable. Mainly used for player tag based caching.
         private VRCPlayerApi _localPlayer;
-        // Id set for this pool. Used to ensure that multiple instances of this pool will all have unique tags.
-        private int _poolTagId;
 
         // Used to check if we have requested to check for updates on assignment. Only one request can happen at a time.
         private bool _delayUpdateAssignment;
         
-        // The time of the last request to serialize the object pool assignments. This is used to ensure that only one
+        // The time of the last request to serialize the index pool assignments. This is used to ensure that only one
         // serialization request happens within a given duration. This is to help reduce overall networking load
         // when multiple people join at the same time.
         private float _lastSerializationRequestTime;
 
-        // Temporary data used for verifying each player's object.
-        private Component[] _poolObjectsTemp = new Component[0];
+        // Temporary data used for verifying each player's index.
         private VRCPlayerApi[] _allPlayersTemp = new VRCPlayerApi[0];
-        private int[] _playerIdsWithObjects = new int[0];
-        private int[] _playerObjectIds = new int[0];
+        private int[] _playerIdsWithIndices = new int[0];
+        private int[] _playerIndexIds = new int[0];
 
         // In rare cases, synced data can arrive before all player join messages have happened. In this case, an
         // assignment may be considered invalid and needs to be verified again when the player joins.
         private bool _verifyAssignmentsOnPlayerJoin = false;
 
-        // Queue of indices indicating which pool objects have not been assigned. This system allows constant time
-        // assigning objects to players instead of O(n) to find the first unassigned object.
+        // Queue of indices indicating which pool indices have not been assigned. This system allows constant time
+        // assigning indices to players instead of O(n) to find the first unassigned index.
         private int[] _unclaimedQueue;
         // The start index into the queue where items should be pulled from.
         // This may be larger than the queue length if many items have been cycled. 
@@ -193,84 +121,14 @@ namespace Cyan.PlayerObjectPool
         // This may be larger than the queue length if many items have been cycled. 
         private int _unclaimedQueueEnd = 0;
 
+        // Array to hold all assignment listeners which will update object assignments. This list will grow depending on
+        // how many object assigners are in the world. 
+        private CyanPlayerObjectAssigner[] _assignmentListeners;
+        // Current number of object assigners to forward events to. 
+        private int _listenersCount = 0;
+
         
         #region Public API
-
-        /// <summary>
-        /// Given a player, get the GameObject that has been assigned to this player.
-        /// </summary>
-        /// <param name="player"></param>
-        /// <returns>
-        /// If the player is valid and has been assigned an object, that GameObject will be returned.
-        /// Otherwise null will be returned.
-        /// </returns>
-        [PublicAPI]
-        public GameObject _GetPlayerPooledObject(VRCPlayerApi player)
-        {
-            return VRC.SDKBase.Utilities.IsValid(player) ? _GetPlayerPooledObjectById(player.playerId) : null;
-        }
-        
-        /// <summary>
-        /// Given a player id, get the GameObject that has been assigned to this player.
-        /// </summary>
-        /// <param name="playerId"></param>
-        /// <returns>
-        /// If the player id has been assigned an object, that GameObject will be returned.
-        /// Otherwise null will be returned.
-        /// </returns>
-        [PublicAPI]
-        public GameObject _GetPlayerPooledObjectById(int playerId)
-        {
-            int index = _GetPlayerPooledIndexById(playerId);
-
-            if (index == -1)
-            {
-                _LogWarning($"Could not find object for player: {playerId}");
-                return null;
-            }
-
-            return _poolObjects[index];
-        }
-
-        /// <summary>
-        /// Given a player, get the UdonBehaviour that has been assigned to this player.
-        /// </summary>
-        /// <param name="player"></param>
-        /// <returns>
-        /// If the player is valid and has been assigned an object, the UdonBehaviour on the assigned GameObject will be
-        /// returned as a Component. Component is used so that you may validly cast it to either UdonBehaviour or a
-        /// custom UdonSharpBehaviour and have proper type checking.
-        /// If no object is assigned to the given player id, null will be returned.
-        /// </returns>
-        [PublicAPI]
-        public Component _GetPlayerPooledUdon(VRCPlayerApi player)
-        {
-            return VRC.SDKBase.Utilities.IsValid(player) ? _GetPlayerPooledUdonById(player.playerId) : null;
-        }
-
-        /// <summary>
-        /// Given a player id, get the UdonBehaviour that has been assigned to this player.
-        /// </summary>
-        /// <param name="playerId"></param>
-        /// <returns>
-        /// If the player id has been assigned an object, the UdonBehaviour on the assigned GameObject will be returned
-        /// as a Component. Component is used so that you may validly cast it to either UdonBehaviour or a custom
-        /// UdonSharpBehaviour and have proper type checking.
-        /// If no object is assigned to the given player id, null will be returned.
-        /// </returns>
-        [PublicAPI]
-        public Component _GetPlayerPooledUdonById(int playerId)
-        {
-            int index = _GetPlayerPooledIndexById(playerId);
-
-            if (index == -1)
-            {
-                _LogWarning($"Could not find object for player: {playerId}");
-                return null;
-            }
-
-            return pooledUdon[index];
-        }
 
         /// <summary>
         /// Given a player, get the pool index for the given player. The pool index will be a value between 0 and the
@@ -308,7 +166,7 @@ namespace Cyan.PlayerObjectPool
         /// O(n) to iterate over all players
         /// </summary>
         /// <returns>
-        /// Returns an ordered array of players that have currently been assigned an object.
+        /// Returns an ordered array of players that have currently been assigned an index.
         /// </returns>
         [PublicAPI]
         public VRCPlayerApi[] _GetOrderedPlayers()
@@ -318,7 +176,7 @@ namespace Cyan.PlayerObjectPool
             int size = _assignment.Length;
             for (int i = 0; i < size; ++i)
             {
-                // Get player id for this object's index.
+                // Get player id for this index.
                 int id = _assignment[i];
                 
                 // ID is invalid, skip this index.
@@ -358,7 +216,7 @@ namespace Cyan.PlayerObjectPool
         /// O(n) to iterate over all assignments
         /// </summary>
         /// <param name="players">
-        /// A valid player array to store the list of players who have been assigned an object. This array should be
+        /// A valid player array to store the list of players who have been assigned an index. This array should be
         /// large enough to store all players. It is recommended to use the same size as the total number of player
         /// objects since this also represents the max player count.
         /// </param>
@@ -381,7 +239,7 @@ namespace Cyan.PlayerObjectPool
             int maxCount = players.Length;
             for (int i = 0; i < size; ++i)
             {
-                // Get player id for this object's index.
+                // Get player id for this index.
                 int id = _assignment[i];
                 
                 // ID is invalid, skip this index.
@@ -413,119 +271,6 @@ namespace Cyan.PlayerObjectPool
 
             return count;
         }
-        
-        /// <summary>
-        /// Get an array of active pool objects based on the current assignments. This list will be the same order for
-        /// all clients and is useful for randomization.
-        /// O(n) to iterate over all assignments
-        /// </summary>
-        /// <returns>
-        /// Returns an array of Udon components which is each pool object. Note that this is a component array, making
-        /// it easy to cast to UdonSharpBehaviours or UdonBehaviours.
-        /// </returns>
-        [PublicAPI]
-        public Component[] _GetActivePoolObjects()
-        {
-            // Go through assignment array and find all valid players and store the respective pooled object into a
-            // temporary location.
-            int count = 0;
-            int size = _assignment.Length;
-            for (int i = 0; i < size; ++i)
-            {
-                // Get player id for this object's index.
-                int id = _assignment[i];
-                
-                // ID is invalid, skip this index.
-                if (id == -1)
-                {
-                    continue;
-                }
-                
-                // Get the player for the given id.
-                VRCPlayerApi player = VRCPlayerApi.GetPlayerById(id);
-                
-                // Player is invalid, skip this player.
-                if (!VRC.SDKBase.Utilities.IsValid(player))
-                {
-                    continue;
-                }
-                
-                // Store this player's pool object in temporary location to be moved over later.
-                _poolObjectsTemp[count] = pooledUdon[i];
-                ++count;
-            }
-
-            // Copy over the pool object from temp array into the array to return.
-            // This is to ensure correct size in the array.
-            Component[] pooledObjects = new Component[count];
-            for (int i = 0; i < count; ++i)
-            {
-                pooledObjects[i] = _poolObjectsTemp[i];
-            }
-
-            return pooledObjects;
-        }
-        
-        /// <summary>
-        /// Get an array of active pool objects based on the current assignments. This list will be the same order for
-        /// all clients and is useful for randomization.
-        /// O(n) to iterate over all assignments
-        /// </summary>
-        /// <param name="pooledObjects">
-        /// A valid component array to store the list of pooled objects that have been assigned to a valid player. This 
-        /// array should be large enough to store all pooled objects. 
-        /// </param>
-        /// <returns>
-        /// Returns the number of valid pooled objects added into the input array.
-        /// </returns>
-        [PublicAPI]
-        public int _GetActivePoolObjectsNoAlloc(Component[] pooledObjects)
-        {
-            // The input array is null. No pool objects can be stored in it. Return early.
-            if (pooledObjects == null)
-            {
-                _LogError("_GetActivePoolObjectsNoAlloc provided with a null array!");
-                return 0;
-            }
-            
-            // Go through the assignment array and find all valid players.
-            int count = 0;
-            int size = _assignment.Length;
-            int maxCount = pooledObjects.Length;
-            for (int i = 0; i < size; ++i)
-            {
-                // Get player id for this object's index.
-                int id = _assignment[i];
-                
-                // ID is invalid, skip this index.
-                if (id == -1)
-                {
-                    continue;
-                }
-                
-                // Get the player for the given id.
-                VRCPlayerApi player = VRCPlayerApi.GetPlayerById(id);
-                
-                // Player is invalid, skip this player.
-                if (!VRC.SDKBase.Utilities.IsValid(player))
-                {
-                    continue;
-                }
-
-                // VRChat's GetPlayers will throw an error if you call it with an array to small. 
-                if (count >= maxCount)
-                {
-                    Debug.LogError("_GetActivePoolObjectsNoAlloc called with an array too small to fit all udon components!");
-                    return count;
-                }
-
-                // Store this player's pool object in the array and increment our total count
-                pooledObjects[count] = pooledUdon[i];
-                ++count;
-            }
-
-            return count;
-        }
 
         /// <summary>
         /// These methods and variables are used so that Graph and CyanTrigger programs can call the public api methods
@@ -543,56 +288,14 @@ namespace Cyan.PlayerObjectPool
         public VRCPlayerApi[] playerArrayInput;
 
         [HideInInspector, PublicAPI] 
-        public Component[] poolObjectArrayInput;
-        
-        [HideInInspector, PublicAPI]
-        public GameObject poolObjectOutput;
-        
-        [HideInInspector, PublicAPI] 
-        public UdonBehaviour poolUdonOutput;
-        
-        [HideInInspector, PublicAPI] 
         public VRCPlayerApi[] playerArrayOutput;
         
         [HideInInspector, PublicAPI] 
         public int playerCountOutput;
 
         [HideInInspector, PublicAPI] 
-        public Component[] poolObjectArrayOutput;
-        
-        [HideInInspector, PublicAPI] 
-        public int poolObjectCountOutput;
-        
-        [HideInInspector, PublicAPI] 
         public int playerIndexOutput;
         
-        [PublicAPI]
-        [Obsolete("This method is intended only for non UdonSharp programs. Use _GetPlayerPoolObject instead.")]
-        public void _GetPlayerPoolObjectEvent()
-        {
-            poolObjectOutput = _GetPlayerPooledObject(playerInput);
-        }
-        
-        [PublicAPI]
-        [Obsolete("This method is intended only for non UdonSharp programs. Use _GetPlayerPooledObjectById instead.")]
-        public void _GetPlayerPooledObjectByIdEvent()
-        {
-            poolObjectOutput = _GetPlayerPooledObjectById(playerIdInput);
-        }
-
-        [PublicAPI]
-        [Obsolete("This method is intended only for non UdonSharp programs. Use _GetPlayerPooledUdon instead.")]
-        public void _GetPlayerPooledUdonEvent()
-        {
-            poolUdonOutput = (UdonBehaviour)_GetPlayerPooledUdon(playerInput);
-        }
-
-        [PublicAPI]
-        [Obsolete("This method is intended only for non UdonSharp programs. Use _GetPlayerPooledUdonById instead.")]
-        public void _GetPlayerPooledUdonByIdEvent()
-        {
-            poolUdonOutput = (UdonBehaviour)_GetPlayerPooledUdonById(playerIdInput);
-        }
 
         [PublicAPI]
         [Obsolete("This method is intended only for non UdonSharp programs. Use _GetOrderedPlayers instead.")]
@@ -607,21 +310,7 @@ namespace Cyan.PlayerObjectPool
         {
             playerCountOutput = _GetOrderedPlayersNoAlloc(playerArrayInput);
         }
-        
-        [PublicAPI]
-        [Obsolete("This method is intended only for non UdonSharp programs. Use _GetActivePoolObjects instead.")]
-        public void _GetActivePoolObjectsEvent()
-        {
-            poolObjectArrayOutput = _GetActivePoolObjects();
-        }
-        
-        [PublicAPI]
-        [Obsolete("This method is intended only for non UdonSharp programs. Use _GetActivePoolObjectsNoAlloc instead.")]
-        public void _GetActivePoolObjectsNoAllocEvent()
-        {
-            poolObjectCountOutput = _GetActivePoolObjectsNoAlloc(poolObjectArrayInput);
-        }
-        
+
         [PublicAPI]
         [Obsolete("This method is intended only for non UdonSharp programs. Use _GetPlayerPoolIndex instead.")]
         public void _GetPlayerPoolIndexEvent(VRCPlayerApi player)
@@ -643,53 +332,44 @@ namespace Cyan.PlayerObjectPool
         private void Start()
         {
             _localPlayer = Networking.LocalPlayer;
-            
-            // Get pool tag id based on instance id.
-            _poolTagId = GetInstanceID();
+
+            // Initialize the path so that pool object assigners can easily find this pool system.
+            // If multiple exist, then delete this instance.
+            if (!_InitializePoolPath())
+            {
+                DestroyImmediate(this);
+                return;
+            }
             
             // Initialize tag based caching system.
             _InitializeTag();
 
             // Initialize the pool arrays
-            int size = transform.childCount;
-            _poolObjects = new GameObject[size];
-            pooledUdon = new Component[size];
-            _prevAssignment = new int[size];
-            _assignedPlayers = new VRCPlayerApi[size];
+            _assignment = new int[poolSize];
+            _prevAssignment = new int[poolSize];
+            _assignedPlayers = new VRCPlayerApi[poolSize];
+            
+            // Initialize listeners array.
+            _assignmentListeners = new CyanPlayerObjectAssigner[4];
             
             // Initialize temp arrays to not need to recreate them every time.
-            _poolObjectsTemp = new Component[size];
-            _allPlayersTemp = new VRCPlayerApi[MaxPlayers];
-            _playerIdsWithObjects = new int[MaxPlayers];
-            _playerObjectIds = new int[MaxPlayers];
+            int maxSize = poolSize + 4;
+            _allPlayersTemp = new VRCPlayerApi[maxSize];
+            _playerIdsWithIndices = new int[maxSize];
+            _playerIndexIds = new int[maxSize];
             
             _LogInfo($"[{Version}]");
-            _LogDebug($"Initializing pool with {size} objects. Please make sure there are enough objects " +
-                 $"to cover two times the world player cap.");
+            _LogDebug($"Initializing pool with {poolSize} objects. Please make sure there are enough objects " +
+                 "to cover two times the world player cap.");
 
-            // Go through and get the pool objects. 
-            for (int i = 0; i < size; ++i)
+            // Initialize assignment and prev assignment arrays.
+            for (int i = 0; i < poolSize; ++i)
             {
-                Transform child = transform.GetChild(i);
-                GameObject poolObj = child.gameObject;
-                _poolObjects[i] = poolObj;
-                pooledUdon[i] = poolObj.GetComponent(typeof(UdonBehaviour));
-                poolObj.SetActive(false);
-
+                _assignment[i] = -1;
                 _prevAssignment[i] = -1;
             }
 
-            // Force initialization of the assignment array, even if the local user isn't master. 
-            if (_assignment == null || _assignment.Length != size)
-            {
-                _assignment = new int[size];
-                for (int i = 0; i < size; ++i)
-                {
-                    _assignment[i] = -1;
-                }
-            }
-            
-            // Initialize the assignment on master. Nothing should be assigned at this point.
+            // Initialize items for master. Nothing should be assigned at this point.
             if (Networking.IsMaster)
             {
                 _isMaster = true;
@@ -698,6 +378,29 @@ namespace Cyan.PlayerObjectPool
                 _DelayRequestSerialization();
                 _DelayUpdateAssignment();
             }
+        }
+
+        // Register an Object Assigner so that multiple prefabs can reuse the same index assignment from this pool.
+        public void _RegisterObjectAssigner(CyanPlayerObjectAssigner objectAssigner)
+        {
+            // Verify the list can hold the new listener, otherwise increase the array size.
+            int curSize = _assignmentListeners.Length;
+            if (_listenersCount >= curSize)
+            {
+                // Create a new array with double the capacity.
+                CyanPlayerObjectAssigner[] tempArray = new CyanPlayerObjectAssigner[curSize * 2];
+                // Copy over the old elements.
+                for (int cur = 0; cur < curSize; ++cur)
+                {
+                    tempArray[cur] = _assignmentListeners[cur];
+                }
+                // Set the array to the new version.
+                _assignmentListeners = tempArray;
+            }
+
+            // Add the listener to the list of listeners.
+            _assignmentListeners[_listenersCount] = objectAssigner;
+            ++_listenersCount;
         }
 
         #region VRChat callbacks
@@ -710,9 +413,9 @@ namespace Cyan.PlayerObjectPool
             return false;
         }
 
-        // On player join, assign that player an object in the pool.
+        // On player join, assign that player an index in the pool.
         // Only master handles this request.
-        // O(1) + O(n) next frame - See _AssignObject for more details
+        // O(1) + O(n) next frame - See _AssignIndex for more details
         public override void OnPlayerJoined(VRCPlayerApi player)
         {
             // There is currently a bug in VRChat where OnPlayerLeft player will return -1 if the player id is never
@@ -737,14 +440,14 @@ namespace Cyan.PlayerObjectPool
 
             _CheckForMasterSwap();
             
-            _AssignObject(player);
+            _AssignIndex(player);
         }
 
-        // On player left, assign find the object assigned to that player and return it back to the pool.
+        // On player left, assign find the index assigned to that player and return it back to the pool.
         // Only master handles this request.
         // If the local player was not master before, but is now master due to previous master leaving, verify all
-        // player/object assignments.
-        // O(1) best case. See _ReturnPlayerObject for more details
+        // player/index assignments.
+        // O(1) best case. See _ReturnPlayerIndex for more details
         public override void OnPlayerLeft(VRCPlayerApi player)
         {
             // If the local player leaves, the player here will be null. Return early to prevent error in logs.
@@ -756,9 +459,9 @@ namespace Cyan.PlayerObjectPool
             int playerId = player.playerId;
             int index = _GetPlayerPooledIndexById(playerId);
             
-            // Have everyone clean up the object locally to ensure owner is properly set for the object before it is
+            // Have everyone clean up the index locally to ensure owner is properly set for the index before it is
             // eventually disabled.
-            _CleanupPlayerObject(index, playerId);
+            _CleanupPlayerIndex(index, playerId);
             
             if (!Networking.IsMaster)
             {
@@ -767,10 +470,10 @@ namespace Cyan.PlayerObjectPool
             
             _CheckForMasterSwap();
 
-            _ReturnPlayerObject(index, playerId);
+            _ReturnPlayerIndex(index, playerId);
         }
 
-        // Synced data has changed, check for changes in the player/object assignments.
+        // Synced data has changed, check for changes in the player/index assignments.
         public override void OnDeserialization()
         {
             // Calling delay update to ensure that the update itself does not happen on the same frame as
@@ -781,13 +484,35 @@ namespace Cyan.PlayerObjectPool
         #endregion
 
         #region Player Tag Caching System
+
+        private bool _InitializePoolPath()
+        {
+            string path = name;
+            Transform parent = transform.parent;
+            while (parent != null)
+            {
+                path = parent.name + "/" + path;
+                parent = parent.parent;
+            }
+
+            string currentPath = _localPlayer.GetPlayerTag(PoolPathTag);
+            if (path != currentPath && !string.IsNullOrEmpty(currentPath))
+            {
+                _LogError("Multiple Pools exist in the scene! CyanPlayerObjectPool only supports one pool object per scene!\nPath: " + currentPath+"\nThisPath: " +path);
+                return false;
+            }
+            
+            _localPlayer.SetPlayerTag(PoolPathTag, path);
+            return true;
+        }
         
         private void _InitializeTag()
         {
             // Verify the tag has not been set before setting it valid. 
             if (!string.IsNullOrEmpty(_GetTag(PlayerObjectIndexSet)))
             {
-                _LogError("Object pool index set tag was set before initialization!");
+                _LogError("Object pool index set tag has already been set!");
+                return;
             }
             
             // Initialize caching system to say that player object index values have been set.
@@ -795,22 +520,16 @@ namespace Cyan.PlayerObjectPool
             _SetTag(PlayerObjectIndexSet, TagValid);
         }
         
-        // Get the tag prefix for this pool, which will be unique for this instance.
-        private string _GetPoolTagIdPrefix()
-        {
-            return PoolIdTagPrefix + _poolTagId + "_";
-        }
-
         // Cache a value using the player tag system, allowing for constant time lookup.
         private void _SetTag(string tagName, string value)
         {
-            _localPlayer.SetPlayerTag(_GetPoolTagIdPrefix() + tagName, value);
+            _localPlayer.SetPlayerTag(PoolIdTagPrefix + tagName, value);
         }
         
         // Get the value for a tag using the player tag caching system.
         private string _GetTag(string tagName)
         {
-            return _localPlayer.GetPlayerTag(_GetPoolTagIdPrefix() + tagName);
+            return _localPlayer.GetPlayerTag(PoolIdTagPrefix + tagName);
         }
         
         // Given a player id, get the object assigned to the player. 
@@ -975,7 +694,7 @@ namespace Cyan.PlayerObjectPool
         // O(1) + O(n) next frame for updating assignments
         // Thanks to the UnclaimedQueue, getting a free object is constant time. 
         // Updating the current objects based on the assignment takes O(n). See _AssignObjectsToPlayers for more details
-        private void _AssignObject(VRCPlayerApi player)
+        private void _AssignIndex(VRCPlayerApi player)
         {
             int id = player.playerId;
 
@@ -1002,13 +721,7 @@ namespace Cyan.PlayerObjectPool
                 _LogWarning("Assigning player to an object but other player was already assigned the object!" +
                                  $" prev: {_assignment[index]}, new: {id}");
             }
-            
-            GameObject obj = _poolObjects[index];
-            if (obj.activeSelf)
-            {
-                _LogWarning($"Assigning player to an active object! player: {id}, obj: {obj.name}");
-            }
-            
+
             _assignment[index] = id;
             _LogDebug($"Assigning player {id} to index {index}");
             
@@ -1021,7 +734,7 @@ namespace Cyan.PlayerObjectPool
 
         // Clear the assignment for a given index and player. This should only be called by Master.
         // O(1) + O(n) next frame for updating assignments
-        private void _ReturnPlayerObject(int index, int playerId)
+        private void _ReturnPlayerIndex(int index, int playerId)
         {
             if (index == -1)
             {
@@ -1039,6 +752,7 @@ namespace Cyan.PlayerObjectPool
             _assignment[index] = -1;
             // Return the object into the unclaimed queue.
             _EnqueueItemToUnclaimedQueue(index);
+            _LogDebug($"Unassigning index {index} from player {playerId}");
             
             // Clear the player tag only if the current tag is equal to the index of the object we are cleaning up.
             // If players had multiple objects, this will not revert unexpected object tags.
@@ -1120,7 +834,6 @@ namespace Cyan.PlayerObjectPool
         {
             _verifyAssignmentsOnPlayerJoin = false;
             
-            bool assignmentHasChanged = false;
             bool requireVerification = false;
             int size = _assignment.Length;
             for (int index = 0; index < size; ++index)
@@ -1137,7 +850,7 @@ namespace Cyan.PlayerObjectPool
                 // Object was previously assigned to a player and needs to be cleaned up.
                 if (prevAssign != -1)
                 {
-                    _CleanupPlayerObject(index, prevAssign);
+                    _CleanupPlayerIndex(index, prevAssign);
                 }
                 
                 // New assignment is an owner. Assign the object to that player.
@@ -1155,14 +868,6 @@ namespace Cyan.PlayerObjectPool
                 
                 // Update the previous assignment to match new assignment.
                 _prevAssignment[index] = newAssign;
-
-                assignmentHasChanged = true;
-            }
-
-            // Notify event listener that there was a change in the player/object assignments
-            if (assignmentHasChanged && VRC.SDKBase.Utilities.IsValid(poolEventListener))
-            {
-                poolEventListener.SendCustomEvent(OnAssignmentChangedEvent);
             }
 
             if (requireVerification)
@@ -1186,13 +891,12 @@ namespace Cyan.PlayerObjectPool
         private bool _SetupPlayerObject(int index, int playerId)
         {
             VRCPlayerApi player = VRCPlayerApi.GetPlayerById(playerId);
-            GameObject poolObj = _poolObjects[index];
             
-            // Verify the player at the given id does not already have an object. 
+            // Verify the player at the given id does not already have an index. 
             int curIndex = _GetPlayerPooledIndexById(playerId);
             if (curIndex != -1 && curIndex != index)
             {
-                _LogWarning($"Attempting to assign player {playerId} an object when they already have one. TryAssign: {index}, Cur: {curIndex}");
+                _LogWarning($"Attempting to assign player {playerId} an index when they already have one. TryAssign: {index}, Cur: {curIndex}");
                 return false;
             }
             
@@ -1201,92 +905,62 @@ namespace Cyan.PlayerObjectPool
             
             if (!VRC.SDKBase.Utilities.IsValid(player))
             {
-                _LogError($"Trying to assign invalid player to object! player: {playerId}, obj: {poolObj.name}");
+                _LogError($"Trying to assign invalid player to index! player: {playerId}, index: {index}");
                 return false;
             }
             
-            _LogDebug($"Assigning {poolObj.name} to player {playerId}");
-
-            if (player.isLocal && setNetworkOwnershipForPoolObjects)
-            {
-                Networking.SetOwner(player, poolObj);
-            }
-            
-            // Save the player api assigned to this object.
+            // Save the player api assigned to this index.
             _assignedPlayers[index] = player;
 
-            UdonBehaviour poolUdon = (UdonBehaviour)pooledUdon[index];
-            poolUdon.SetProgramVariable("Owner", player);
-            poolUdon.SendCustomEvent("_OnOwnerSet");
-            poolObj.SetActive(true);
-                
-            // Notify pool listener that a player has joined and the object has been assigned.
-            if (VRC.SDKBase.Utilities.IsValid(poolEventListener))
+            _LogDebug($"Player {player.playerId} has been assigned index {index}");
+
+            // Go through all assigment listeners and notify them of the new player/index assignment.
+            for (int curListener = 0; curListener < _listenersCount; ++curListener)
             {
-                poolEventListener.SetProgramVariable(PlayerAssignedIdVariableName, playerId);
-                poolEventListener.SetProgramVariable(PlayerAssignedPlayerVariableName, player);
-                poolEventListener.SetProgramVariable(PlayerAssignedUdonVariableName, poolUdon);
-                poolEventListener.SendCustomEvent(OnPlayerAssignedEvent);
-            }
-            
-            // Notify the event listener that the local player has been assigned an object.
-            if (player.isLocal && VRC.SDKBase.Utilities.IsValid(poolEventListener))
-            {
-                poolEventListener.SendCustomEvent(OnLocalPlayerAssignedEvent);
+                _assignmentListeners[curListener]._OnPlayerAssigned(player, index);
             }
 
             return true;
         }
         
-        // Once an object has been unassigned, clean up the object by removing the cached index and disable the object.
-        // Called by everyone when any player leaves the instance. This is to clear out the Owner variable and give an
-        // early callback that pool objects can implement. 
-        private void _CleanupPlayerObject(int index, int playerId)
+        // Once an index has been unassigned, clean up the index by removing the cached index and notify listeners.
+        // Called by everyone when any player leaves the instance and when the assignment array removes an assignment.
+        private void _CleanupPlayerIndex(int index, int playerId)
         {
             if (playerId == _localPlayer.playerId)
             {
-                _LogError($"Cleaning up local player's object while still in the instance! player: {playerId}, obj: {index}");
+                _LogError($"Cleaning up local player's index while still in the instance! player: {playerId}, index: {index}");
             }
             
             if (index == -1)
             {
-                _LogWarning($"Could not find object for leaving player: {playerId}");
+                _LogWarning($"Could not find index for leaving player: {playerId}");
                 return;
             }
 
-            // Clear the player tag only if the current tag is equal to the index of the object we are cleaning up.
-            // If players had multiple objects, this will not revert unexpected object tags.
+            // Clear the player tag only if the current tag is equal to the index we are cleaning up.
+            // If players had multiple indices, this will not revert unexpected index tags.
             _ClearPlayerObjectIndexTagIfExpected(playerId, index);
-
-            GameObject poolObj = _poolObjects[index];
-            
-            // Pool object has already been cleaned up, return early.
-            if (!poolObj.activeSelf)
-            {
-                return;
-            }
-            
-            _LogDebug($"Cleaning up obj {index}: {poolObj.name}, Player: " + playerId);
             
             VRCPlayerApi player = _assignedPlayers[index];
             _assignedPlayers[index] = null;
 
-            UdonBehaviour poolUdon = (UdonBehaviour)pooledUdon[index];
-            poolUdon.SendCustomEvent("_OnCleanup");
-            poolUdon.SetProgramVariable("Owner", null);
-            poolObj.SetActive(false);
-            
-            // Notify pool listener that a player has left and the object has been unassigned.
-            if (VRC.SDKBase.Utilities.IsValid(poolEventListener))
+            // Index was already cleaned up. No need to send event again.
+            if (player == null)
             {
-                poolEventListener.SetProgramVariable(PlayerUnassignedIdVariableName, playerId);
-                poolEventListener.SetProgramVariable(PlayerUnassignedPlayerVariableName, player);
-                poolEventListener.SetProgramVariable(PlayerUnassignedUdonVariableName, poolUdon);
-                poolEventListener.SendCustomEvent(OnPlayerUnassignedEvent);
+                return;
+            }
+            
+            _LogDebug($"Index {index} has been unassigned from player {player.playerId}");
+
+            // Go through all assigment listeners and notify them of the new player/index assignment.
+            for (int curListener = 0; curListener < _listenersCount; ++curListener)
+            {
+                _assignmentListeners[curListener]._OnPlayerUnassigned(player, index);
             }
         }
 
-        // Debug method used to print the current player/object assignments
+        // Debug method used to print the current player/index assignments
         private void _PrintAssignment()
         {
             string assignment = "Player Assignments: ";
@@ -1295,7 +969,7 @@ namespace Cyan.PlayerObjectPool
             {
                 if (_assignment[i] != -1)
                 {
-                    assignment += "[Player: " + _assignment[i] + ", object: " + i + "], ";
+                    assignment += "[Player: " + _assignment[i] + ", index: " + i + "], ";
                 }
             }
             
@@ -1303,7 +977,7 @@ namespace Cyan.PlayerObjectPool
         }
         
         // When the local player becomes the new master, cache some values and delay verification of all player's having
-        // an object.
+        // an index.
         private void _CheckForMasterSwap()
         {
             // Master left and local player is the new master.
@@ -1317,13 +991,13 @@ namespace Cyan.PlayerObjectPool
                 // for this client. Force add them to the tag system to prevent double assignment for the player.
                 _SetPlayerIndexTags(false);
 
-                // verify all players have objects, but wait a duration to ensure that all players have joined/left.
+                // verify all players have indices, but wait a duration to ensure that all players have joined/left.
                 SendCustomEventDelayedSeconds(nameof(_VerifyAllPlayersHaveObjects), DelayNewMasterVerificationDuration);
             }
         }
         
         // Go through all assignments and all players and ensure that each player still has
-        // an object and each object has a player.
+        // an index and each index has a player.
         // O(n)
         // public needed for SendCustomEventDelayedSeconds, but should not be called externally!
         public void _VerifyAllPlayersHaveObjects()
@@ -1333,7 +1007,7 @@ namespace Cyan.PlayerObjectPool
                 return;
             }
             
-            _LogDebug("Verifying all players have an object and all objects have a player.");
+            _LogDebug("Verifying all players have an index and all indices have a player.");
 
             // Go through all assignments in the pool and find their assigned owner.
             // Put owner ids into a separate array as the assignment array will be modified.
@@ -1349,35 +1023,36 @@ namespace Cyan.PlayerObjectPool
                 
                 string tagName = PlayerPoolOwnerTagPrefix + ownerId;
                 
-                // Check if this player already had an object assigned. If so, remove the duplicate assignment.
+                // Check if this player already had an index assigned. If so, remove the duplicate assignment.
                 // Duplicate is found if the tag has already been set, or if this player has an index assigned that
                 // isn't this index.
                 string tagValue = _GetTag(tagName);
                 int expectedIndex = _GetPlayerPooledIndexById(ownerId);
                 if ((expectedIndex != index && expectedIndex != -1) || tagValue == TagValid)
                 {
-                    _LogWarning($"Player had multiple objects during verification! Player: {ownerId}, Obj: {index}");
+                    _LogWarning($"Player had multiple indices during verification! Player: {ownerId}, Index: {index}");
                     
-                    // Cleanup the player object first and then remove the assignment.
-                    _CleanupPlayerObject(index, ownerId);
-                    _ReturnPlayerObject(index, ownerId);
+                    // Cleanup the player index first and then remove the assignment.
+                    _CleanupPlayerIndex(index, ownerId);
+                    _ReturnPlayerIndex(index, ownerId);
                     
                     continue;
                 }
                 
-                _playerIdsWithObjects[count] = ownerId;
-                _playerObjectIds[count] = index;
+                _playerIdsWithIndices[count] = ownerId;
+                _playerIndexIds[count] = index;
                 ++count;
                 
-                // Set tags for used object owners
-                // This will give us a constant look up if a user has an assigned object.
+                // Set tags for used index owners
+                // This will give us a constant look up if a user has an assigned index.
                 _SetTag(tagName, TagValid);
             }
 
 
-            // Go through each player and find if that player has an object, otherwise assign them one.
+            // Go through each player and find if that player has an index, otherwise assign them one.
             VRCPlayerApi.GetPlayers(_allPlayersTemp);
-            for (int index = 0; index < MaxPlayers; ++index)
+            int maxSize = _allPlayersTemp.Length;
+            for (int index = 0; index < maxSize; ++index)
             {
                 VRCPlayerApi player = _allPlayersTemp[index];
                 if (!VRC.SDKBase.Utilities.IsValid(player))
@@ -1398,17 +1073,17 @@ namespace Cyan.PlayerObjectPool
                     continue;
                 }
                 
-                // Player did not have tag, meaning they did not have an object. Assign them one.
-                _LogWarning($"Player did not have an object during verification! Player: {id}");
-                _AssignObject(player);
+                // Player did not have tag, meaning they did not have an index. Assign them one.
+                _LogWarning($"Player did not have an index during verification! Player: {id}");
+                _AssignIndex(player);
             }
             
-            // Go through each object again and verify if the assigned player is still in the instance.
+            // Go through each index again and verify if the assigned player is still in the instance.
             // Clear used tags to prevent issues for next iteration of this verification method.
             // We cannot directly clear all tags due to other caching mechanics used.
             for (int index = 0; index < count; ++index)
             {
-                int ownerId = _playerIdsWithObjects[index];
+                int ownerId = _playerIdsWithIndices[index];
 
                 string tagName = PlayerPoolOwnerTagPrefix + ownerId;
                 string tagValue = _GetTag(tagName);
@@ -1418,12 +1093,12 @@ namespace Cyan.PlayerObjectPool
                 // assignment array.
                 if (tagValue == TagValid)
                 {
-                    int objIndex = _playerObjectIds[index];
-                    _LogWarning($"Missing player still owned an object during verification! Player: {ownerId}, Obj: {objIndex}");
+                    int objIndex = _playerIndexIds[index];
+                    _LogWarning($"Missing player still owned an index during verification! Player: {ownerId}, index: {objIndex}");
                     
-                    // Cleanup the player object first and then remove the assignment.
-                    _CleanupPlayerObject(objIndex, ownerId);
-                    _ReturnPlayerObject(objIndex, ownerId);
+                    // Cleanup the player index first and then remove the assignment.
+                    _CleanupPlayerIndex(objIndex, ownerId);
+                    _ReturnPlayerIndex(objIndex, ownerId);
                 }
             }
         }
@@ -1436,25 +1111,25 @@ namespace Cyan.PlayerObjectPool
 
         private void _LogInfo(string message)
         {
-            Debug.Log($"{LogPrefix}[{_poolTagId}] {message}");
+            Debug.Log($"{LogPrefix} {message}");
         }
         
         private void _LogDebug(string message)
         {
             if (printDebugLogs)
             {
-                Debug.Log($"{LogPrefix}[{_poolTagId}] {message}");
+                Debug.Log($"{LogPrefix} {message}");
             }
         }
 
         private void _LogWarning(string message)
         {
-            Debug.LogWarning($"{LogPrefix}[{_poolTagId}] {message}");
+            Debug.LogWarning($"{LogPrefix} {message}");
         }
         
         private void _LogError(string message)
         {
-            Debug.LogError($"{LogPrefix}[{_poolTagId}] {message}");
+            Debug.LogError($"{LogPrefix} {message}");
         }
 
         #endregion

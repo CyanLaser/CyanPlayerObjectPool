@@ -7,8 +7,6 @@ A VRChat system that will assign a unique object to every player in the world.
   - Every player will get an object over time, even when multiple join at once.
 - Master Crash Verification
   - On master change, all players and all objects are verified to ensure that each pair is still valid. Old objects will be cleaned up and new players will be assigned an object.
-- Objects stay with the same owner
-  - Once an object is assigned to a player, it will not swap to another player.
 
 Note: This object pool system is standalone and can work with multiple instances. Prefab authors can create and distribute systems without it conflicting with another instance of the object pool. 
 
@@ -19,9 +17,10 @@ Note: This object pool system is standalone and can work with multiple instances
 
 
 ## Setup
-1. Drag the PlayerObjectPool prefab into your scene.
-2. Create an Udon program to be used for each pooled object, implementing the required items (see template UdonGraph, CyanTrigger, or UdonSharp script)
-3. Create a new GameObject with this Udon program, child it under the PlayerObjectPool prefab. Duplicate it so that there is enough for each players. It is recommended to have 2x the world cap.
+1. Drag the PlayerObjectPool and PlayerObjectAssigner prefabs into your scene.
+2. In the PlayerObjectPool prefab, set the pool size to double the world cap.
+3. Create an Udon program to be used for each pooled object, implementing the required items (see template UdonGraph, CyanTrigger, or UdonSharp script)
+4. Create a new GameObject with this Udon program and child it under the PlayerObjectAssigner prefab. Duplicate it so that there is enough for the pool size set in step 2.
 
 See the example scenes for more details on proper setup.
 
@@ -36,16 +35,15 @@ When creating an Udon program to be used as a pooled object, it needs three thin
 
 ## Pool Event Listener
 
-The PlayerObjectPool can send optional events to a listener UdonBehaviour so that you can handle different callbacks. 
-- _OnAssignmentChanged - This event is called whenever an object has been assigned to an owner or when an object has been unassigned. 
+The PlayerObjectAssigner can send optional events to a listener UdonBehaviour so that you can handle different callbacks. 
 - _OnLocalPlayerAssigned - This event is called whenever the local player has been assigned their object. Use this event to enable external features that require the local player to have an assigned object. 
-- _OnPlayerAssigned - This event is called when any player is assigned a pool object. When using this event, if the program has a public int variable named "playerAssignedId", a public VRCPlayerAPI variable named "playerAssignedPlayer", or a public UdonBehaviour variable named "playerAssignedPoolObject", it will be set before the event is called.
-- _OnPlayerUnassigned - This event is called when any player's object has been unassigned. When using this event, if the program has a public int variable named "playerUnassignedId", a public VRCPlayerAPI variable named "playerUnassignedPlayer",  or a public UdonBehaviour variable named "playerUnassignedPoolObject", it will be set before the event is called.
+- _OnPlayerAssigned - This event is called when any player is assigned a pool object. When using this event, if the program has a public VRCPlayerAPI variable named "playerAssignedPlayer" or a public UdonBehaviour variable named "playerAssignedPoolObject", it will be set before the event is called.
+- _OnPlayerUnassigned - This event is called when any player's object has been unassigned. When using this event, if the program has a public VRCPlayerAPI variable named "playerUnassignedPlayer"  or a public UdonBehaviour variable named "playerUnassignedPoolObject", it will be set before the event is called.
 
 
 ## UdonGraph and CyanTrigger Helper Methods
 
-The PlayerObjectPool script contains a few helper methods that can be used with UdonGraph and CyanTrigger. 
+The PlayerObjectAssigner script contains a few helper methods that can be used with UdonGraph and CyanTrigger. 
 For these methods, you will need to use SetProgramVariable on the pool to set the required input and GetProgramVariable to get the output. See the example scenes for more details
 
 - _GetPlayerPooledObjectEvent
@@ -101,7 +99,7 @@ _GetPlayerPoolIndexByIdEvent
 
 ## UdonSharp Helper Methods
 
-The PlayerObjectPool script contains a few helper methods that can be used with UdonSharp. 
+The PlayerObjectAssigner script contains a few helper methods that can be used with UdonSharp. 
 
 - GameObject _GetPlayerPooledObject(VRCPlayerApi player)
 - GameObject _GetPlayerPooledObjectById(int playerId)

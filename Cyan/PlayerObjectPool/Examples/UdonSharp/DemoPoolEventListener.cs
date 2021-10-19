@@ -9,7 +9,7 @@ namespace Cyan.PlayerObjectPool
 {
     public class DemoPoolEventListener : UdonSharpBehaviour
     {
-        public CyanPlayerObjectPool objectPool;
+        public CyanPlayerObjectAssigner objectPool;
         private DemoPooledObject _localPoolObject;
         
         void Start()
@@ -29,19 +29,6 @@ namespace Cyan.PlayerObjectPool
         }
 
         [PublicAPI]
-        public void _OnAssignmentChanged()
-        {
-            Debug.Log("Object assignments have changed. Either a player joined or a player left.");
-
-            VRCPlayerApi[] players = objectPool._GetOrderedPlayers();
-            Debug.Log("Printing players after assignment change:");
-            foreach (var player in players)
-            {
-                Debug.Log(player.displayName);
-            }
-        }
-
-        [PublicAPI]
         public void _OnLocalPlayerAssigned()
         {
             Debug.Log("The local player has been assigned an object from the pool!");
@@ -54,19 +41,15 @@ namespace Cyan.PlayerObjectPool
         }
         
         [PublicAPI, HideInInspector]
-        public int playerAssignedId;
-        [PublicAPI, HideInInspector]
         public VRCPlayerApi playerAssignedPlayer;
         [PublicAPI, HideInInspector]
         public UdonBehaviour playerAssignedPoolObject;
         [PublicAPI]
         public void _OnPlayerAssigned()
         {
-            Debug.Log("Object assigned to player " + playerAssignedPlayer.displayName +" " + playerAssignedId);
+            Debug.Log("Object assigned to player " + playerAssignedPlayer.displayName +" " + playerAssignedPlayer.playerId);
         }
         
-        [PublicAPI, HideInInspector]
-        public int playerUnassignedId;
         [PublicAPI, HideInInspector]
         public VRCPlayerApi playerUnassignedPlayer;
         [PublicAPI, HideInInspector]
@@ -74,7 +57,7 @@ namespace Cyan.PlayerObjectPool
         [PublicAPI]
         public void _OnPlayerUnassigned()
         {
-            Debug.Log("Object unassigned from player " + playerUnassignedPlayer.displayName +" " + playerUnassignedId);
+            Debug.Log("Object unassigned from player " + playerUnassignedPlayer.displayName +" " + playerUnassignedPlayer.playerId);
         }
     }
 }

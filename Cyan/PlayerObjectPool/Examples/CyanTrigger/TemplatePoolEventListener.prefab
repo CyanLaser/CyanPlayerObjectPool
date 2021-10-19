@@ -52,24 +52,6 @@ MonoBehaviour:
       updateOrder: 0
       programSyncMode: 2
       events:
-      - name: _OnAssignmentChanged
-        eventInstance:
-          actionType:
-            directEvent: Event_Custom
-            guid: 
-          inputs: []
-          multiInput: []
-          expanded: 1
-          comment:
-            comment: This event is called when any object is assigned to a player
-              or unassigned from a player.
-        actionInstances: []
-        eventOptions:
-          userGate: 0
-          userGateExtraData: []
-          broadcast: 0
-          delay: 0
-        expanded: 1
       - name: _OnLocalPlayerAssigned
         eventInstance:
           actionType:
@@ -128,15 +110,6 @@ MonoBehaviour:
         expanded: 1
       variables:
       - isVariable: 0
-        name: playerAssignedId
-        variableID: 482c80fc-d43b-4651-b929-2ec27f51e814
-        data:
-          objEncoded: Ai8AAAAAARYAAABTAHkAcwB0AGUAbQAuAEkAbgB0ADMAMgAsACAAbQBzAGMAbwByAGwAaQBiAAAAAAAYAAAAAAU=
-          unityObjects: []
-        type:
-          typeDef: System.Int32, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089
-        sync: 0
-      - isVariable: 0
         name: playeAssignedPlayer
         variableID: f12c3ee8-e181-499a-8bc7-45ea6a0c41ae
         data:
@@ -155,15 +128,6 @@ MonoBehaviour:
         type:
           typeDef: VRC.Udon.UdonBehaviour, VRC.Udon, Version=0.0.0.0, Culture=neutral,
             PublicKeyToken=null
-        sync: 0
-      - isVariable: 0
-        name: playerUnassignedId
-        variableID: a0cd7971-117f-407c-b86c-163a70e491fe
-        data:
-          objEncoded: Ai8AAAAAARYAAABTAHkAcwB0AGUAbQAuAEkAbgB0ADMAMgAsACAAbQBzAGMAbwByAGwAaQBiAAAAAAAYAAAAAAU=
-          unityObjects: []
-        type:
-          typeDef: System.Int32, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089
         sync: 0
       - isVariable: 0
         name: playerUnassignedPlayer

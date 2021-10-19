@@ -15,47 +15,46 @@ MonoBehaviour:
   serializedUdonProgramAsset: {fileID: 11400000, guid: f73a4ac7703641e4a9dd2c12b5b7b418,
     type: 2}
   udonAssembly: ".data_start\r\n\r\n    .export ObjectPool\r\n    .export playerAssignedPoolObject\r\n
-    \   .export playerAssignedId\r\n    .export playerUnassignedPoolObject\r\n    .export
-    playerUnassignedId\r\n    .export playerAssignedPlayer\r\n    .export playerUnassignedPlayer\r\n
-    \   \r\n    __message_0: %SystemObject, null\r\n    __String_0: %SystemString,
-    null\r\n    __instance_0: %VRCUdonUdonBehaviour, this\r\n    __eventName_0: %SystemString,
-    null\r\n    __message_1: %SystemObject, null\r\n    __String_1: %SystemString,
-    null\r\n    __instance_1: %VRCUdonUdonBehaviour, this\r\n    __eventName_1: %SystemString,
-    null\r\n    __instance_2: %VRCUdonUdonBehaviour, this\r\n    __symbolName_0: %SystemString,
-    null\r\n    __value_0: %SystemObject, null\r\n    __String_2: %SystemString, null\r\n
-    \   __instance_3: %VRCUdonUdonBehaviour, this\r\n    __eventName_2: %SystemString,
-    null\r\n    __String_3: %SystemString, null\r\n    __instance_4: %VRCUdonUdonBehaviour,
-    this\r\n    __symbolName_1: %SystemString, null\r\n    __String_4: %SystemString,
-    null\r\n    __instance_5: %VRCUdonUdonBehaviour, this\r\n    _old_localPoolObject:
-    %VRCUdonUdonBehaviour, this\r\n    __Boolean_0: %SystemBoolean, null\r\n    __Boolean_1:
-    %SystemBoolean, null\r\n    __obj_0: %SystemObject, null\r\n    __name_0: %SystemString,
-    null\r\n    __message_2: %SystemObject, null\r\n    __String_5: %SystemString,
-    null\r\n    __instance_6: %VRCUdonUdonBehaviour, this\r\n    __value_1: %SystemBoolean,
-    null\r\n    __instance_7: %VRCUdonUdonBehaviour, this\r\n    __value_2: %SystemBoolean,
-    null\r\n    __instance_8: %VRCUdonUdonBehaviour, this\r\n    __eventName_3: %SystemString,
-    null\r\n    __String_6: %SystemString, null\r\n    __instance_9: %VRCUdonUdonBehaviour,
-    this\r\n    __eventName_4: %SystemString, null\r\n    __String_7: %SystemString,
-    null\r\n    __instance_A: %VRCUdonUdonBehaviour, this\r\n    __symbolName_2: %SystemString,
-    null\r\n    __String_8: %SystemString, null\r\n    __message_3: %SystemObject,
-    null\r\n    __String_9: %SystemString, null\r\n    __index_0: %SystemInt32, null\r\n
-    \   __condition_0: %SystemBoolean, null\r\n    __message_4: %SystemObject, null\r\n
-    \   __VRCPlayerApi_0: %VRCSDKBaseVRCPlayerApi, null\r\n    __instance_C: %VRCSDKBaseVRCPlayerApiArray,
-    null\r\n    __Int32_0: %SystemInt32, null\r\n    __start_0: %SystemInt32, null\r\n
-    \   __end_0: %SystemInt32, null\r\n    __step_0: %SystemInt32, null\r\n    __instance_B:
-    %VRCSDKBaseVRCPlayerApiArray, null\r\n    __message_5: %SystemObject, null\r\n
-    \   __str0_0: %SystemString, null\r\n    __str1_0: %SystemString, null\r\n    __VRCPlayerApi_1:
-    %VRCSDKBaseVRCPlayerApi, null\r\n    __message_6: %SystemObject, null\r\n    __str0_1:
-    %SystemString, null\r\n    __str1_1: %SystemString, null\r\n    __VRCPlayerApi_2:
-    %VRCSDKBaseVRCPlayerApi, null\r\n    ObjectPool: %VRCUdonUdonBehaviour, this\r\n
-    \   localPoolObject: %VRCUdonUdonBehaviour, this\r\n    players: %VRCSDKBaseVRCPlayerApiArray,
-    null\r\n    playerAssignedPoolObject: %VRCUdonUdonBehaviour, this\r\n    playerAssignedId:
-    %SystemInt32, null\r\n    playerUnassignedPoolObject: %VRCUdonUdonBehaviour, this\r\n
-    \   playerUnassignedId: %SystemInt32, null\r\n    playerAssignedPlayer: %VRCSDKBaseVRCPlayerApi,
-    null\r\n    playerUnassignedPlayer: %VRCSDKBaseVRCPlayerApi, null\r\n\r\n.data_end\r\n\r\n.code_start\r\n\r\n
-    \   .export _OnAssignmentChanged\r\n    \r\n    _OnAssignmentChanged:\r\n    \r\n
-    \       PUSH, __String_0\r\n        PUSH, __message_0\r\n        COPY\r\n        PUSH,
-    __message_0\r\n        EXTERN, \"UnityEngineDebug.__Log__SystemObject__SystemVoid\"\r\n
-    \       PUSH, __instance_0\r\n        PUSH, __eventName_0\r\n        EXTERN, \"VRCUdonCommonInterfacesIUdonEventReceiver.__SendCustomEvent__SystemString__SystemVoid\"\r\n
+    \   .export playerUnassignedPoolObject\r\n    .export playerAssignedPlayer\r\n
+    \   .export playerUnassignedPlayer\r\n    \r\n    __message_0: %SystemObject,
+    null\r\n    __String_0: %SystemString, null\r\n    __instance_0: %VRCUdonUdonBehaviour,
+    this\r\n    __eventName_0: %SystemString, null\r\n    __message_1: %SystemObject,
+    null\r\n    __String_1: %SystemString, null\r\n    __instance_1: %VRCUdonUdonBehaviour,
+    this\r\n    __eventName_1: %SystemString, null\r\n    __instance_2: %VRCUdonUdonBehaviour,
+    this\r\n    __symbolName_0: %SystemString, null\r\n    __value_0: %SystemObject,
+    null\r\n    __String_2: %SystemString, null\r\n    __instance_3: %VRCUdonUdonBehaviour,
+    this\r\n    __eventName_2: %SystemString, null\r\n    __String_3: %SystemString,
+    null\r\n    __instance_4: %VRCUdonUdonBehaviour, this\r\n    __symbolName_1: %SystemString,
+    null\r\n    __String_4: %SystemString, null\r\n    __instance_5: %VRCUdonUdonBehaviour,
+    this\r\n    _old_localPoolObject: %VRCUdonUdonBehaviour, this\r\n    __Boolean_0:
+    %SystemBoolean, null\r\n    __Boolean_1: %SystemBoolean, null\r\n    __obj_0:
+    %SystemObject, null\r\n    __name_0: %SystemString, null\r\n    __message_2: %SystemObject,
+    null\r\n    __String_5: %SystemString, null\r\n    __instance_6: %VRCUdonUdonBehaviour,
+    this\r\n    __value_1: %SystemBoolean, null\r\n    __instance_7: %VRCUdonUdonBehaviour,
+    this\r\n    __value_2: %SystemBoolean, null\r\n    __instance_8: %VRCUdonUdonBehaviour,
+    this\r\n    __eventName_3: %SystemString, null\r\n    __String_6: %SystemString,
+    null\r\n    __instance_9: %VRCUdonUdonBehaviour, this\r\n    __eventName_4: %SystemString,
+    null\r\n    __String_7: %SystemString, null\r\n    __instance_A: %VRCUdonUdonBehaviour,
+    this\r\n    __symbolName_2: %SystemString, null\r\n    __String_8: %SystemString,
+    null\r\n    __message_3: %SystemObject, null\r\n    __String_9: %SystemString,
+    null\r\n    __index_0: %SystemInt32, null\r\n    __condition_0: %SystemBoolean,
+    null\r\n    __message_4: %SystemObject, null\r\n    __VRCPlayerApi_0: %VRCSDKBaseVRCPlayerApi,
+    null\r\n    __instance_C: %VRCSDKBaseVRCPlayerApiArray, null\r\n    __Int32_0:
+    %SystemInt32, null\r\n    __start_0: %SystemInt32, null\r\n    __end_0: %SystemInt32,
+    null\r\n    __step_0: %SystemInt32, null\r\n    __instance_B: %VRCSDKBaseVRCPlayerApiArray,
+    null\r\n    __message_5: %SystemObject, null\r\n    __str0_0: %SystemString, null\r\n
+    \   __str1_0: %SystemString, null\r\n    __VRCPlayerApi_1: %VRCSDKBaseVRCPlayerApi,
+    null\r\n    __message_6: %SystemObject, null\r\n    __str0_1: %SystemString, null\r\n
+    \   __str1_1: %SystemString, null\r\n    __VRCPlayerApi_2: %VRCSDKBaseVRCPlayerApi,
+    null\r\n    ObjectPool: %VRCUdonUdonBehaviour, this\r\n    localPoolObject: %VRCUdonUdonBehaviour,
+    this\r\n    players: %VRCSDKBaseVRCPlayerApiArray, null\r\n    playerAssignedPoolObject:
+    %VRCUdonUdonBehaviour, this\r\n    playerUnassignedPoolObject: %VRCUdonUdonBehaviour,
+    this\r\n    playerAssignedPlayer: %VRCSDKBaseVRCPlayerApi, null\r\n    playerUnassignedPlayer:
+    %VRCSDKBaseVRCPlayerApi, null\r\n\r\n.data_end\r\n\r\n.code_start\r\n\r\n    .export
+    _OnAssignmentChanged\r\n    \r\n    _OnAssignmentChanged:\r\n    \r\n        PUSH,
+    __String_0\r\n        PUSH, __message_0\r\n        COPY\r\n        PUSH, __message_0\r\n
+    \       EXTERN, \"UnityEngineDebug.__Log__SystemObject__SystemVoid\"\r\n        PUSH,
+    __instance_0\r\n        PUSH, __eventName_0\r\n        EXTERN, \"VRCUdonCommonInterfacesIUdonEventReceiver.__SendCustomEvent__SystemString__SystemVoid\"\r\n
     \       JUMP, 0xFFFFFFFC\r\n    \r\n    .export _OnLocalPlayerAssigned\r\n    \r\n
     \   _OnLocalPlayerAssigned:\r\n    \r\n        PUSH, __String_1\r\n        PUSH,
     __message_1\r\n        COPY\r\n        PUSH, __message_1\r\n        EXTERN, \"UnityEngineDebug.__Log__SystemObject__SystemVoid\"\r\n
@@ -136,16 +135,6 @@ MonoBehaviour:
     description: 
     nodes:
     - fullName: Event_Custom
-      uid: dab989a1-7a96-4b96-85ea-27fb71731970
-      position: {x: 182.13173, y: 229.50552}
-      nodeUIDs:
-      - 
-      flowUIDs:
-      - 342c1eaa-9a79-482f-aa74-7b1e4848a87f
-      nodeValues:
-      - unityObjectValue: {fileID: 0}
-        stringValue: System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089|_OnAssignmentChanged
-    - fullName: Event_Custom
       uid: 610022c6-706f-4cc8-bcde-7d78b291ed08
       position: {x: 183.76512, y: 922.96576}
       nodeUIDs:
@@ -175,26 +164,6 @@ MonoBehaviour:
       - unityObjectValue: {fileID: 0}
         stringValue: System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089|The
           local player has been assigned an object from the pool!
-    - fullName: UnityEngineDebug.__Log__SystemObject__SystemVoid
-      uid: 342c1eaa-9a79-482f-aa74-7b1e4848a87f
-      position: {x: 491.95166, y: 207.80551}
-      nodeUIDs:
-      - d6090203-3e69-49c0-8ada-5b1fc1467b15
-      flowUIDs:
-      - adde28a6-feff-4f4c-b11a-cfaaefd0d679
-      nodeValues:
-      - unityObjectValue: {fileID: 0}
-        stringValue: 
-    - fullName: Const_SystemString
-      uid: d6090203-3e69-49c0-8ada-5b1fc1467b15
-      position: {x: 178.95174, y: 317.40546}
-      nodeUIDs:
-      - 
-      flowUIDs: []
-      nodeValues:
-      - unityObjectValue: {fileID: 0}
-        stringValue: System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089|Object
-          assignments have changed. Either a player joined or a player left.
     - fullName: Variable_VRCUdonCommonInterfacesIUdonEventReceiver
       uid: a8580abf-6640-43b9-85c8-8cd70e34fad0
       position: {x: -13460.789, y: -7849.5093}
@@ -503,93 +472,6 @@ MonoBehaviour:
         stringValue: 
       - unityObjectValue: {fileID: 0}
         stringValue: 
-    - fullName: VRCUdonCommonInterfacesIUdonEventReceiver.__SendCustomEvent__SystemString__SystemVoid
-      uid: adde28a6-feff-4f4c-b11a-cfaaefd0d679
-      position: {x: 658.0597, y: 208.06442}
-      nodeUIDs:
-      - 
-      - 
-      flowUIDs: []
-      nodeValues:
-      - unityObjectValue: {fileID: 0}
-        stringValue: 
-      - unityObjectValue: {fileID: 0}
-        stringValue: System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089|_GetPlayers
-    - fullName: Event_Custom
-      uid: 0a32a7c7-9c52-454e-ae65-6c6be8f0e020
-      position: {x: 1058.7842, y: 236.34457}
-      nodeUIDs:
-      - 
-      flowUIDs:
-      - 428a3fe3-603b-45ff-9946-3f6c123a977d
-      nodeValues:
-      - unityObjectValue: {fileID: 0}
-        stringValue: System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089|_GetPlayers
-    - fullName: Get_Variable
-      uid: 7d68c22b-2981-415e-826f-71fbea943817
-      position: {x: 1362.7754, y: 339.6806}
-      nodeUIDs:
-      - 
-      flowUIDs: []
-      nodeValues:
-      - unityObjectValue: {fileID: 0}
-        stringValue: System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089|a8580abf-6640-43b9-85c8-8cd70e34fad0
-      - unityObjectValue: {fileID: 0}
-        stringValue: 
-    - fullName: VRCUdonCommonInterfacesIUdonEventReceiver.__SendCustomEvent__SystemString__SystemVoid
-      uid: 428a3fe3-603b-45ff-9946-3f6c123a977d
-      position: {x: 1621.6289, y: 234.38138}
-      nodeUIDs:
-      - 7d68c22b-2981-415e-826f-71fbea943817
-      - 2c95bb9b-0988-4b91-adb1-5a11161ef1db
-      flowUIDs:
-      - a02d1deb-f6c0-449b-8f4a-cdee586ce1db
-      nodeValues:
-      - unityObjectValue: {fileID: 0}
-        stringValue: 
-      - unityObjectValue: {fileID: 0}
-        stringValue: System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089|_GetPlayerPooledUdonEvent
-    - fullName: Const_SystemString
-      uid: 2c95bb9b-0988-4b91-adb1-5a11161ef1db
-      position: {x: 1361.9257, y: 425.068}
-      nodeUIDs:
-      - 
-      flowUIDs: []
-      nodeValues:
-      - unityObjectValue: {fileID: 0}
-        stringValue: System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089|_GetOrderedPlayersEvent
-    - fullName: Get_Variable
-      uid: 3c683f5d-1ca1-47de-b73f-e3664fc4b91e
-      position: {x: 2019.4598, y: 328.05243}
-      nodeUIDs:
-      - 
-      flowUIDs: []
-      nodeValues:
-      - unityObjectValue: {fileID: 0}
-        stringValue: System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089|a8580abf-6640-43b9-85c8-8cd70e34fad0
-      - unityObjectValue: {fileID: 0}
-        stringValue: 
-    - fullName: Const_SystemString
-      uid: 5848248d-264f-40e0-86b9-7ab612f5bab4
-      position: {x: 2018.8569, y: 419.47455}
-      nodeUIDs:
-      - 
-      flowUIDs: []
-      nodeValues:
-      - unityObjectValue: {fileID: 0}
-        stringValue: System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089|playerArrayOutput
-    - fullName: VRCUdonCommonInterfacesIUdonEventReceiver.__GetProgramVariable__SystemString__SystemObject
-      uid: 83a1477a-8f1c-448f-8a2d-1148e4bb79a5
-      position: {x: 2247.2524, y: 333.36475}
-      nodeUIDs:
-      - 3c683f5d-1ca1-47de-b73f-e3664fc4b91e
-      - 5848248d-264f-40e0-86b9-7ab612f5bab4
-      flowUIDs: []
-      nodeValues:
-      - unityObjectValue: {fileID: 0}
-        stringValue: 
-      - unityObjectValue: {fileID: 0}
-        stringValue: 
     - fullName: Variable_VRCSDKBaseVRCPlayerApiArray
       uid: 1e9de039-2a72-4b08-8a3c-f91cf27ec474
       position: {x: 0, y: 0}
@@ -611,108 +493,6 @@ MonoBehaviour:
         stringValue: System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089|False
       - unityObjectValue: {fileID: 0}
         stringValue: System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089|none
-    - fullName: Set_Variable
-      uid: a02d1deb-f6c0-449b-8f4a-cdee586ce1db
-      position: {x: 2517.0015, y: 230.95395}
-      nodeUIDs:
-      - 
-      - 83a1477a-8f1c-448f-8a2d-1148e4bb79a5|0
-      - 
-      flowUIDs:
-      - 555eb462-342b-4f15-aae9-5659c8f0085a
-      nodeValues:
-      - unityObjectValue: {fileID: 0}
-        stringValue: System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089|1e9de039-2a72-4b08-8a3c-f91cf27ec474
-      - unityObjectValue: {fileID: 0}
-        stringValue: 
-      - unityObjectValue: {fileID: 0}
-        stringValue: System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089|False
-    - fullName: Get_Variable
-      uid: 0768b1af-4704-4e41-be1d-0cdb751e7d6c
-      position: {x: 3055.4236, y: 417.90887}
-      nodeUIDs:
-      - 
-      flowUIDs: []
-      nodeValues:
-      - unityObjectValue: {fileID: 0}
-        stringValue: System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089|1e9de039-2a72-4b08-8a3c-f91cf27ec474
-      - unityObjectValue: {fileID: 0}
-        stringValue: 
-    - fullName: VRCSDKBaseVRCPlayerApiArray.__get_Length__SystemInt32
-      uid: 8f1883c1-c4f7-4591-898a-7fa3b6a7a470
-      position: {x: 3265.3413, y: 327.77997}
-      nodeUIDs:
-      - 0768b1af-4704-4e41-be1d-0cdb751e7d6c|0
-      flowUIDs: []
-      nodeValues:
-      - unityObjectValue: {fileID: 0}
-        stringValue: 
-    - fullName: For
-      uid: b2c102be-41c3-4b34-abdf-ec41e5b3b9f3
-      position: {x: 3423.7415, y: 246.12996}
-      nodeUIDs:
-      - 
-      - 8f1883c1-c4f7-4591-898a-7fa3b6a7a470|0
-      - 
-      flowUIDs:
-      - c56a5db6-6b61-417c-ab74-5d828014bbe8
-      nodeValues:
-      - unityObjectValue: {fileID: 0}
-        stringValue: System.Int32, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089|0
-      - unityObjectValue: {fileID: 0}
-        stringValue: System.Int32, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089|1
-      - unityObjectValue: {fileID: 0}
-        stringValue: System.Int32, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089|1
-    - fullName: VRCSDKBaseVRCPlayerApiArray.__Get__SystemInt32__VRCSDKBaseVRCPlayerApi
-      uid: 12d52aed-792b-456f-8975-e864f3618d42
-      position: {x: 3634.4912, y: 416.33008}
-      nodeUIDs:
-      - 0768b1af-4704-4e41-be1d-0cdb751e7d6c|0
-      - b2c102be-41c3-4b34-abdf-ec41e5b3b9f3|0
-      flowUIDs: []
-      nodeValues:
-      - unityObjectValue: {fileID: 0}
-        stringValue: 
-      - unityObjectValue: {fileID: 0}
-        stringValue: System.Int32, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089|0
-    - fullName: UnityEngineDebug.__Log__SystemObject__SystemVoid
-      uid: c56a5db6-6b61-417c-ab74-5d828014bbe8
-      position: {x: 4030.1914, y: 225.12997}
-      nodeUIDs:
-      - 1ac59030-e0ec-4fb9-8fe2-af1ad253c895|0
-      flowUIDs: []
-      nodeValues:
-      - unityObjectValue: {fileID: 0}
-        stringValue: 
-    - fullName: VRCSDKBaseVRCPlayerApi.__get_displayName__SystemString
-      uid: 1ac59030-e0ec-4fb9-8fe2-af1ad253c895
-      position: {x: 3846.8794, y: 427.88898}
-      nodeUIDs:
-      - 12d52aed-792b-456f-8975-e864f3618d42|0
-      flowUIDs: []
-      nodeValues:
-      - unityObjectValue: {fileID: 0}
-        stringValue: 
-    - fullName: UnityEngineDebug.__Log__SystemObject__SystemVoid
-      uid: 555eb462-342b-4f15-aae9-5659c8f0085a
-      position: {x: 3064.1284, y: 226.32755}
-      nodeUIDs:
-      - 591c6396-88e3-471b-a860-79d78ad131f1|0
-      flowUIDs:
-      - b2c102be-41c3-4b34-abdf-ec41e5b3b9f3
-      nodeValues:
-      - unityObjectValue: {fileID: 0}
-        stringValue: 
-    - fullName: Const_SystemString
-      uid: 591c6396-88e3-471b-a860-79d78ad131f1
-      position: {x: 2814.705, y: 331.268}
-      nodeUIDs:
-      - 
-      flowUIDs: []
-      nodeValues:
-      - unityObjectValue: {fileID: 0}
-        stringValue: 'System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089|Printing
-          players after assignment change:'
     - fullName: Variable_VRCUdonCommonInterfacesIUdonEventReceiver
       uid: cdb0e080-a0b6-4a92-8eb3-f5d1bab63899
       position: {x: 0, y: 0}
@@ -734,27 +514,6 @@ MonoBehaviour:
         stringValue: System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089|False
       - unityObjectValue: {fileID: 0}
         stringValue: System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089|none
-    - fullName: Variable_SystemInt32
-      uid: beae0ca0-f63c-463a-8027-8bb66a42caae
-      position: {x: 0, y: 0}
-      nodeUIDs:
-      - 
-      - 
-      - 
-      - 
-      - 
-      flowUIDs: []
-      nodeValues:
-      - unityObjectValue: {fileID: 0}
-        stringValue: 
-      - unityObjectValue: {fileID: 0}
-        stringValue: System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089|playerAssignedId
-      - unityObjectValue: {fileID: 0}
-        stringValue: System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089|True
-      - unityObjectValue: {fileID: 0}
-        stringValue: System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089|False
-      - unityObjectValue: {fileID: 0}
-        stringValue: System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089|none
     - fullName: Variable_VRCUdonCommonInterfacesIUdonEventReceiver
       uid: 001be5fd-4536-4740-aeac-1aae191b0318
       position: {x: 0, y: 0}
@@ -770,27 +529,6 @@ MonoBehaviour:
         stringValue: 
       - unityObjectValue: {fileID: 0}
         stringValue: System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089|playerUnassignedPoolObject
-      - unityObjectValue: {fileID: 0}
-        stringValue: System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089|True
-      - unityObjectValue: {fileID: 0}
-        stringValue: System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089|False
-      - unityObjectValue: {fileID: 0}
-        stringValue: System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089|none
-    - fullName: Variable_SystemInt32
-      uid: 83b58eac-e276-4bf4-8f9b-e2dd788e3d87
-      position: {x: 0, y: 0}
-      nodeUIDs:
-      - 
-      - 
-      - 
-      - 
-      - 
-      flowUIDs: []
-      nodeValues:
-      - unityObjectValue: {fileID: 0}
-        stringValue: 
-      - unityObjectValue: {fileID: 0}
-        stringValue: System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089|playerUnassignedId
       - unityObjectValue: {fileID: 0}
         stringValue: System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089|True
       - unityObjectValue: {fileID: 0}
@@ -982,40 +720,12 @@ MonoBehaviour:
     jsonData: '{"uid":"fc8dd40f-3bcd-4486-beb6-3424edcbaa0b","layout":{"serializedVersion":"2","x":158.76513671875,"y":836.9658203125,"width":815.0,"height":288.0},"containedElements":["0ec21c7e-467f-4888-a267-afda60c7ceeb","610022c6-706f-4cc8-bcde-7d78b291ed08","14f8e559-ec93-4ed7-a81a-be76c9290846","485d7ef4-965e-4526-9576-cba7e7652d50","fc48f253-4338-4bba-b4fc-fb88bc58433c"],"title":"Event
       called when the local user has been assigned an object","layer":0,"elementTypeColor":{"r":0.0,"g":0.0,"b":0.0,"a":0.0}}'
   - type: 2
-    uid: 37bddb90-db6b-4063-8425-4400fa708acc
-    jsonData: '{"uid":"37bddb90-db6b-4063-8425-4400fa708acc","layout":{"serializedVersion":"2","x":153.9517364501953,"y":143.80552673339845,"width":776.0,"height":283.0},"containedElements":["8a8514f0-215e-4b61-9a1d-a90685338b73","45d314c3-4472-48f5-aa98-7bf3dc3d87b1","dab989a1-7a96-4b96-85ea-27fb71731970","342c1eaa-9a79-482f-aa74-7b1e4848a87f","d6090203-3e69-49c0-8ada-5b1fc1467b15","adde28a6-feff-4f4c-b11a-cfaaefd0d679"],"title":"Event
-      called whenever the pool object assignments have changed.","layer":0,"elementTypeColor":{"r":0.0,"g":0.0,"b":0.0,"a":0.0}}'
-  - type: 2
     uid: 0c4f63ca-3d2d-4ecf-bd7f-577e0561dd35
     jsonData: '{"uid":"0c4f63ca-3d2d-4ecf-bd7f-577e0561dd35","layout":{"serializedVersion":"2","x":130.93121337890626,"y":2329.062255859375,"width":1254.0,"height":276.0},"containedElements":["c215591a-5628-45f3-8278-b255f3ae9d54","0915a4a8-9f51-4eee-b63f-f944d25394bd","ec2aac90-587f-441e-ac39-1d78d5eda3d9","d2e96ff0-e60b-4dc8-82bd-252d0d3f8ace","77fc2607-3542-4e90-b9c9-0fd029a6cd44","5bd2ac63-afc9-492e-99df-fcfec3a6f2e6","04f621fb-c533-401f-907f-9258e52442f3","4dc2e53c-b1c5-43cc-a55a-cacd24fbd2a9","b2683a92-e169-405a-847e-8a3462a7beea","86137cf6-1f11-4305-85ac-b04149fe94a1","deb9430c-7f34-4623-b620-c38fdb5ecb10","c9faca65-4373-47c7-92d0-8bcff9f55688","51d85026-254f-43a3-aa94-712681d7a8e0"],"title":"Check
       if local user''s pool object is valid and enable interact","layer":0,"elementTypeColor":{"r":0.0,"g":0.0,"b":0.0,"a":0.0}}'
-  - type: 2
-    uid: 3d82015f-c92c-442b-a3e6-35148c7610b8
-    jsonData: '{"uid":"3d82015f-c92c-442b-a3e6-35148c7610b8","layout":{"serializedVersion":"2","x":1336.9256591796875,"y":92.66714477539063,"width":570.0,"height":440.0},"containedElements":["4cf02b7a-0d26-4bca-a45d-cdbff38f2ea6","09af8422-e562-4583-bb5c-c62d4246a03a","7d68c22b-2981-415e-826f-71fbea943817","428a3fe3-603b-45ff-9946-3f6c123a977d","2c95bb9b-0988-4b91-adb1-5a11161ef1db","592dd725-99b4-442f-aa36-a718c49a2068"],"title":"Send
-      Event","layer":0,"elementTypeColor":{"r":0.0,"g":0.0,"b":0.0,"a":0.0}}'
-  - type: 3
-    uid: 592dd725-99b4-442f-aa36-a718c49a2068
-    jsonData: '{"uid":"592dd725-99b4-442f-aa36-a718c49a2068","layout":{"serializedVersion":"2","x":1381.18603515625,"y":157.66714477539063,"width":500.6143798828125,"height":62.8131103515625},"title":"Send
-      the event to get all assigned players in order","layer":0,"elementTypeColor":{"r":0.0,"g":0.0,"b":0.0,"a":0.0}}'
   - type: 5
     uid: 5c806224-0aa1-4f09-b9b0-b5a669fe9339
     jsonData: '{"visible":true,"layout":{"serializedVersion":"2","x":8.0,"y":130.0,"width":274.0,"height":245.0}}'
-  - type: 2
-    uid: 153829dc-f376-45ce-9ed0-1d9ef9b9b45c
-    jsonData: '{"uid":"153829dc-f376-45ce-9ed0-1d9ef9b9b45c","layout":{"serializedVersion":"2","x":1993.8570556640625,"y":96.96757507324219,"width":705.0,"height":431.0},"containedElements":["22e501a9-8a02-49ce-9267-730603bd44de","5220219b-d84c-44af-8f16-b74a50907994","b1c24b10-6ad6-43b8-a64e-2161eb99e5cd","3c683f5d-1ca1-47de-b73f-e3664fc4b91e","5848248d-264f-40e0-86b9-7ab612f5bab4","83a1477a-8f1c-448f-8a2d-1148e4bb79a5","a02d1deb-f6c0-449b-8f4a-cdee586ce1db","7378b1c5-359e-4594-af41-f2d6e03f91ab"],"title":"Get
-      Output","layer":0,"elementTypeColor":{"r":0.0,"g":0.0,"b":0.0,"a":0.0}}'
-  - type: 3
-    uid: 7378b1c5-359e-4594-af41-f2d6e03f91ab
-    jsonData: '{"uid":"7378b1c5-359e-4594-af41-f2d6e03f91ab","layout":{"serializedVersion":"2","x":2109.113525390625,"y":161.96759033203126,"width":435.7375183105469,"height":58.10224151611328},"title":"Get
-      the players array output from the pool","layer":0,"elementTypeColor":{"r":0.0,"g":0.0,"b":0.0,"a":0.0}}'
-  - type: 2
-    uid: 3b911282-aa16-495c-9944-f21792bbe5c8
-    jsonData: '{"uid":"3b911282-aa16-495c-9944-f21792bbe5c8","layout":{"serializedVersion":"2","x":2789.705078125,"y":82.2420425415039,"width":1392.0,"height":466.0},"containedElements":["8306d093-2425-4650-90cf-c713fdea4913","9f98c94e-30b6-4b20-bf40-140daee779f6","f5d65fba-4354-4e7c-943f-f90419ebdeee","cedf54ac-ccd0-4c86-ba3b-9f17a344e73d","c9f61079-8433-414b-acb5-202ae0672e11","31001ecf-93b9-430e-bd88-9954fec54c07","4d49ff03-93dd-4e26-9a1b-d990f4e8c6fa","0768b1af-4704-4e41-be1d-0cdb751e7d6c","8f1883c1-c4f7-4591-898a-7fa3b6a7a470","b2c102be-41c3-4b34-abdf-ec41e5b3b9f3","12d52aed-792b-456f-8975-e864f3618d42","c56a5db6-6b61-417c-ab74-5d828014bbe8","1ac59030-e0ec-4fb9-8fe2-af1ad253c895","591c6396-88e3-471b-a860-79d78ad131f1","555eb462-342b-4f15-aae9-5659c8f0085a","225952cb-4b7b-4160-b0ff-4cac1ba0f200"],"title":"Print
-      Players","layer":0,"elementTypeColor":{"r":0.0,"g":0.0,"b":0.0,"a":0.0}}'
-  - type: 3
-    uid: 225952cb-4b7b-4160-b0ff-4cac1ba0f200
-    jsonData: '{"uid":"225952cb-4b7b-4160-b0ff-4cac1ba0f200","layout":{"serializedVersion":"2","x":3184.277587890625,"y":147.2420196533203,"width":555.3658447265625,"height":53.687870025634769},"title":"Go
-      through each player and print their displayname","layer":0,"elementTypeColor":{"r":0.0,"g":0.0,"b":0.0,"a":0.0}}'
   - type: 2
     uid: bf65cbe1-3458-4440-9b3f-b11edcdaf54b
     jsonData: '{"uid":"bf65cbe1-3458-4440-9b3f-b11edcdaf54b","layout":{"serializedVersion":"2","x":95.55280303955078,"y":1846.210693359375,"width":1002.0,"height":415.0},"containedElements":["55e08cea-d1a3-4bbf-9d94-058d5dca7842","fd763f48-5577-418a-b438-8e85cb2ab0df","de57a5b5-e114-4d27-ac27-a2f494481641","e5b96a23-2fee-4ca8-b3d2-845fc204851b","de66bff5-5fef-4e5c-9b81-f931be8f3796","4df5fc42-45c0-4516-be27-79faa1c67196","9598725d-b6de-4e91-9713-fb8cdeaff80b","ada4fefa-ff29-4cd9-ab1a-02c67547975a","1138c372-b969-4aa1-a00b-f4b062e9c4c0","a91d2337-3ae1-4b2a-8f38-9fccb976187c","6894e799-ce77-456f-af9f-5567703053e5","1209fa83-64ee-48f2-85ee-5e0e4d62b782","3de4a69e-4a2f-4064-baa9-3e29c3947df8","12d85bd1-539c-4d2f-be53-99a6d4f5fe37"],"title":"On
@@ -1033,7 +743,7 @@ MonoBehaviour:
     jsonData: '{"uid":"b312378e-8be7-4e5b-906b-d966f1d2a179","layout":{"serializedVersion":"2","x":473.55609130859377,"y":1452.3829345703125,"width":414.98248291015627,"height":75.70750427246094},"title":"This
       event will be called whenever any player joins and their object is assigned.","layer":0,"elementTypeColor":{"r":0.0,"g":0.0,"b":0.0,"a":0.0}}'
   viewTransform:
-    position: {x: 276.852, y: -36.58098}
-    scale: 0.43232757
+    position: {x: 509.1852, y: -810.64246}
+    scale: 0.49717674
   version: 1.0.0
   showAssembly: 0
