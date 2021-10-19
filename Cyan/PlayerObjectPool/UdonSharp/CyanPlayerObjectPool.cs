@@ -51,10 +51,10 @@ namespace Cyan.PlayerObjectPool
         // The tag prefix used to store each player's index. The player id will be appended to the end and the
         // player's assigned index will stored with this tag. This is a caching system used to bring lookups to
         // constant time.
-        private const string PlayerObjectIndexTagPrefix = "_player_object_index_";
+        private const string PlayerIndexTagPrefix = "_player_index_";
         // Check for this value to ensure that player index tags are valid.
         // If this is ever unset, then another system cleared tags and needs to be recalculated. 
-        private const string PlayerObjectIndexSet = "_player_object_index_valid";
+        private const string PlayerIndexSet = "_player_object_index_valid";
 
         #endregion
         
@@ -359,7 +359,7 @@ namespace Cyan.PlayerObjectPool
             _playerIndexIds = new int[maxSize];
             
             _LogInfo($"[{Version}]");
-            _LogDebug($"Initializing pool with {poolSize} objects. Please make sure there are enough objects " +
+            _LogDebug($"Initializing pool with {poolSize} indices. Please make sure there are enough indices " +
                  "to cover two times the world player cap.");
 
             // Initialize assignment and prev assignment arrays.
@@ -373,7 +373,7 @@ namespace Cyan.PlayerObjectPool
             if (Networking.IsMaster)
             {
                 _isMaster = true;
-                _FillUnclaimedObjectQueue();
+                _FillUnclaimedIndexQueue();
                 
                 _DelayRequestSerialization();
                 _DelayUpdateAssignment();
@@ -509,15 +509,15 @@ namespace Cyan.PlayerObjectPool
         private void _InitializeTag()
         {
             // Verify the tag has not been set before setting it valid. 
-            if (!string.IsNullOrEmpty(_GetTag(PlayerObjectIndexSet)))
+            if (!string.IsNullOrEmpty(_GetTag(PlayerIndexSet)))
             {
                 _LogError("Object pool index set tag has already been set!");
                 return;
             }
             
-            // Initialize caching system to say that player object index values have been set.
+            // Initialize caching system to say that player index values have been set.
             // If everything is valid, checking for assignments will automatically update the cache system.
-            _SetTag(PlayerObjectIndexSet, TagValid);
+            _SetTag(PlayerIndexSet, TagValid);
         }
         
         // Cache a value using the player tag system, allowing for constant time lookup.
@@ -532,23 +532,23 @@ namespace Cyan.PlayerObjectPool
             return _localPlayer.GetPlayerTag(PoolIdTagPrefix + tagName);
         }
         
-        // Given a player id, get the object assigned to the player. 
-        // Player ids and object indices are cached using player tags.
+        // Given a player id, get the index assigned to the player. 
+        // Player ids and indices are cached using player tags.
         // O(1) best case, O(n) if tags were not set. 
         private int _GetPlayerPooledIndexById(int playerId)
         {
             // Tags have not been set up. This should only happen if another prefab called ClearPlayerTags.
             // O(n)
-            if (_GetTag(PlayerObjectIndexSet) != TagValid)
+            if (_GetTag(PlayerIndexSet) != TagValid)
             {
-                _LogWarning("Caching all player object index values. Please verify nothing calls " +
+                _LogWarning("Caching all player index values. Please verify nothing calls " +
                          "VRCPlayerApi.ClearPlayerTags!");
                 
                 _InitializeTag();
                 _SetPlayerIndexTags(true);
             }
             
-            string playerTag = _GetPlayerObjectIndexTag(playerId);
+            string playerTag = _GetPlayerIndexTag(playerId);
             string tagValue = _GetTag(playerTag);
             
             // UdonSharp does not support inline variable declarations.
@@ -561,7 +561,7 @@ namespace Cyan.PlayerObjectPool
             return results;
         }
 
-        // Go through each object assignment and cache the player id with the assigned object index. 
+        // Go through each index assignment and cache the player id with the assigned index. 
         // O(n)
         private void _SetPlayerIndexTags(bool force)
         {
@@ -586,45 +586,45 @@ namespace Cyan.PlayerObjectPool
                     } 
                 }
 
-                _SetPlayerObjectIndexTag(ownerId, index);
+                _SetPlayerIndexTag(ownerId, index);
             }
         }
 
-        // Given the player id, return the proper tag to store the player's object index.
-        private string _GetPlayerObjectIndexTag(int playerId)
+        // Given the player id, return the proper tag to store the player's index.
+        private string _GetPlayerIndexTag(int playerId)
         {
-            return PlayerObjectIndexTagPrefix + playerId;
+            return PlayerIndexTagPrefix + playerId;
         }
 
-        // Given a player id and object index, cache the object index using tag system.
-        private void _SetPlayerObjectIndexTag(int playerId, int index)
+        // Given a player id and index, cache the index using tag system.
+        private void _SetPlayerIndexTag(int playerId, int index)
         {
-            string playerTag = _GetPlayerObjectIndexTag(playerId);
+            string playerTag = _GetPlayerIndexTag(playerId);
             _SetTag(playerTag, index == -1 ? "" : index.ToString());
         }
 
-        // Given a player id and an expected object index, clear the cached tag if the current value equals the
+        // Given a player id and an expected index, clear the cached tag if the current value equals the
         // expected index value.
-        private void _ClearPlayerObjectIndexTagIfExpected(int playerId, int expectedIndex)
+        private void _ClearPlayerIndexTagIfExpected(int playerId, int expectedIndex)
         {
             int index = _GetPlayerPooledIndexById(playerId);
             if (expectedIndex == index)
             {
-                // Cleanup tags to ensure you can't get this player's object index anymore.
-                _SetPlayerObjectIndexTag(playerId, -1);
+                // Cleanup tags to ensure you can't get this player's index anymore.
+                _SetPlayerIndexTag(playerId, -1);
             }
         }
 
         #endregion
 
-        #region Player/Object Assigment
+        #region Player/Index Assigment
 
-        // These methods are for a queue system to hold unassigned objects. The queue is a first in, first out queue.
-        // This system is needed to ensure that assigning objects to players is constant time instead of O(n).
-        #region Unassigned Object Queue
+        // These methods are for a queue system to hold unassigned indices. The queue is a first in, first out queue.
+        // This system is needed to ensure that assigning indices to players is constant time instead of O(n).
+        #region Unassigned Index Queue
 
-        // Construct the queue given the current state of the assigned objects. 
-        private void _FillUnclaimedObjectQueue()
+        // Construct the queue given the current state of the assigned indices. 
+        private void _FillUnclaimedIndexQueue()
         {
             int size = _assignment.Length;
             _unclaimedQueue = new int[size];
@@ -634,7 +634,7 @@ namespace Cyan.PlayerObjectPool
                 // Ensure queue is initialized with -1.
                 _unclaimedQueue[i] = -1;
                 
-                // If the current object does not have a player assigned, add it to the queue.
+                // If the current index does not have a player assigned, add it to the queue.
                 if (_assignment[i] == -1)
                 {
                     _EnqueueItemToUnclaimedQueue(i);
@@ -648,7 +648,7 @@ namespace Cyan.PlayerObjectPool
             return _unclaimedQueueEnd - _unclaimedQueueStart;
         }
 
-        // Get the first unclaimed object from the queue. Returns -1 if no object is in the queue.
+        // Get the first unclaimed index from the queue. Returns -1 if no index is in the queue.
         // O(1)
         private int _DequeueItemFromUnclaimedQueue()
         {
@@ -670,7 +670,7 @@ namespace Cyan.PlayerObjectPool
             return element;
         }
         
-        // Add the given unclaimed object into the queue
+        // Add the given unclaimed index into the queue
         // O(1)
         private void _EnqueueItemToUnclaimedQueue(int value)
         {
@@ -690,10 +690,10 @@ namespace Cyan.PlayerObjectPool
         #endregion
 
 
-        // Given a player, assign them an object from the pool. This should only be called by Master.
+        // Given a player, assign them an index from the pool. This should only be called by Master.
         // O(1) + O(n) next frame for updating assignments
-        // Thanks to the UnclaimedQueue, getting a free object is constant time. 
-        // Updating the current objects based on the assignment takes O(n). See _AssignObjectsToPlayers for more details
+        // Thanks to the UnclaimedQueue, getting a free index is constant time. 
+        // Updating the current indices based on the assignment takes O(n). See _AssignIndicesToPlayers for more details
         private void _AssignIndex(VRCPlayerApi player)
         {
             int id = player.playerId;
@@ -701,32 +701,33 @@ namespace Cyan.PlayerObjectPool
             int index = _GetPlayerPooledIndexById(id);
             if (index != -1)
             {
-                _LogWarning($"Attempting to assign player {id} an object when they already have one. {index}");
+                _LogWarning($"Attempting to assign player {id} an index when they already have one. {index}");
                 return;
             }
             
             index = _DequeueItemFromUnclaimedQueue();
             
-            // Pool is empty and could not find an object to assign to the new player.
-            // This should be fatal as the owner didn't create enough pool objects.
+            // Pool is empty and could not find an index to assign to the new player.
+            // This should be fatal as the owner didn't set the pool size high enough.
             if (index == -1)
             {
-                _LogError($"Not enough objects to assign to new player! player: {id}");
+                _LogError($"Not enough indices to assign to new player! player: {id}. Increase the pool size to " +
+                          "match double the world capacity!");
                 return;
             }
             
             // This case shouldn't happen based on how getting an index works, but still logging just in case.
             if (_assignment[index] != -1)
             {
-                _LogWarning("Assigning player to an object but other player was already assigned the object!" +
+                _LogWarning("Assigning player to an index but other player was already assigned the index!" +
                                  $" prev: {_assignment[index]}, new: {id}");
             }
 
             _assignment[index] = id;
             _LogDebug($"Assigning player {id} to index {index}");
             
-            // Set the tag early for caching to know that player has been assigned an object.
-            _SetPlayerObjectIndexTag(id, index);
+            // Set the tag early for caching to know that player has been assigned an index.
+            _SetPlayerIndexTag(id, index);
             
             _DelayRequestSerialization();
             _DelayUpdateAssignment();
@@ -738,25 +739,25 @@ namespace Cyan.PlayerObjectPool
         {
             if (index == -1)
             {
-                _LogError($"Cannot return player object if index is invalid! Player: {playerId}");
+                _LogError($"Cannot return player index if index is invalid! Player: {playerId}");
                 return;
             }
             
             if (_assignment[index] != playerId)
             {
-                _LogWarning("Removing assignment to object that wasn't to specified player!" +
+                _LogWarning("Removing assignment to index that wasn't to specified player!" +
                                  $" assignment: {_assignment[index]}, player: {playerId}");
             }
             
-            // Set the assignment for this object to invalid.
+            // Set the assignment for this index to invalid.
             _assignment[index] = -1;
-            // Return the object into the unclaimed queue.
+            // Return the index into the unclaimed queue.
             _EnqueueItemToUnclaimedQueue(index);
             _LogDebug($"Unassigning index {index} from player {playerId}");
             
-            // Clear the player tag only if the current tag is equal to the index of the object we are cleaning up.
-            // If players had multiple objects, this will not revert unexpected object tags.
-            _ClearPlayerObjectIndexTagIfExpected(playerId, index);
+            // Clear the player tag only if the current tag is equal to the index we are cleaning up.
+            // If players had multiple indices, this will not revert unexpected index tags.
+            _ClearPlayerIndexTagIfExpected(playerId, index);
 
             _DelayRequestSerialization();
             _DelayUpdateAssignment();
@@ -820,7 +821,7 @@ namespace Cyan.PlayerObjectPool
         
         private void _OnAssignmentChanged()
         {
-            _AssignObjectsToPlayers();
+            _AssignIndicesToPlayers();
 
             if (printDebugLogs)
             {
@@ -830,7 +831,7 @@ namespace Cyan.PlayerObjectPool
 
         // Go through the assigment array and verify changes since last assignment. 
         // O(n)
-        private void _AssignObjectsToPlayers()
+        private void _AssignIndicesToPlayers()
         {
             _verifyAssignmentsOnPlayerJoin = false;
             
@@ -847,16 +848,16 @@ namespace Cyan.PlayerObjectPool
                     continue;
                 }
                 
-                // Object was previously assigned to a player and needs to be cleaned up.
+                // Index was previously assigned to a player and needs to be cleaned up.
                 if (prevAssign != -1)
                 {
                     _CleanupPlayerIndex(index, prevAssign);
                 }
                 
-                // New assignment is an owner. Assign the object to that player.
+                // New assignment is an owner. Assign the index to that player.
                 if (newAssign != -1)
                 {
-                    if (!_SetupPlayerObject(index, newAssign))
+                    if (!_SetupPlayerIndex(index, newAssign))
                     {
                         requireVerification = true;
                         
@@ -875,20 +876,20 @@ namespace Cyan.PlayerObjectPool
                 if (Networking.IsMaster)
                 {
                     // If require verification while master, verify all player assignments
-                    _VerifyAllPlayersHaveObjects();
+                    _VerifyAllPlayersHaveIndices();
                 }
                 else
                 {
                     // Player was not master, but an invalid player was found. Ignore for now and wait for the next
-                    // player join to attempt assigning objects again.
+                    // player join to attempt assigning indices again.
                     _verifyAssignmentsOnPlayerJoin = true;
                 }
             }
         }
 
-        // Set up an object after it has been assigned to a player. This sets the "Owner" variable on the object and
-        // sends the _OnOwnerSet event to allow the object to initialize itself.
-        private bool _SetupPlayerObject(int index, int playerId)
+        // Set up an index after it has been assigned to a player. This will notify all object assigners to properly
+        // assign the corresponding object for the index.
+        private bool _SetupPlayerIndex(int index, int playerId)
         {
             VRCPlayerApi player = VRCPlayerApi.GetPlayerById(playerId);
             
@@ -901,7 +902,7 @@ namespace Cyan.PlayerObjectPool
             }
             
             // Ensure this gets set even if player is invalid. The cleanup case should verify and remove the player later.
-            _SetPlayerObjectIndexTag(playerId, index);
+            _SetPlayerIndexTag(playerId, index);
             
             if (!VRC.SDKBase.Utilities.IsValid(player))
             {
@@ -940,7 +941,7 @@ namespace Cyan.PlayerObjectPool
 
             // Clear the player tag only if the current tag is equal to the index we are cleaning up.
             // If players had multiple indices, this will not revert unexpected index tags.
-            _ClearPlayerObjectIndexTagIfExpected(playerId, index);
+            _ClearPlayerIndexTagIfExpected(playerId, index);
             
             VRCPlayerApi player = _assignedPlayers[index];
             _assignedPlayers[index] = null;
@@ -985,14 +986,14 @@ namespace Cyan.PlayerObjectPool
             {
                 _LogDebug("Local player is now master!");
                 _isMaster = true;
-                _FillUnclaimedObjectQueue();
+                _FillUnclaimedIndexQueue();
                 
                 // It's possible that previous master has sent assignment data for players that have not yet "joined"
                 // for this client. Force add them to the tag system to prevent double assignment for the player.
                 _SetPlayerIndexTags(false);
 
                 // verify all players have indices, but wait a duration to ensure that all players have joined/left.
-                SendCustomEventDelayedSeconds(nameof(_VerifyAllPlayersHaveObjects), DelayNewMasterVerificationDuration);
+                SendCustomEventDelayedSeconds(nameof(_VerifyAllPlayersHaveIndices), DelayNewMasterVerificationDuration);
             }
         }
         
@@ -1000,7 +1001,7 @@ namespace Cyan.PlayerObjectPool
         // an index and each index has a player.
         // O(n)
         // public needed for SendCustomEventDelayedSeconds, but should not be called externally!
-        public void _VerifyAllPlayersHaveObjects()
+        public void _VerifyAllPlayersHaveIndices()
         {
             if (!Networking.IsMaster)
             {
