@@ -461,7 +461,7 @@ MonoBehaviour:
       Data: 
     - Name: $k
       Entry: 1
-      Data: PlayerObjectIndexTagPrefix
+      Data: PlayerIndexTagPrefix
     - Name: $v
       Entry: 7
       Data: 25|UdonSharp.Compiler.FieldDefinition, UdonSharp.Editor
@@ -482,10 +482,10 @@ MonoBehaviour:
       Data: SystemString
     - Name: symbolOriginalName
       Entry: 1
-      Data: PlayerObjectIndexTagPrefix
+      Data: PlayerIndexTagPrefix
     - Name: symbolUniqueName
       Entry: 1
-      Data: PlayerObjectIndexTagPrefix
+      Data: PlayerIndexTagPrefix
     - Name: symbolDefaultValue
       Entry: 6
       Data: 
@@ -518,7 +518,7 @@ MonoBehaviour:
       Data: 
     - Name: $k
       Entry: 1
-      Data: PlayerObjectIndexSet
+      Data: PlayerIndexSet
     - Name: $v
       Entry: 7
       Data: 28|UdonSharp.Compiler.FieldDefinition, UdonSharp.Editor
@@ -539,10 +539,10 @@ MonoBehaviour:
       Data: SystemString
     - Name: symbolOriginalName
       Entry: 1
-      Data: PlayerObjectIndexSet
+      Data: PlayerIndexSet
     - Name: symbolUniqueName
       Entry: 1
-      Data: PlayerObjectIndexSet
+      Data: PlayerIndexSet
     - Name: symbolDefaultValue
       Entry: 6
       Data: 

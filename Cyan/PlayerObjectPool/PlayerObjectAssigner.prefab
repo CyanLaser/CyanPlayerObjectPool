@@ -9,9 +9,10 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3276687640108633848}
+  - component: {fileID: 6984481130000384837}
   - component: {fileID: 4488810526670663005}
   m_Layer: 0
-  m_Name: PlayerObjectPoolAssigner
+  m_Name: PlayerObjectAssigner
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -31,6 +32,21 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &6984481130000384837
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6666951785657947597}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d9c0d913d6d4bd741aec5a89b8072b28, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  cyanPlayerObjectPoolPrefab: {fileID: 8671630162616761239, guid: a35f2996ce6d14c4c854aba5420212ed,
+    type: 3}
+  poolObjectPrefab: {fileID: 0}
 --- !u!114 &4488810526670663005
 MonoBehaviour:
   m_ObjectHideFlags: 0
