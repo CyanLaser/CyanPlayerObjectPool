@@ -9,7 +9,11 @@ Assigns a unique object to every player in the world.
 - Supports multiple object types - Prefabs created for this system can be used together without conflicting. 
 
 
+--- General Use ---
+
+
 Dependencies
+
 UdonSharp - https://github.com/Merlin-san/UdonSharp
 While UdonSharp is required to run, you may use UdonGraph or CyanTrigger to create your pooled object programs.
 
@@ -30,6 +34,17 @@ When creating an Udon program to be used as a pooled object, it needs three thin
 1. A public VRCPlayerApi variable named "Owner". This variable will store the current assigned owner for the object, or null if no owner has been assigned.
 2. A public event named "_OnOwnerSet". This event will be called by everyone when the object is assigned a new owner.
 3. A public event named "_OnCleanup". This event will be called by everyone when the object owner is leaving the world and the object is about to be unassigned. 
+
+
+--- Advanced Use ---
+
+
+Setup for Prefab Authors
+
+1. Right click on the PlayerObjectAssigner prefab and create a new Prefab Variant.
+2. Create your Pool Object prefab and set it in the Variant's "Pool Object Prefab" field.
+3. (Optional) If your system depends on objects outside of the Pool Object (Pool Event Listeners), create a new prefab for your system, have the prefab variant as a child. Add other systems dependent on your pool system as children.
+4. Create a Readme file for your prefab and tell users to drag your system prefab into the scene. When the prefab is added to the scene, it will auto link with the Object Pool system, or create a new one if one did not already exist. 
 
 
 Pool Event Listener
@@ -113,5 +128,4 @@ int _GetPlayerPoolIndexById(int playerId)
 
 Implementation Details
 
-This pool system works by having master do all the work. On player join, master will assign this player a free object and on player leave, master will remove assignment of this object. Assignment is handled through a synced int array. Whenever this array changes, all clients will read through the array to find out the changes and set the object state accordingly. 
-The script also implements various error handling in case master crashes before assigning or removing assignments for various players. 
+This pool system works by having master do all the work. On player join, master will assign this player a free object and on player leave, master will remove assignment of this object. Assignment is handled through a synced int array. Whenever this array changes, all clients will read through the array to find out the changes and set the object state accordingly. The script also implements various error handling in case master crashes before assigning or removing assignments for various players. 
