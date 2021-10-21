@@ -121,6 +121,15 @@ namespace Cyan.PlayerObjectPool
                 
                 EditorGUILayout.PropertyField(_sizeProp);
                 EditorGUILayout.PropertyField(_debugProp);
+
+                // Hard-cap the min and max size of the object pool.
+                // Negative sizes aren't supported.
+                // VRChat's player instances currently cap at 82, sizes larger than that are unnecessary.
+                int value = _sizeProp.intValue;
+                if (value < 0 || value > 100)
+                {
+                    _sizeProp.intValue = Mathf.Clamp(value, 0, 100);
+                }
                 
                 CyanPlayerObjectPoolEditorHelpers.RemoveIndent();
             }
