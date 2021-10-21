@@ -130,6 +130,15 @@ MonoBehaviour:
             PublicKeyToken=null
         sync: 0
       - isVariable: 0
+        name: playerAssignedIndex
+        variableID: eb444b02-f2d8-4368-9d65-43cbb5202560
+        data:
+          objEncoded: Ai8AAAAAARYAAABTAHkAcwB0AGUAbQAuAEkAbgB0ADMAMgAsACAAbQBzAGMAbwByAGwAaQBiAAAAAAAYAAAAAAU=
+          unityObjects: []
+        type:
+          typeDef: System.Int32, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089
+        sync: 0
+      - isVariable: 0
         name: playerUnassignedPlayer
         variableID: d725719e-d2e4-424f-be05-f53f3c5dd488
         data:
@@ -148,6 +157,15 @@ MonoBehaviour:
         type:
           typeDef: VRC.Udon.UdonBehaviour, VRC.Udon, Version=0.0.0.0, Culture=neutral,
             PublicKeyToken=null
+        sync: 0
+      - isVariable: 0
+        name: playerUnassignedIndex
+        variableID: 0502be4f-5e58-4c8b-8f81-6ef62aa3a8cc
+        data:
+          objEncoded: Ai8AAAAAARYAAABTAHkAcwB0AGUAbQAuAEkAbgB0ADMAMgAsACAAbQBzAGMAbwByAGwAaQBiAAAAAAAYAAAAAAU=
+          unityObjects: []
+        type:
+          typeDef: System.Int32, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089
         sync: 0
       comment:
         comment: 

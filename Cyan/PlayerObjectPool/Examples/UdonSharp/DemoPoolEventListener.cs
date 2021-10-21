@@ -42,22 +42,26 @@ namespace Cyan.PlayerObjectPool
         
         [PublicAPI, HideInInspector]
         public VRCPlayerApi playerAssignedPlayer;
+        [PublicAPI, HideInInspector] 
+        public int playerAssignedIndex;
         [PublicAPI, HideInInspector]
         public UdonBehaviour playerAssignedPoolObject;
         [PublicAPI]
         public void _OnPlayerAssigned()
         {
-            Debug.Log("Object assigned to player " + playerAssignedPlayer.displayName +" " + playerAssignedPlayer.playerId);
+            Debug.Log($"Object {playerAssignedIndex} assigned to player {playerAssignedPlayer.displayName} {playerAssignedPlayer.playerId}");
         }
         
         [PublicAPI, HideInInspector]
         public VRCPlayerApi playerUnassignedPlayer;
+        [PublicAPI, HideInInspector] 
+        public int playerUnassignedIndex;
         [PublicAPI, HideInInspector]
         public UdonBehaviour playerUnassignedPoolObject;
         [PublicAPI]
         public void _OnPlayerUnassigned()
         {
-            Debug.Log("Object unassigned from player " + playerUnassignedPlayer.displayName +" " + playerUnassignedPlayer.playerId);
+            Debug.Log($"Object {playerUnassignedIndex} unassigned from player {playerUnassignedPlayer.displayName} {playerUnassignedPlayer.playerId}");
         }
     }
 }

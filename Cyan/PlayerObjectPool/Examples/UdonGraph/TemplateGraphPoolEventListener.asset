@@ -15,10 +15,11 @@ MonoBehaviour:
   serializedUdonProgramAsset: {fileID: 11400000, guid: 2a3ecfdca02478749addfa51489ed89d,
     type: 2}
   udonAssembly: ".data_start\r\n\r\n    .export playerAssignedPoolObject\r\n    .export
-    playerUnassignedPoolObject\r\n    \r\n    playerAssignedPoolObject: %VRCUdonUdonBehaviour,
-    this\r\n    playerUnassignedPoolObject: %VRCUdonUdonBehaviour, this\r\n    playerAssignedPlayer:
-    %VRCSDKBaseVRCPlayerApi, null\r\n    playerUnassignedPlayer: %VRCSDKBaseVRCPlayerApi,
-    null\r\n\r\n.data_end\r\n\r\n.code_start\r\n\r\n\r\n.code_end\r\n"
+    playerUnassignedPoolObject\r\n    .export playerAssignedIndex\r\n    .export playerUnassignedIndex\r\n
+    \   \r\n    playerAssignedPoolObject: %VRCUdonUdonBehaviour, this\r\n    playerUnassignedPoolObject:
+    %VRCUdonUdonBehaviour, this\r\n    playerAssignedPlayer: %VRCSDKBaseVRCPlayerApi,
+    null\r\n    playerUnassignedPlayer: %VRCSDKBaseVRCPlayerApi, null\r\n    playerAssignedIndex:
+    %SystemInt32, null\r\n    playerUnassignedIndex: %SystemInt32, null\r\n\r\n.data_end\r\n\r\n.code_start\r\n\r\n\r\n.code_end\r\n"
   assemblyError: 
   graphData:
     name: 
@@ -138,6 +139,48 @@ MonoBehaviour:
         stringValue: System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089|False
       - unityObjectValue: {fileID: 0}
         stringValue: System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089|none
+    - fullName: Variable_SystemInt32
+      uid: 0f00236b-4755-4019-a88a-37346ab6c746
+      position: {x: 0, y: 0}
+      nodeUIDs:
+      - 
+      - 
+      - 
+      - 
+      - 
+      flowUIDs: []
+      nodeValues:
+      - unityObjectValue: {fileID: 0}
+        stringValue: 
+      - unityObjectValue: {fileID: 0}
+        stringValue: System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089|playerAssignedIndex
+      - unityObjectValue: {fileID: 0}
+        stringValue: System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089|True
+      - unityObjectValue: {fileID: 0}
+        stringValue: System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089|False
+      - unityObjectValue: {fileID: 0}
+        stringValue: System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089|none
+    - fullName: Variable_SystemInt32
+      uid: c21908db-adc6-4821-b455-f8914059c76a
+      position: {x: 0, y: 0}
+      nodeUIDs:
+      - 
+      - 
+      - 
+      - 
+      - 
+      flowUIDs: []
+      nodeValues:
+      - unityObjectValue: {fileID: 0}
+        stringValue: 
+      - unityObjectValue: {fileID: 0}
+        stringValue: System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089|playerUnassignedIndex
+      - unityObjectValue: {fileID: 0}
+        stringValue: System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089|True
+      - unityObjectValue: {fileID: 0}
+        stringValue: System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089|False
+      - unityObjectValue: {fileID: 0}
+        stringValue: System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089|none
     updateOrder: 0
   graphElementData:
   - type: 2
@@ -156,7 +199,7 @@ MonoBehaviour:
     jsonData: '{"uid":"f98cfcc7-9920-442c-aa9b-58f2ee44955f","layout":{"serializedVersion":"2","x":98.33394622802735,"y":226.78570556640626,"width":552.0,"height":173.0},"containedElements":["5be367ed-8a39-443c-a215-2b27688d1d7d","045103c1-3070-4792-a1ad-2e7701c66d01","3fcf8b35-8043-467f-86b6-20afe80bf3de","712c781a-c90f-466a-aa5c-0fb8eef291d0","02c58ad9-516f-4fda-8ffe-7bbdca95aa27","d3fc9399-aeef-4bcd-96cb-6ced3638cbe0"],"title":"Event
       called when any player is assigned an object","layer":0,"elementTypeColor":{"r":0.0,"g":0.0,"b":0.0,"a":0.0}}'
   viewTransform:
-    position: {x: 561.41486, y: 356.75317}
-    scale: 0.65751624
+    position: {x: 253.2718, y: 62.73428}
+    scale: 0.57175326
   version: 1.0.0
   showAssembly: 0

@@ -51,8 +51,8 @@ Pool Event Listener
 
 The PlayerObjectAssigner can send optional events to a listener UdonBehaviour so that you can handle different callbacks. 
 - _OnLocalPlayerAssigned - This event is called whenever the local player has been assigned their object. Use this event to enable external features that require the local player to have an assigned object. 
-- _OnPlayerAssigned - This event is called when any player is assigned a pool object. When using this event, if the program has a public VRCPlayerAPI variable named "playerAssignedPlayer" or a public UdonBehaviour variable named "playerAssignedPoolObject", it will be set before the event is called.
-- _OnPlayerUnassigned - This event is called when any player's object has been unassigned. When using this event, if the program has a public VRCPlayerAPI variable named "playerUnassignedPlayer"  or a public UdonBehaviour variable named "playerUnassignedPoolObject", it will be set before the event is called.
+- _OnPlayerAssigned - This event is called when any player is assigned a pool object. When using this event, if the program has a public VRCPlayerAPI variable named "playerAssignedPlayer", a public int variable named "playerAssignedIndex", or a public UdonBehaviour variable named "playerAssignedPoolObject", it will be set before the event is called.
+- _OnPlayerUnassigned - This event is called when any player's object has been unassigned. When using this event, if the program has a public VRCPlayerAPI variable named "playerUnassignedPlayer", a public int variable named "playerUnassignedIndex", or a public UdonBehaviour variable named "playerUnassignedPoolObject", it will be set before the event is called.
 
 
 UdonGraph and CyanTrigger Helper Methods

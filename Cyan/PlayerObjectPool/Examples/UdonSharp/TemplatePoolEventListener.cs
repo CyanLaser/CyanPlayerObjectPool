@@ -19,6 +19,8 @@ public class TemplatePoolEventListener : UdonSharpBehaviour
     // The variables will be set before the event is called.
     [PublicAPI, HideInInspector]
     public VRCPlayerApi playerAssignedPlayer;
+    [PublicAPI, HideInInspector] 
+    public int playerAssignedIndex;
     [PublicAPI, HideInInspector]
     public UdonBehaviour playerAssignedPoolObject;
     [PublicAPI]
@@ -31,6 +33,8 @@ public class TemplatePoolEventListener : UdonSharpBehaviour
     // The variables will be set before the event is called.
     [PublicAPI, HideInInspector]
     public VRCPlayerApi playerUnassignedPlayer;
+    [PublicAPI, HideInInspector] 
+    public int playerUnassignedIndex;
     [PublicAPI, HideInInspector]
     public UdonBehaviour playerUnassignedPoolObject;
     [PublicAPI]

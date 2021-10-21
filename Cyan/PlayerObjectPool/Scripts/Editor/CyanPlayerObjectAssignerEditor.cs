@@ -115,6 +115,12 @@ namespace Cyan.PlayerObjectPool
                 bool changes = EditorGUI.EndChangeCheck();
 
                 _setupHelperSerializedObject.ApplyModifiedProperties();
+
+                if (_poolObjectProp.objectReferenceValue == null)
+                {
+                    GUILayout.Space(5);
+                    EditorGUILayout.HelpBox("Pool Object has not been assigned. Assignment and Unassignment events will still be sent to the Pool Event Listener but no object will be assigned.", MessageType.Warning);
+                }
                 
                 // Only apply changes when the scene is valid and not in a prefab editor.
                 if (changes && shouldInitialize)

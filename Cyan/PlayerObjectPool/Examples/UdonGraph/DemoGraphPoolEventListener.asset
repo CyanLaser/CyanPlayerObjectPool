@@ -18,116 +18,78 @@ MonoBehaviour:
     \   .export playerUnassignedPoolObject\r\n    .export playerAssignedPlayer\r\n
     \   .export playerUnassignedPlayer\r\n    \r\n    __message_0: %SystemObject,
     null\r\n    __String_0: %SystemString, null\r\n    __instance_0: %VRCUdonUdonBehaviour,
-    this\r\n    __eventName_0: %SystemString, null\r\n    __message_1: %SystemObject,
-    null\r\n    __String_1: %SystemString, null\r\n    __instance_1: %VRCUdonUdonBehaviour,
-    this\r\n    __eventName_1: %SystemString, null\r\n    __instance_2: %VRCUdonUdonBehaviour,
+    this\r\n    __eventName_0: %SystemString, null\r\n    __instance_1: %VRCUdonUdonBehaviour,
     this\r\n    __symbolName_0: %SystemString, null\r\n    __value_0: %SystemObject,
-    null\r\n    __String_2: %SystemString, null\r\n    __instance_3: %VRCUdonUdonBehaviour,
-    this\r\n    __eventName_2: %SystemString, null\r\n    __String_3: %SystemString,
-    null\r\n    __instance_4: %VRCUdonUdonBehaviour, this\r\n    __symbolName_1: %SystemString,
-    null\r\n    __String_4: %SystemString, null\r\n    __instance_5: %VRCUdonUdonBehaviour,
+    null\r\n    __String_1: %SystemString, null\r\n    __instance_2: %VRCUdonUdonBehaviour,
+    this\r\n    __eventName_1: %SystemString, null\r\n    __String_2: %SystemString,
+    null\r\n    __instance_3: %VRCUdonUdonBehaviour, this\r\n    __symbolName_1: %SystemString,
+    null\r\n    __String_3: %SystemString, null\r\n    __instance_4: %VRCUdonUdonBehaviour,
     this\r\n    _old_localPoolObject: %VRCUdonUdonBehaviour, this\r\n    __Boolean_0:
     %SystemBoolean, null\r\n    __Boolean_1: %SystemBoolean, null\r\n    __obj_0:
-    %SystemObject, null\r\n    __name_0: %SystemString, null\r\n    __message_2: %SystemObject,
-    null\r\n    __String_5: %SystemString, null\r\n    __instance_6: %VRCUdonUdonBehaviour,
-    this\r\n    __value_1: %SystemBoolean, null\r\n    __instance_7: %VRCUdonUdonBehaviour,
-    this\r\n    __value_2: %SystemBoolean, null\r\n    __instance_8: %VRCUdonUdonBehaviour,
-    this\r\n    __eventName_3: %SystemString, null\r\n    __String_6: %SystemString,
-    null\r\n    __instance_9: %VRCUdonUdonBehaviour, this\r\n    __eventName_4: %SystemString,
-    null\r\n    __String_7: %SystemString, null\r\n    __instance_A: %VRCUdonUdonBehaviour,
-    this\r\n    __symbolName_2: %SystemString, null\r\n    __String_8: %SystemString,
-    null\r\n    __message_3: %SystemObject, null\r\n    __String_9: %SystemString,
-    null\r\n    __index_0: %SystemInt32, null\r\n    __condition_0: %SystemBoolean,
-    null\r\n    __message_4: %SystemObject, null\r\n    __VRCPlayerApi_0: %VRCSDKBaseVRCPlayerApi,
-    null\r\n    __instance_C: %VRCSDKBaseVRCPlayerApiArray, null\r\n    __Int32_0:
-    %SystemInt32, null\r\n    __start_0: %SystemInt32, null\r\n    __end_0: %SystemInt32,
-    null\r\n    __step_0: %SystemInt32, null\r\n    __instance_B: %VRCSDKBaseVRCPlayerApiArray,
-    null\r\n    __message_5: %SystemObject, null\r\n    __str0_0: %SystemString, null\r\n
-    \   __str1_0: %SystemString, null\r\n    __VRCPlayerApi_1: %VRCSDKBaseVRCPlayerApi,
-    null\r\n    __message_6: %SystemObject, null\r\n    __str0_1: %SystemString, null\r\n
-    \   __str1_1: %SystemString, null\r\n    __VRCPlayerApi_2: %VRCSDKBaseVRCPlayerApi,
+    %SystemObject, null\r\n    __name_0: %SystemString, null\r\n    __message_1: %SystemObject,
+    null\r\n    __String_4: %SystemString, null\r\n    __instance_5: %VRCUdonUdonBehaviour,
+    this\r\n    __value_1: %SystemBoolean, null\r\n    __instance_6: %VRCUdonUdonBehaviour,
+    this\r\n    __value_2: %SystemBoolean, null\r\n    __instance_7: %VRCUdonUdonBehaviour,
+    this\r\n    __eventName_2: %SystemString, null\r\n    __String_5: %SystemString,
+    null\r\n    __message_2: %SystemObject, null\r\n    __str0_0: %SystemString, null\r\n
+    \   __str1_0: %SystemString, null\r\n    __VRCPlayerApi_0: %VRCSDKBaseVRCPlayerApi,
+    null\r\n    __message_3: %SystemObject, null\r\n    __str0_1: %SystemString, null\r\n
+    \   __str1_1: %SystemString, null\r\n    __VRCPlayerApi_1: %VRCSDKBaseVRCPlayerApi,
     null\r\n    ObjectPool: %VRCUdonUdonBehaviour, this\r\n    localPoolObject: %VRCUdonUdonBehaviour,
     this\r\n    players: %VRCSDKBaseVRCPlayerApiArray, null\r\n    playerAssignedPoolObject:
     %VRCUdonUdonBehaviour, this\r\n    playerUnassignedPoolObject: %VRCUdonUdonBehaviour,
     this\r\n    playerAssignedPlayer: %VRCSDKBaseVRCPlayerApi, null\r\n    playerUnassignedPlayer:
-    %VRCSDKBaseVRCPlayerApi, null\r\n\r\n.data_end\r\n\r\n.code_start\r\n\r\n    .export
-    _OnAssignmentChanged\r\n    \r\n    _OnAssignmentChanged:\r\n    \r\n        PUSH,
-    __String_0\r\n        PUSH, __message_0\r\n        COPY\r\n        PUSH, __message_0\r\n
-    \       EXTERN, \"UnityEngineDebug.__Log__SystemObject__SystemVoid\"\r\n        PUSH,
-    __instance_0\r\n        PUSH, __eventName_0\r\n        EXTERN, \"VRCUdonCommonInterfacesIUdonEventReceiver.__SendCustomEvent__SystemString__SystemVoid\"\r\n
-    \       JUMP, 0xFFFFFFFC\r\n    \r\n    .export _OnLocalPlayerAssigned\r\n    \r\n
-    \   _OnLocalPlayerAssigned:\r\n    \r\n        PUSH, __String_1\r\n        PUSH,
-    __message_1\r\n        COPY\r\n        PUSH, __message_1\r\n        EXTERN, \"UnityEngineDebug.__Log__SystemObject__SystemVoid\"\r\n
-    \       PUSH, __instance_1\r\n        PUSH, __eventName_1\r\n        EXTERN, \"VRCUdonCommonInterfacesIUdonEventReceiver.__SendCustomEvent__SystemString__SystemVoid\"\r\n
+    %VRCSDKBaseVRCPlayerApi, null\r\n    playerAssignedIndex: %SystemInt32, null\r\n
+    \   playerUnassignedIndex: %SystemInt32, null\r\n\r\n.data_end\r\n\r\n.code_start\r\n\r\n
+    \   .export _OnLocalPlayerAssigned\r\n    \r\n    _OnLocalPlayerAssigned:\r\n
+    \   \r\n        PUSH, __String_0\r\n        PUSH, __message_0\r\n        COPY\r\n
+    \       PUSH, __message_0\r\n        EXTERN, \"UnityEngineDebug.__Log__SystemObject__SystemVoid\"\r\n
+    \       PUSH, __instance_0\r\n        PUSH, __eventName_0\r\n        EXTERN, \"VRCUdonCommonInterfacesIUdonEventReceiver.__SendCustomEvent__SystemString__SystemVoid\"\r\n
     \       JUMP, 0xFFFFFFFC\r\n    \r\n    .export _GetLocalPoolObject\r\n    \r\n
     \   _GetLocalPoolObject:\r\n    \r\n        PUSH, ObjectPool\r\n        PUSH,
-    __instance_2\r\n        COPY\r\n        PUSH, __String_2\r\n        PUSH, __symbolName_0\r\n
+    __instance_1\r\n        COPY\r\n        PUSH, __String_1\r\n        PUSH, __symbolName_0\r\n
     \       COPY\r\n        PUSH, __value_0\r\n        EXTERN, \"VRCSDKBaseNetworking.__get_LocalPlayer__VRCSDKBaseVRCPlayerApi\"\r\n
-    \       PUSH, __instance_2\r\n        PUSH, __symbolName_0\r\n        PUSH, __value_0\r\n
+    \       PUSH, __instance_1\r\n        PUSH, __symbolName_0\r\n        PUSH, __value_0\r\n
     \       EXTERN, \"VRCUdonCommonInterfacesIUdonEventReceiver.__SetProgramVariable__SystemString_SystemObject__SystemVoid\"\r\n
+    \       PUSH, ObjectPool\r\n        PUSH, __instance_2\r\n        COPY\r\n        PUSH,
+    __String_2\r\n        PUSH, __eventName_1\r\n        COPY\r\n        PUSH, __instance_2\r\n
+    \       PUSH, __eventName_1\r\n        EXTERN, \"VRCUdonCommonInterfacesIUdonEventReceiver.__SendCustomEvent__SystemString__SystemVoid\"\r\n
     \       PUSH, ObjectPool\r\n        PUSH, __instance_3\r\n        COPY\r\n        PUSH,
-    __String_3\r\n        PUSH, __eventName_2\r\n        COPY\r\n        PUSH, __instance_3\r\n
-    \       PUSH, __eventName_2\r\n        EXTERN, \"VRCUdonCommonInterfacesIUdonEventReceiver.__SendCustomEvent__SystemString__SystemVoid\"\r\n
-    \       PUSH, ObjectPool\r\n        PUSH, __instance_4\r\n        COPY\r\n        PUSH,
-    __String_4\r\n        PUSH, __symbolName_1\r\n        COPY\r\n        PUSH, __instance_4\r\n
+    __String_3\r\n        PUSH, __symbolName_1\r\n        COPY\r\n        PUSH, __instance_3\r\n
     \       PUSH, __symbolName_1\r\n        PUSH, localPoolObject\r\n        EXTERN,
     \"VRCUdonCommonInterfacesIUdonEventReceiver.__GetProgramVariable__SystemString__SystemObject\"\r\n
-    \       PUSH, __instance_5\r\n        PUSH, \"_onVarChange_localPoolObject\"\r\n
+    \       PUSH, __instance_4\r\n        PUSH, \"_onVarChange_localPoolObject\"\r\n
     \       EXTERN, \"VRCUdonCommonInterfacesIUdonEventReceiver.__SendCustomEvent__SystemString__SystemVoid\"\r\n
     \       PUSH, localPoolObject\r\n        PUSH, _old_localPoolObject\r\n        COPY\r\n
     \       JUMP, 0xFFFFFFFC\r\n    \r\n    .export _onVarChange_localPoolObject\r\n
     \   \r\n    _onVarChange_localPoolObject:\r\n    \r\n        PUSH, localPoolObject\r\n
     \       PUSH, __Boolean_0\r\n        EXTERN, \"VRCSDKBaseUtilities.__IsValid__SystemObject__SystemBoolean\"\r\n
     \       PUSH, __Boolean_0\r\n        PUSH, __Boolean_1\r\n        COPY\r\n        PUSH,
-    __Boolean_0\r\n        JUMP_IF_FALSE, 0x0000021C\r\n        PUSH, __String_5\r\n
-    \       PUSH, __message_2\r\n        COPY\r\n        PUSH, __message_2\r\n        EXTERN,
-    \"UnityEngineDebug.__Log__SystemObject__SystemVoid\"\r\n        PUSH, __instance_6\r\n
+    __Boolean_0\r\n        JUMP_IF_FALSE, 0x000001D8\r\n        PUSH, __String_4\r\n
+    \       PUSH, __message_1\r\n        COPY\r\n        PUSH, __message_1\r\n        EXTERN,
+    \"UnityEngineDebug.__Log__SystemObject__SystemVoid\"\r\n        PUSH, __instance_5\r\n
     \       PUSH, __value_1\r\n        EXTERN, \"VRCUdonCommonInterfacesIUdonEventReceiver.__set_DisableInteractive__SystemBoolean__SystemVoid\"\r\n
-    \       JUMP, 0x0000021C\r\n        JUMP, 0xFFFFFFFC\r\n    \r\n    .export _start\r\n
-    \   \r\n    _start:\r\n    \r\n        PUSH, __instance_7\r\n        PUSH, __value_2\r\n
+    \       JUMP, 0x000001D8\r\n        JUMP, 0xFFFFFFFC\r\n    \r\n    .export _start\r\n
+    \   \r\n    _start:\r\n    \r\n        PUSH, __instance_6\r\n        PUSH, __value_2\r\n
     \       EXTERN, \"VRCUdonCommonInterfacesIUdonEventReceiver.__set_DisableInteractive__SystemBoolean__SystemVoid\"\r\n
     \       JUMP, 0xFFFFFFFC\r\n    \r\n    .export _interact\r\n    \r\n    _interact:\r\n
-    \   \r\n        PUSH, localPoolObject\r\n        PUSH, __instance_8\r\n        COPY\r\n
-    \       PUSH, __String_6\r\n        PUSH, __eventName_3\r\n        COPY\r\n        PUSH,
-    __instance_8\r\n        PUSH, __eventName_3\r\n        EXTERN, \"VRCUdonCommonInterfacesIUdonEventReceiver.__SendCustomEvent__SystemString__SystemVoid\"\r\n
-    \       JUMP, 0xFFFFFFFC\r\n    \r\n    .export _GetPlayers\r\n    \r\n    _GetPlayers:\r\n
-    \   \r\n        PUSH, ObjectPool\r\n        PUSH, __instance_9\r\n        COPY\r\n
-    \       PUSH, __String_7\r\n        PUSH, __eventName_4\r\n        COPY\r\n        PUSH,
-    __instance_9\r\n        PUSH, __eventName_4\r\n        EXTERN, \"VRCUdonCommonInterfacesIUdonEventReceiver.__SendCustomEvent__SystemString__SystemVoid\"\r\n
-    \       PUSH, ObjectPool\r\n        PUSH, __instance_A\r\n        COPY\r\n        PUSH,
-    __String_8\r\n        PUSH, __symbolName_2\r\n        COPY\r\n        PUSH, __instance_A\r\n
-    \       PUSH, __symbolName_2\r\n        PUSH, players\r\n        EXTERN, \"VRCUdonCommonInterfacesIUdonEventReceiver.__GetProgramVariable__SystemString__SystemObject\"\r\n
-    \       PUSH, __String_9\r\n        PUSH, __message_3\r\n        COPY\r\n        PUSH,
-    __message_3\r\n        EXTERN, \"UnityEngineDebug.__Log__SystemObject__SystemVoid\"\r\n
-    \       PUSH, players\r\n        PUSH, __instance_B\r\n        COPY\r\n        PUSH,
-    __instance_B\r\n        PUSH, __end_0\r\n        EXTERN, \"VRCSDKBaseVRCPlayerApiArray.__get_Length__SystemInt32\"\r\n
-    \       PUSH, __start_0\r\n        PUSH, __index_0\r\n        COPY\r\n        PUSH,
-    __index_0\r\n        PUSH, __end_0\r\n        PUSH, __condition_0\r\n        EXTERN,
-    \"SystemInt32.__op_LessThan__SystemInt32_SystemInt32__SystemBoolean\"\r\n        PUSH,
-    __condition_0\r\n        JUMP_IF_FALSE, 0x00000454\r\n        PUSH, players\r\n
-    \       PUSH, __instance_C\r\n        COPY\r\n        PUSH, players\r\n        PUSH,
-    __instance_B\r\n        COPY\r\n        PUSH, __index_0\r\n        PUSH, __Int32_0\r\n
-    \       COPY\r\n        PUSH, __instance_C\r\n        PUSH, __Int32_0\r\n        PUSH,
-    __VRCPlayerApi_0\r\n        EXTERN, \"VRCSDKBaseVRCPlayerApiArray.__Get__SystemInt32__VRCSDKBaseVRCPlayerApi\"\r\n
-    \       PUSH, __VRCPlayerApi_0\r\n        PUSH, __message_4\r\n        EXTERN,
-    \"VRCSDKBaseVRCPlayerApi.__get_displayName__SystemString\"\r\n        PUSH, __message_4\r\n
-    \       EXTERN, \"UnityEngineDebug.__Log__SystemObject__SystemVoid\"\r\n        PUSH,
-    __index_0\r\n        PUSH, __step_0\r\n        PUSH, __index_0\r\n        EXTERN,
-    \"SystemInt32.__op_Addition__SystemInt32_SystemInt32__SystemInt32\"\r\n        JUMP,
-    0x00000378\r\n        JUMP, 0xFFFFFFFC\r\n    \r\n    .export _OnPlayerAssigned\r\n
-    \   \r\n    _OnPlayerAssigned:\r\n    \r\n        PUSH, playerAssignedPlayer\r\n
-    \       PUSH, __VRCPlayerApi_1\r\n        COPY\r\n        PUSH, __VRCPlayerApi_1\r\n
-    \       PUSH, __str1_0\r\n        EXTERN, \"VRCSDKBaseVRCPlayerApi.__get_displayName__SystemString\"\r\n
-    \       PUSH, __str0_0\r\n        PUSH, __str1_0\r\n        PUSH, __message_5\r\n
+    \   \r\n        PUSH, localPoolObject\r\n        PUSH, __instance_7\r\n        COPY\r\n
+    \       PUSH, __String_5\r\n        PUSH, __eventName_2\r\n        COPY\r\n        PUSH,
+    __instance_7\r\n        PUSH, __eventName_2\r\n        EXTERN, \"VRCUdonCommonInterfacesIUdonEventReceiver.__SendCustomEvent__SystemString__SystemVoid\"\r\n
+    \       JUMP, 0xFFFFFFFC\r\n    \r\n    .export _OnPlayerAssigned\r\n    \r\n
+    \   _OnPlayerAssigned:\r\n    \r\n        PUSH, playerAssignedPlayer\r\n        PUSH,
+    __VRCPlayerApi_0\r\n        COPY\r\n        PUSH, __VRCPlayerApi_0\r\n        PUSH,
+    __str1_0\r\n        EXTERN, \"VRCSDKBaseVRCPlayerApi.__get_displayName__SystemString\"\r\n
+    \       PUSH, __str0_0\r\n        PUSH, __str1_0\r\n        PUSH, __message_2\r\n
     \       EXTERN, \"SystemString.__Concat__SystemString_SystemString__SystemString\"\r\n
-    \       PUSH, __message_5\r\n        EXTERN, \"UnityEngineDebug.__Log__SystemObject__SystemVoid\"\r\n
+    \       PUSH, __message_2\r\n        EXTERN, \"UnityEngineDebug.__Log__SystemObject__SystemVoid\"\r\n
     \       JUMP, 0xFFFFFFFC\r\n    \r\n    .export _OnPlayerUnassigned\r\n    \r\n
     \   _OnPlayerUnassigned:\r\n    \r\n        PUSH, playerUnassignedPlayer\r\n        PUSH,
-    __VRCPlayerApi_2\r\n        COPY\r\n        PUSH, __VRCPlayerApi_2\r\n        PUSH,
+    __VRCPlayerApi_1\r\n        COPY\r\n        PUSH, __VRCPlayerApi_1\r\n        PUSH,
     __str1_1\r\n        EXTERN, \"VRCSDKBaseVRCPlayerApi.__get_displayName__SystemString\"\r\n
-    \       PUSH, __str0_1\r\n        PUSH, __str1_1\r\n        PUSH, __message_6\r\n
+    \       PUSH, __str0_1\r\n        PUSH, __str1_1\r\n        PUSH, __message_3\r\n
     \       EXTERN, \"SystemString.__Concat__SystemString_SystemString__SystemString\"\r\n
-    \       PUSH, __message_6\r\n        EXTERN, \"UnityEngineDebug.__Log__SystemObject__SystemVoid\"\r\n
+    \       PUSH, __message_3\r\n        EXTERN, \"UnityEngineDebug.__Log__SystemObject__SystemVoid\"\r\n
     \       JUMP, 0xFFFFFFFC\r\n    \r\n\r\n.code_end\r\n"
   assemblyError: 
   graphData:
@@ -610,7 +572,7 @@ MonoBehaviour:
         stringValue: 
     - fullName: UnityEngineDebug.__Log__SystemObject__SystemVoid
       uid: a91d2337-3ae1-4b2a-8f38-9fccb976187c
-      position: {x: 945.3996, y: 1945.6277}
+      position: {x: 945.39966, y: 1945.6277}
       nodeUIDs:
       - ada4fefa-ff29-4cd9-ab1a-02c67547975a
       flowUIDs: []
@@ -681,6 +643,48 @@ MonoBehaviour:
         stringValue: System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089|66a8cfc3-0295-4ce5-84aa-b6deeef97278
       - unityObjectValue: {fileID: 0}
         stringValue: 
+    - fullName: Variable_SystemInt32
+      uid: 5564a781-29e3-48db-9e8e-ac3bdf5a5e38
+      position: {x: 0, y: 0}
+      nodeUIDs:
+      - 
+      - 
+      - 
+      - 
+      - 
+      flowUIDs: []
+      nodeValues:
+      - unityObjectValue: {fileID: 0}
+        stringValue: 
+      - unityObjectValue: {fileID: 0}
+        stringValue: System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089|playerAssignedIndex
+      - unityObjectValue: {fileID: 0}
+        stringValue: System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089|True
+      - unityObjectValue: {fileID: 0}
+        stringValue: System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089|False
+      - unityObjectValue: {fileID: 0}
+        stringValue: System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089|none
+    - fullName: Variable_SystemInt32
+      uid: f3b498c5-87ec-44ef-ae31-a39dc6bd1a72
+      position: {x: 0, y: 0}
+      nodeUIDs:
+      - 
+      - 
+      - 
+      - 
+      - 
+      flowUIDs: []
+      nodeValues:
+      - unityObjectValue: {fileID: 0}
+        stringValue: 
+      - unityObjectValue: {fileID: 0}
+        stringValue: System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089|playerUnassignedIndex
+      - unityObjectValue: {fileID: 0}
+        stringValue: System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089|True
+      - unityObjectValue: {fileID: 0}
+        stringValue: System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089|False
+      - unityObjectValue: {fileID: 0}
+        stringValue: System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089|none
     updateOrder: 0
   graphElementData:
   - type: 3
@@ -728,7 +732,7 @@ MonoBehaviour:
     jsonData: '{"visible":true,"layout":{"serializedVersion":"2","x":8.0,"y":130.0,"width":274.0,"height":245.0}}'
   - type: 2
     uid: bf65cbe1-3458-4440-9b3f-b11edcdaf54b
-    jsonData: '{"uid":"bf65cbe1-3458-4440-9b3f-b11edcdaf54b","layout":{"serializedVersion":"2","x":95.55280303955078,"y":1846.210693359375,"width":1002.0,"height":415.0},"containedElements":["55e08cea-d1a3-4bbf-9d94-058d5dca7842","fd763f48-5577-418a-b438-8e85cb2ab0df","de57a5b5-e114-4d27-ac27-a2f494481641","e5b96a23-2fee-4ca8-b3d2-845fc204851b","de66bff5-5fef-4e5c-9b81-f931be8f3796","4df5fc42-45c0-4516-be27-79faa1c67196","9598725d-b6de-4e91-9713-fb8cdeaff80b","ada4fefa-ff29-4cd9-ab1a-02c67547975a","1138c372-b969-4aa1-a00b-f4b062e9c4c0","a91d2337-3ae1-4b2a-8f38-9fccb976187c","6894e799-ce77-456f-af9f-5567703053e5","1209fa83-64ee-48f2-85ee-5e0e4d62b782","3de4a69e-4a2f-4064-baa9-3e29c3947df8","12d85bd1-539c-4d2f-be53-99a6d4f5fe37"],"title":"On
+    jsonData: '{"uid":"bf65cbe1-3458-4440-9b3f-b11edcdaf54b","layout":{"serializedVersion":"2","x":95.55281829833985,"y":1846.210693359375,"width":1002.0,"height":415.0},"containedElements":["55e08cea-d1a3-4bbf-9d94-058d5dca7842","fd763f48-5577-418a-b438-8e85cb2ab0df","de57a5b5-e114-4d27-ac27-a2f494481641","e5b96a23-2fee-4ca8-b3d2-845fc204851b","de66bff5-5fef-4e5c-9b81-f931be8f3796","4df5fc42-45c0-4516-be27-79faa1c67196","9598725d-b6de-4e91-9713-fb8cdeaff80b","ada4fefa-ff29-4cd9-ab1a-02c67547975a","1138c372-b969-4aa1-a00b-f4b062e9c4c0","a91d2337-3ae1-4b2a-8f38-9fccb976187c","6894e799-ce77-456f-af9f-5567703053e5","1209fa83-64ee-48f2-85ee-5e0e4d62b782","3de4a69e-4a2f-4064-baa9-3e29c3947df8","12d85bd1-539c-4d2f-be53-99a6d4f5fe37","45748cef-8818-4efa-a4ca-0035265790b6"],"title":"On
       Player Object Unassigned","layer":0,"elementTypeColor":{"r":0.0,"g":0.0,"b":0.0,"a":0.0}}'
   - type: 3
     uid: 1209fa83-64ee-48f2-85ee-5e0e4d62b782
@@ -743,7 +747,7 @@ MonoBehaviour:
     jsonData: '{"uid":"b312378e-8be7-4e5b-906b-d966f1d2a179","layout":{"serializedVersion":"2","x":473.55609130859377,"y":1452.3829345703125,"width":414.98248291015627,"height":75.70750427246094},"title":"This
       event will be called whenever any player joins and their object is assigned.","layer":0,"elementTypeColor":{"r":0.0,"g":0.0,"b":0.0,"a":0.0}}'
   viewTransform:
-    position: {x: 509.1852, y: -810.64246}
+    position: {x: 715.84863, y: -382.08414}
     scale: 0.49717674
   version: 1.0.0
   showAssembly: 0

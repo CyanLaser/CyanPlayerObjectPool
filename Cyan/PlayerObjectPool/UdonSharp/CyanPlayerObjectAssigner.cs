@@ -39,6 +39,12 @@ namespace Cyan.PlayerObjectPool
         public const string PlayerAssignedPlayerVariableName = "playerAssignedPlayer";
         /// <summary>
         /// Variable name that will be set before the OnPlayerAssignedEvent is sent to the pool event listener.
+        /// This variable will store the object index of the last player whose object was assigned.
+        /// </summary>
+        [PublicAPI]
+        public const string PlayerAssignedIndexVariableName = "playerAssignedIndex";
+        /// <summary>
+        /// Variable name that will be set before the OnPlayerAssignedEvent is sent to the pool event listener.
         /// This variable will store the Udon pool object of the last player whose object was assigned.
         /// </summary>
         [PublicAPI]
@@ -55,6 +61,12 @@ namespace Cyan.PlayerObjectPool
         /// </summary>
         [PublicAPI]
         public const string PlayerUnassignedPlayerVariableName = "playerUnassignedPlayer";
+        /// <summary>
+        /// Variable name that will be set before the OnPlayerUnassignedEvent is sent to the pool event listener.
+        /// This variable will store the object index of the last player whose object was unassigned.
+        /// </summary>
+        [PublicAPI]
+        public const string PlayerUnassignedIndexVariableName = "playerUnassignedIndex";
         /// <summary>
         /// Variable name that will be set before the OnPlayerUnassignedEvent is sent to the pool event listener.
         /// This variable will store the Udon pool object of the last player whose object was unassigned.
@@ -111,6 +123,9 @@ namespace Cyan.PlayerObjectPool
         // Temporary array to hold the pooled objects.
         private Component[] _poolObjectsTemp = new Component[0];
 
+        // If this pool has been initialized and contains objects to distribute. If there are no objects, then this
+        // system will only forward events to the pool event listener.
+        private bool _enabledAndInitialized = false;
 
         #region Public API
         
@@ -179,6 +194,12 @@ namespace Cyan.PlayerObjectPool
         [PublicAPI]
         public Component _GetPlayerPooledUdonById(int playerId)
         {
+            // Pool is not enabled, so always return null.
+            if (!_enabledAndInitialized)
+            {
+                return null;
+            }
+            
             int index = _objectPool._GetPlayerPoolIndexById(playerId);
 
             if (index == -1)
@@ -265,6 +286,12 @@ namespace Cyan.PlayerObjectPool
         [PublicAPI]
         public Component[] _GetActivePoolObjects()
         {
+            // Pool is not enabled, so always return empty list.
+            if (!_enabledAndInitialized)
+            {
+                return new Component[0];
+            }
+            
             // Go through assignment array and find all valid players and store the respective pooled object into a
             // temporary location.
             int count = 0;
@@ -320,6 +347,12 @@ namespace Cyan.PlayerObjectPool
         [PublicAPI]
         public int _GetActivePoolObjectsNoAlloc(Component[] pooledObjects)
         {
+            // Pool is not enabled, so always return empty list.
+            if (!_enabledAndInitialized)
+            {
+                return 0;
+            }
+            
             // The input array is null. No pool objects can be stored in it. Return early.
             if (pooledObjects == null)
             {
@@ -492,17 +525,10 @@ namespace Cyan.PlayerObjectPool
             _objectPool = GameObject.Find(poolPath).GetComponent<CyanPlayerObjectPool>();
             
             int assignerSize = transform.childCount;
-            
-            // This pool has no children, destroy this instance as there are no objects to assign.
-            if (assignerSize == 0)
-            {
-                _LogWarning("Pool Assigner has no objects. Destroying Self.");
-                DestroyImmediate(this);
-                return;
-            }
-            
             int poolSize = _objectPool.poolSize;
-            if (assignerSize < poolSize)
+            
+            // Pool has invalid size, return early without initializing system.
+            if (assignerSize > 0 && assignerSize < poolSize)
             {
                 _LogError($"Pool Assigner does not have enough objects for the pool size! Pool size: {poolSize}, Assigner size: {assignerSize}");
                 return;
@@ -513,21 +539,34 @@ namespace Cyan.PlayerObjectPool
                 _LogWarning($"Pool Assigner has more objects than needed for the pool size! Pool size: {poolSize}, Assigner size: {assignerSize}");
             }
             
+            // Initialize local assignments to be invalid.
+            _localAssignment = new int[poolSize];
+            for (int i = 0; i < poolSize; ++i)
+            {
+                _localAssignment[i] = -1;
+            }
+            
+            // Register this object assigner so that it will get events for object assigned and unassigned.
+            _objectPool._RegisterObjectAssigner(this);
+            
+            // This pool has no children, disable self, but only pass assignment events to the Pool Event Listener
+            if (assignerSize == 0)
+            {
+                _LogDebug("Pool Assigner has no objects.");
+                return;
+            }
+            
+            _LogDebug($"Initializing object pool assigner with {poolSize} objects.");
+
             _poolObjects = new GameObject[poolSize];
             pooledUdon = new Component[poolSize];
-            _localAssignment = new int[poolSize];
             
             // Initialize temp arrays to not need to recreate them every time.
             _poolObjectsTemp = new Component[poolSize];
             
-            _LogDebug($"Initializing object pool assigner with {poolSize} objects.");
-
             // Go through and get the pool objects. 
             for (int i = 0; i < poolSize; ++i)
             {
-                // Initialize local assignment to invalid.
-                _localAssignment[i] = -1;
-                
                 Transform child = transform.GetChild(i);
                 GameObject poolObj = child.gameObject;
                 _poolObjects[i] = poolObj;
@@ -543,8 +582,7 @@ namespace Cyan.PlayerObjectPool
                 Destroy(poolObj);
             }
             
-            // Register this object assigner so that it will get events for object assigned and unassigned.
-            _objectPool._RegisterObjectAssigner(this);
+            _enabledAndInitialized = true;
         }
 
         #region Object Pool Listener Methods
@@ -561,32 +599,40 @@ namespace Cyan.PlayerObjectPool
         public void _OnPlayerAssigned(VRCPlayerApi player, int index)
         {
             _localAssignment[index] = player.playerId;
-            
-            GameObject poolObj = _poolObjects[index];
 
+            UdonBehaviour poolUdon = null;
             bool isLocal = player.isLocal;
-            if (setNetworkOwnershipForPoolObjects && isLocal)
+            
+            // Only update objects if the pool has been enabled and initialized.
+            // Otherwise, only forward events to pool listeners. 
+            if (_enabledAndInitialized)
             {
-                Networking.SetOwner(player, poolObj);
-            }
+                GameObject poolObj = _poolObjects[index];
+
+                if (setNetworkOwnershipForPoolObjects && isLocal)
+                {
+                    Networking.SetOwner(player, poolObj);
+                }
             
 #if UNITY_EDITOR
-            // If in editor, auto set the owner
-            if (setNetworkOwnershipForPoolObjects)
-            {
-                Networking.SetOwner(player, poolObj);
-            }
+                // If in editor, auto set the owner
+                if (setNetworkOwnershipForPoolObjects)
+                {
+                    Networking.SetOwner(player, poolObj);
+                }
 #endif
 
-            UdonBehaviour poolUdon = (UdonBehaviour)pooledUdon[index];
-            poolUdon.SetProgramVariable("Owner", player);
-            poolUdon.SendCustomEvent("_OnOwnerSet");
-            poolObj.SetActive(true);
+                poolUdon = (UdonBehaviour)pooledUdon[index];
+                poolUdon.SetProgramVariable("Owner", player);
+                poolUdon.SendCustomEvent("_OnOwnerSet");
+                poolObj.SetActive(true);
+            }
             
             // Notify pool listener that a player has joined and the object has been assigned.
             if (VRC.SDKBase.Utilities.IsValid(poolEventListener))
             {
                 poolEventListener.SetProgramVariable(PlayerAssignedPlayerVariableName, player);
+                poolEventListener.SetProgramVariable(PlayerAssignedIndexVariableName, index);
                 poolEventListener.SetProgramVariable(PlayerAssignedUdonVariableName, poolUdon);
                 poolEventListener.SendCustomEvent(OnPlayerAssignedEvent);
             }
@@ -609,24 +655,32 @@ namespace Cyan.PlayerObjectPool
         public void _OnPlayerUnassigned(VRCPlayerApi player, int index)
         {
             _localAssignment[index] = -1;
+
+            UdonBehaviour poolUdon = null;
             
-            GameObject poolObj = _poolObjects[index];
-            
-            // Pool object has already been cleaned up, return early.
-            if (!poolObj.activeSelf)
+            // Only update objects if the pool has been enabled and initialized.
+            // Otherwise, only forward events to pool listeners. 
+            if (_enabledAndInitialized)
             {
-                return;
+                GameObject poolObj = _poolObjects[index];
+
+                // Pool object has already been cleaned up, return early.
+                if (!poolObj.activeSelf)
+                {
+                    return;
+                }
+
+                poolUdon = (UdonBehaviour) pooledUdon[index];
+                poolUdon.SendCustomEvent("_OnCleanup");
+                poolUdon.SetProgramVariable("Owner", null);
+                poolObj.SetActive(false);
             }
-            
-            UdonBehaviour poolUdon = (UdonBehaviour)pooledUdon[index];
-            poolUdon.SendCustomEvent("_OnCleanup");
-            poolUdon.SetProgramVariable("Owner", null);
-            poolObj.SetActive(false);
-            
+
             // Notify pool listener that a player has left and the object has been unassigned.
             if (VRC.SDKBase.Utilities.IsValid(poolEventListener))
             {
                 poolEventListener.SetProgramVariable(PlayerUnassignedPlayerVariableName, player);
+                poolEventListener.SetProgramVariable(PlayerUnassignedIndexVariableName, index);
                 poolEventListener.SetProgramVariable(PlayerUnassignedUdonVariableName, poolUdon);
                 poolEventListener.SendCustomEvent(OnPlayerUnassignedEvent);
             }
