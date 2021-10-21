@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UdonSharpEditor;
 using UnityEditor;
+using UnityEditor.SceneManagement;
 using UnityEngine;
 using VRC.Udon;
 
@@ -46,6 +47,7 @@ namespace Cyan.PlayerObjectPool
             _multiplePools = false;
             if (ShouldCheckScene())
             {
+                // Go through all objects to find if there are multiple Object Pool scripts.
                 int count = 0;
                 foreach (var obj in _instance.gameObject.scene.GetRootGameObjects())
                 {
@@ -54,6 +56,12 @@ namespace Cyan.PlayerObjectPool
                 }
 
                 _multiplePools = count > 1;
+                
+                // Go through each setup helper and verify their pool size.
+                foreach (var helper in FindObjectsOfType<CyanPoolSetupHelper>())
+                {
+                    helper.VerifyPoolSize();
+                }
             }
         }
 

@@ -34,7 +34,7 @@ namespace Cyan.PlayerObjectPool
             hideFlags = HideFlags.DontSaveInBuild;
             
             GetPoolUdon();
-            UpdatePoolSize();
+            VerifyPoolSize();
         }
 
         // Check if this object is in a valid scene and not in a prefab editor.
@@ -131,6 +131,21 @@ namespace Cyan.PlayerObjectPool
             {
                 GameObject poolObject = transform.GetChild(0).gameObject;
                 Undo.DestroyObjectImmediate(poolObject);
+            }
+        }
+
+        // Verify that the pool's current size matches the Object Pool's size.
+        public void VerifyPoolSize()
+        {
+            if (!ShouldInitialize())
+            {
+                return;
+            }
+            
+            int size = GetPoolSize();
+            if (transform.childCount != size)
+            {
+                UpdatePoolSize(size);
             }
         }
         

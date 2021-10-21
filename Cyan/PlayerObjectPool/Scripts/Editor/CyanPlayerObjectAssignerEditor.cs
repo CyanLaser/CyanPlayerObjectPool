@@ -31,6 +31,8 @@ namespace Cyan.PlayerObjectPool
             {
                 _setupHelperSerializedObject = new SerializedObject(_setupHelper);
                 _poolObjectProp = _setupHelperSerializedObject.FindProperty(nameof(CyanPoolSetupHelper.poolObjectPrefab));
+
+                _setupHelper.VerifyPoolSize();
             }
         }
 
