@@ -6,8 +6,7 @@ Assigns a unique object to every player in the world.
 - Can be used with all Udon Compilers! - Includes examples for UdonGraph, UdonSharp, CyanTrigger
 - Network Race Condition Safe - Every player will get an object over time, even when multiple join at once.
 - Master Crash Verification - On master change, all players and all objects are verified to ensure that each pair is still valid. Old objects will be cleaned up and new players will be assigned an object.
-
-Note: This object pool system is standalone and can work with multiple instances. Prefab authors can create and distribute systems without it conflicting with another instance of the object pool. 
+- Supports multiple object types - Prefabs created for this system can be used together without conflicting. 
 
 
 Dependencies
@@ -18,9 +17,9 @@ While UdonSharp is required to run, you may use UdonGraph or CyanTrigger to crea
 Setup
 
 1. Drag the PlayerObjectPool and PlayerObjectAssigner prefabs into your scene.
-2. In the PlayerObjectPool prefab, set the pool size to double the world cap.
+2. In the PlayerObjectPool prefab, set the pool size to double the world capacity.
 3. Create an Udon program to be used for each pooled object, implementing the required items (see template UdonGraph, CyanTrigger, or UdonSharp script)
-4. Create a new GameObject with this Udon program and child it under the PlayerObjectAssigner prefab. Duplicate it so that there is enough for the pool size set in step 2.
+4. Create a new GameObject with this Udon program, make it a prefab, and drag the prefab into the "Pool Object Prefab" field in the PlayerObjectAssigner prefab. This will automatically create enough instances of the pool object for the current pool size.
 
 See the example scenes for more details on proper setup.
 
