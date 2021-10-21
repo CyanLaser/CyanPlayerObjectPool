@@ -45,6 +45,9 @@ namespace Cyan.PlayerObjectPool
 
         public override void OnInspectorGUI()
         {
+            if (UdonSharpGUI.DrawDefaultUdonSharpBehaviourHeader(target)) return;
+            if (!UdonSharpEditorUtility.IsProxyBehaviour(_instance)) return;
+            
             serializedObject.UpdateIfRequiredOrScript();
 
             CyanPlayerObjectPoolEditorHelpers.RenderHeader("CyanPlayerObjectPool");

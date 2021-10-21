@@ -1,4 +1,5 @@
-﻿using UnityEditor;
+﻿using UdonSharpEditor;
+using UnityEditor;
 using UnityEngine;
 
 namespace Cyan.PlayerObjectPool
@@ -35,6 +36,9 @@ namespace Cyan.PlayerObjectPool
 
         public override void OnInspectorGUI()
         {
+            if (UdonSharpGUI.DrawDefaultUdonSharpBehaviourHeader(target)) return;
+            if (!UdonSharpEditorUtility.IsProxyBehaviour((CyanPlayerObjectAssigner)target)) return;
+            
             serializedObject.UpdateIfRequiredOrScript();
             
             CyanPlayerObjectPoolEditorHelpers.RenderHeader("CyanPlayerObjectAssigner");
