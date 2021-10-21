@@ -13,7 +13,11 @@ namespace Cyan.PlayerObjectPool
     {
         private readonly GUIContent _settingsFoldoutGuiContent = new GUIContent("Pool Settings", "");
         private readonly GUIContent _poolAssignersFoldoutGuiContent = new GUIContent("Pool Types", "");
-        
+
+        // Minimum world capacity is 1.
+        private const int MinPoolObjects = 1;
+        // Maximum world capacity is ~82, but allowing more since it doesn't break the system.
+        private const int MaxPoolObjects = 100;
         
         private Texture2D _typesBackgroundTexture;
 
@@ -123,12 +127,10 @@ namespace Cyan.PlayerObjectPool
                 EditorGUILayout.PropertyField(_debugProp);
 
                 // Hard-cap the min and max size of the object pool.
-                // Negative sizes aren't supported.
-                // VRChat's player instances currently cap at 82, sizes larger than that are unnecessary.
                 int value = _sizeProp.intValue;
-                if (value < 0 || value > 100)
+                if (value < MinPoolObjects || value > MaxPoolObjects)
                 {
-                    _sizeProp.intValue = Mathf.Clamp(value, 0, 100);
+                    _sizeProp.intValue = Mathf.Clamp(value, MinPoolObjects, MaxPoolObjects);
                 }
                 
                 CyanPlayerObjectPoolEditorHelpers.RemoveIndent();
