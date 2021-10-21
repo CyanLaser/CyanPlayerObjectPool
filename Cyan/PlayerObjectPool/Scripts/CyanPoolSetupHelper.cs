@@ -61,99 +61,116 @@ namespace Cyan.PlayerObjectPool
 
         public UdonBehaviour GetPoolUdon()
         {
+            // If this object shouldn't be initialized, always return null to prevent the scene from being edited.
             if (!ShouldInitialize())
             {
                 return null;
             }
             
+            // If the udon behaviour has been cached, return it.
             if (_poolUdon != null)
             {
                 return _poolUdon;
             }
 
-            foreach (var obj in gameObject.scene.GetRootGameObjects())
+            // Given an object, return the first UdonBehaviour that is of type CyanPlayerObjectPool contained in this
+            // object's hierarchy.
+            UdonBehaviour GetPoolUdon(GameObject obj)
             {
-                foreach (var udon in obj.GetComponentsInChildren<UdonBehaviour>(true))
+                CyanPlayerObjectPool[] pools = obj.GetUdonSharpComponentsInChildren<CyanPlayerObjectPool>(true);
+
+                if (pools.Length == 0)
                 {
-                    if (UdonSharpEditorUtility.GetUdonSharpBehaviourType(udon) == typeof(CyanPlayerObjectPool))
-                    {
-                        _poolUdon = udon;
-                        break;
-                    }
+                    return null;
                 }
 
-                if (_poolUdon)
+                return UdonSharpEditorUtility.GetBackingUdonBehaviour(pools[0]);
+            }
+            
+            // Go through every object to find the Object pool
+            foreach (var obj in gameObject.scene.GetRootGameObjects())
+            {
+                _poolUdon = GetPoolUdon(obj);
+
+                if (_poolUdon != null)
                 {
                     break;
                 }
             }
 
-            if (_poolUdon == null)
+            // Object pool does not currently exist in the scene. Spawn a new one.
+            if (_poolUdon == null && cyanPlayerObjectPoolPrefab != null)
             {
                 GameObject poolPrefab = PrefabUtility.InstantiatePrefab(cyanPlayerObjectPoolPrefab) as GameObject;
                 Undo.RegisterCreatedObjectUndo(poolPrefab, "Create Object Pool Prefab");
 
-                foreach (var udon in poolPrefab.GetComponentsInChildren<UdonBehaviour>(true))
-                {
-                    if (UdonSharpEditorUtility.GetUdonSharpBehaviourType(udon) == typeof(CyanPlayerObjectPool))
-                    {
-                        _poolUdon = udon;
-                        break;
-                    }
-                }
+                _poolUdon = GetPoolUdon(poolPrefab);
             }
             
             return _poolUdon;
         }
 
+        // Get the current size of the Object Pool.
         public int GetPoolSize()
         {
             GetPoolUdon().publicVariables.TryGetVariableValue(nameof(CyanPlayerObjectPool.poolSize), out int value);
             return value;
         }
 
+        // Update the number of pool objects for this assigner based on the current size of the Object pool.
         public void UpdatePoolSize()
         {
             UpdatePoolSize(GetPoolSize());
         }
 
+        // Delete all children under this Object Assigner.
         public void ClearChildren()
         {
             while (transform.childCount > 0)
             {
-                GameObject poolObject = transform.GetChild(transform.childCount - 1).gameObject;
+                GameObject poolObject = transform.GetChild(0).gameObject;
                 Undo.DestroyObjectImmediate(poolObject);
             }
         }
         
+        // Given a size, spawn new pooled objects or delete old objects until this object assigner has the appropriate size.
         public void UpdatePoolSize(int size)
         {
+            // No pool object prefab to update size. Delete all objects.
             if (poolObjectPrefab == null)
             {
                 ClearChildren();
                 return;
             }
             
+            // Too many children, delete the last items until size is met.
             while (transform.childCount > size)
             {
                 GameObject poolObject = transform.GetChild(transform.childCount - 1).gameObject;
                 Undo.DestroyObjectImmediate(poolObject);
             }
 
+            // Too few children, spawn new items until size is met.
             while (transform.childCount < size)
             {
                 GameObject poolObject = null;
+                // If pool object is a prefab, spawn as a prefab instance
                 if (PrefabUtility.IsPartOfPrefabAsset(poolObjectPrefab))
                 {
                     poolObject = (GameObject)PrefabUtility.InstantiatePrefab(poolObjectPrefab, transform);
                 }
+                // If pool object is not a prefab, instantiate as normal gameobject.
                 else
                 {
                     poolObject = Instantiate(poolObjectPrefab, transform);
                     poolObject.name = poolObjectPrefab.name;
                 }
-                Undo.RegisterCreatedObjectUndo(poolObject, "Create Pool Object");
+                
+                // Ensure that no siblings have the same name. This adds the (#) to the end of the object. 
                 GameObjectUtility.EnsureUniqueNameForSibling(poolObject);
+                
+                // Register that the object has been created to ensure that undo deletes them properly.
+                Undo.RegisterCreatedObjectUndo(poolObject, "Create Pool Object");
             }
         }
 #endif
