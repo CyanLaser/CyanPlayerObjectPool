@@ -15,10 +15,6 @@ namespace Cyan.PlayerObjectPool
             new Color(0, 0, 0, 0.5f) : 
             new Color(0.5f, 0.5f, 0.5f, 0.5f);
 
-        public static Color LineColor => EditorGUIUtility.isProSkin ?
-            new Color(0.1f, 0.1f, 0.1f, 0.5f) :
-            new Color(0.5f, 0.5f, 0.5f, 0.5f);
-
         public static Color BackgroundColor => EditorGUIUtility.isProSkin ? 
             new Color(0.25f, 0.25f, 0.25f, 0.5f) : 
 #if UNITY_2019_3_OR_NEWER

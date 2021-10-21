@@ -20,6 +20,7 @@ namespace Cyan.PlayerObjectPool
         private UdonBehaviour _udon;
 
         private int _poolSize;
+        private bool _multiplePools;
         
         private SerializedProperty _sizeProp;
         private SerializedProperty _debugProp;
@@ -41,6 +42,26 @@ namespace Cyan.PlayerObjectPool
                 (x, y) => x == 1 && y == 1 
                     ? CyanPlayerObjectPoolEditorHelpers.BackgroundColor 
                     : CyanPlayerObjectPoolEditorHelpers.LineColorDark);
+
+            _multiplePools = false;
+            if (ShouldCheckScene())
+            {
+                int count = 0;
+                foreach (var obj in _instance.gameObject.scene.GetRootGameObjects())
+                {
+                    CyanPlayerObjectPool[] pools = obj.GetUdonSharpComponentsInChildren<CyanPlayerObjectPool>(true);
+                    count += pools.Length;
+                }
+
+                _multiplePools = count > 1;
+            }
+        }
+
+        private bool ShouldCheckScene()
+        {
+            return _udon != null 
+                   && _udon.gameObject.scene.isLoaded 
+                   && PrefabUtility.IsPartOfNonAssetPrefabInstance(_instance.transform.root);
         }
 
         public override void OnInspectorGUI()
@@ -48,21 +69,28 @@ namespace Cyan.PlayerObjectPool
             if (UdonSharpGUI.DrawDefaultUdonSharpBehaviourHeader(target)) return;
             if (!UdonSharpEditorUtility.IsProxyBehaviour(_instance)) return;
             
+            CyanPlayerObjectPoolEditorHelpers.RenderHeader("Cyan Player Object Pool");
+            
+            if (_multiplePools)
+            {
+                GUILayout.Space(5);
+                EditorGUILayout.HelpBox("Multiple Object Pools exist in the scene! Please only have one Object Pool!", MessageType.Error);
+                // TODO list all object pools
+                return;
+            }
+            
             serializedObject.UpdateIfRequiredOrScript();
 
-            CyanPlayerObjectPoolEditorHelpers.RenderHeader("CyanPlayerObjectPool");
             RenderSettings();
             
             serializedObject.ApplyModifiedProperties();
             
             // Prevent modifying the scene if this is part of a prefab editor.
-            if (!_udon.gameObject.scene.isLoaded || !PrefabUtility.IsPartOfNonAssetPrefabInstance(_instance.transform.root))
+            if (!ShouldCheckScene())
             {
                 return;
             }
-            
-            // TODO check for multiple pools in the scene and display warning
-            
+
             List<CyanPoolSetupHelper> helpers = new List<CyanPoolSetupHelper>(FindObjectsOfType<CyanPoolSetupHelper>());
             // Sort based on name
             helpers.Sort((h1, h2) => h1.name.CompareTo(h2.name));
@@ -142,6 +170,11 @@ namespace Cyan.PlayerObjectPool
                 // Create vertical bars separating the sections
                 GUI.Box(new Rect(rect.x + indexLabelWidth + between, rect.y + 1, 1, height), GUIContent.none, boxStyle);
                 GUI.Box(new Rect(rect.x + indexLabelWidth + pingWidth + between * 2, rect.y + 1, 1, height), GUIContent.none, boxStyle);
+
+                if (helpers.Count == 0)
+                {
+                    GUILayout.Space(sectionHeight);
+                }
                 
                 for (int cur = 0; cur < helpers.Count; ++cur)
                 {

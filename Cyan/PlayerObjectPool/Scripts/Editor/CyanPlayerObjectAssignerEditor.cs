@@ -41,7 +41,7 @@ namespace Cyan.PlayerObjectPool
             
             serializedObject.UpdateIfRequiredOrScript();
             
-            CyanPlayerObjectPoolEditorHelpers.RenderHeader("CyanPlayerObjectAssigner");
+            CyanPlayerObjectPoolEditorHelpers.RenderHeader("Cyan Player Object Assigner");
             RenderSettings();
             
             RenderHelperSettings();
