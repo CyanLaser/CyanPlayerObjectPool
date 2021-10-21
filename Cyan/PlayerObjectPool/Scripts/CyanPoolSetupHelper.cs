@@ -5,6 +5,7 @@ using VRC.Udon;
 #if UNITY_EDITOR
 using UdonSharpEditor;
 using UnityEditor;
+using UnityEditor.SceneManagement;
 #endif
 
 namespace Cyan.PlayerObjectPool
@@ -50,7 +51,7 @@ namespace Cyan.PlayerObjectPool
             }
 
 #if UNITY_EDITOR
-            if (!PrefabUtility.IsPartOfNonAssetPrefabInstance(transform.root))
+            if (EditorSceneManager.IsPreviewSceneObject(this))
             {
                 return false;
             }

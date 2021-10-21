@@ -61,7 +61,7 @@ namespace Cyan.PlayerObjectPool
         {
             return _udon != null 
                    && _udon.gameObject.scene.isLoaded 
-                   && PrefabUtility.IsPartOfNonAssetPrefabInstance(_instance.transform.root);
+                   && !EditorSceneManager.IsPreviewSceneObject(_udon);
         }
 
         public override void OnInspectorGUI()
