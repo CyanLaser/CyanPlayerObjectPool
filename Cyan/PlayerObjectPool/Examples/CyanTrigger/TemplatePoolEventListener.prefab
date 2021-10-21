@@ -110,7 +110,7 @@ MonoBehaviour:
         expanded: 1
       variables:
       - isVariable: 0
-        name: playeAssignedPlayer
+        name: playerAssignedPlayer
         variableID: f12c3ee8-e181-499a-8bc7-45ea6a0c41ae
         data:
           objEncoded: Lg==
