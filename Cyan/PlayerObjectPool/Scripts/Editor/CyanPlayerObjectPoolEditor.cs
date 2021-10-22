@@ -162,6 +162,9 @@ namespace Cyan.PlayerObjectPool
 
             if (_showPoolAssigners)
             {
+                GUIContent errorIcon = EditorGUIUtility.TrIconContent("console.erroricon", "This pool type does not have the correct number of objects!");
+                GUIContent warningIcon = EditorGUIUtility.TrIconContent("console.warnicon", "This pool type does not have any objects.");
+
                 GUILayout.Space(5);
 
                 var boxStyle = new GUIStyle
@@ -185,6 +188,7 @@ namespace Cyan.PlayerObjectPool
                 float betweenHalf = Mathf.Floor(between / 2f); 
                 float indexLabelWidth = 20;
                 float pingWidth = 40;
+                float iconWidth = 25;
                 
                 // Create vertical bars separating the sections
                 GUI.Box(new Rect(rect.x + indexLabelWidth + between, rect.y + 1, 1, height), GUIContent.none, boxStyle);
@@ -229,6 +233,25 @@ namespace Cyan.PlayerObjectPool
                     GUIContent objectContent =
                         new GUIContent(helper.name, VRC.Tools.GetGameObjectPath(helper.gameObject));
                     GUI.Label(objectLabelRect, objectContent);
+
+                    int objCount = helper.GetObjectCount();
+                    if (objCount != _poolSize)
+                    {
+                        GUIContent content = null;
+                        if (objCount == 0)
+                        {
+                            // Display warning saying no objects 
+                            content = warningIcon;
+                        }
+                        else
+                        {
+                            // Display error saying object count does not match
+                            content = errorIcon;
+                        }
+                        
+                        Rect iconRect = new Rect(objectLabelRect.xMax, buttonY, iconWidth, buttonHeight);
+                        GUI.Label(iconRect, content);
+                    }
                     
                     GUILayout.Space(1);
                     EditorGUILayout.EndHorizontal();

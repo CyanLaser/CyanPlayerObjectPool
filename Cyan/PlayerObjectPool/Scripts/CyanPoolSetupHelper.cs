@@ -117,6 +117,11 @@ namespace Cyan.PlayerObjectPool
             GetPoolUdon().publicVariables.TryGetVariableValue(nameof(CyanPlayerObjectPool.poolSize), out int value);
             return value;
         }
+        
+        public int GetObjectCount()
+        {
+            return transform.childCount;
+        }
 
         // Update the number of pool objects for this assigner based on the current size of the Object pool.
         public void UpdatePoolSize()
@@ -127,7 +132,7 @@ namespace Cyan.PlayerObjectPool
         // Delete all children under this Object Assigner.
         public void ClearChildren()
         {
-            while (transform.childCount > 0)
+            while (GetObjectCount() > 0)
             {
                 GameObject poolObject = transform.GetChild(0).gameObject;
                 Undo.DestroyObjectImmediate(poolObject);
@@ -143,7 +148,7 @@ namespace Cyan.PlayerObjectPool
             }
             
             int size = GetPoolSize();
-            if (transform.childCount != size)
+            if (GetObjectCount() != size)
             {
                 UpdatePoolSize(size);
             }
@@ -152,22 +157,21 @@ namespace Cyan.PlayerObjectPool
         // Given a size, spawn new pooled objects or delete old objects until this object assigner has the appropriate size.
         public void UpdatePoolSize(int size)
         {
-            // No pool object prefab to update size. Delete all objects.
+            // No pool object prefab to update size.
             if (poolObjectPrefab == null)
             {
-                ClearChildren();
                 return;
             }
             
             // Too many children, delete the last items until size is met.
-            while (transform.childCount > size)
+            while (GetObjectCount() > size)
             {
-                GameObject poolObject = transform.GetChild(transform.childCount - 1).gameObject;
+                GameObject poolObject = transform.GetChild(GetObjectCount() - 1).gameObject;
                 Undo.DestroyObjectImmediate(poolObject);
             }
 
             // Too few children, spawn new items until size is met.
-            while (transform.childCount < size)
+            while (GetObjectCount() < size)
             {
                 GameObject poolObject = null;
                 // If pool object is a prefab, spawn as a prefab instance

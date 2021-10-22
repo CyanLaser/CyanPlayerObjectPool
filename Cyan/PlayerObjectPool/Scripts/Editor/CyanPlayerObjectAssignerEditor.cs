@@ -93,6 +93,7 @@ namespace Cyan.PlayerObjectPool
             {
                 CyanPlayerObjectPoolEditorHelpers.AddIndent();
 
+                int assignerSize = _setupHelper.GetObjectCount();
                 // Only show Pool options when in a valid scene and not a prefab editor.
                 if (shouldInitialize)
                 {
@@ -103,9 +104,16 @@ namespace Cyan.PlayerObjectPool
                 
                     EditorGUI.BeginDisabledGroup(true);
 
-                    EditorGUILayout.IntField("Pool Size", _setupHelper.GetPoolSize());
-                
+                    int poolSize = _setupHelper.GetPoolSize();
+                    
+                    EditorGUILayout.IntField("Pool Size", poolSize);
+
                     EditorGUI.EndDisabledGroup();
+                    
+                    if (poolSize != assignerSize && assignerSize > 0)
+                    {
+                        EditorGUILayout.HelpBox($"Pool Object count does not match Pool Size! This assigner has {assignerSize} objects when the pool is expecting {poolSize} objects.", MessageType.Error);
+                    }
                 }
 
                 EditorGUI.BeginChangeCheck();
@@ -116,7 +124,7 @@ namespace Cyan.PlayerObjectPool
 
                 _setupHelperSerializedObject.ApplyModifiedProperties();
 
-                if (_poolObjectProp.objectReferenceValue == null)
+                if (_poolObjectProp.objectReferenceValue == null && assignerSize == 0)
                 {
                     GUILayout.Space(5);
                     EditorGUILayout.HelpBox("Pool Object has not been assigned. Assignment and Unassignment events will still be sent to the Pool Event Listener but no object will be assigned.", MessageType.Warning);
