@@ -3,6 +3,7 @@ using JetBrains.Annotations;
 using UdonSharp;
 using UnityEngine;
 using VRC.SDKBase;
+using VRC.Udon.Common;
 
 namespace Cyan.PlayerObjectPool
 {
@@ -19,12 +20,15 @@ namespace Cyan.PlayerObjectPool
         // Current pool version that will be printed at start. 
         private const string Version = "v0.0.5";
         
-        // These constants affect delays for specific actions
-        #region Delay constants
+        // These constants affect the behaviour of the pool
+        #region Constants
 
         // The minimum duration between serialization requests to reduce overall network load when multiple people join
         // at the same time. 
         private const float DelaySerializationDuration = 2f;
+        // How many times will the pool try to delay serialization while the network is clogged? After reaching this
+        // number, the assignment will be forced to try serializing.
+        private const int MaxCloggedDelayAttempts = 2;
         // The duration to wait to verify all pool indices after a player has become the new master. This delay is
         // needed to ensure that all players have joined/left since the master swap. It is possible that the previous
         // master assigned pool indices to players that have not yet joined on the new master's client. In this case, 
@@ -101,6 +105,9 @@ namespace Cyan.PlayerObjectPool
         // serialization request happens within a given duration. This is to help reduce overall networking load
         // when multiple people join at the same time.
         private float _lastSerializationRequestTime;
+        // The count of how many attempts the pool has tried to serialize the assignments, but was prevented due to the
+        // network being clogged. After so many attempts, serialization will happen anyway.
+        private int _networkedCloggedSerializationAttempts = 0;
 
         // Temporary data used for verifying each player's index.
         private VRCPlayerApi[] _allPlayersTemp = new VRCPlayerApi[0];
@@ -481,6 +488,17 @@ namespace Cyan.PlayerObjectPool
             _DelayUpdateAssignment();
         }
 
+        // OnPostSerialization is called after serialization of the assignment array has finished.
+        public override void OnPostSerialization(SerializationResult result)
+        {
+            // Check the results to know if there were any errors and retry.
+            if (!result.success)
+            {
+                _LogError("Failed to serialize data! Requesting again after delay.");
+                _DelayRequestSerialization();
+            }
+        }
+
         #endregion
 
         #region Player Tag Caching System
@@ -784,7 +802,21 @@ namespace Cyan.PlayerObjectPool
             if (Time.time - _lastSerializationRequestTime < DelaySerializationDuration) {
                 return;
             }
-            
+
+            // Check if the network is clogged and delay serialization until the network has calmed down.
+            if (Networking.IsClogged)
+            {
+                ++_networkedCloggedSerializationAttempts;
+                if (_networkedCloggedSerializationAttempts <= MaxCloggedDelayAttempts)
+                {
+                    _LogWarning($"Network is clogged, delaying serialization. Attempt: {_networkedCloggedSerializationAttempts}");
+                    _DelayRequestSerialization();
+                    return;
+                }
+                _LogWarning($"Network is still clogged, but attempting serialization. Attempt: {_networkedCloggedSerializationAttempts}");
+            }
+
+            _networkedCloggedSerializationAttempts = 0;
             // Request serialization of the object pool assignments so that everyone else can see the updated
             // assignments. 
             RequestSerialization();
