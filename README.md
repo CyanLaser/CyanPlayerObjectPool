@@ -44,7 +44,7 @@ When creating an Udon program to be used as a pooled object, it needs three thin
 
 1. Right click on the PlayerObjectAssigner prefab and create a new Prefab Variant.
 2. Create your Pool Object prefab and set it in the Variant's "Pool Object Prefab" field.
-3. (Optional) If your system depends on objects outside of the Pool Object (Pool Event Listeners), create a new prefab for your system, have the prefab variant as a child. Add other systems dependent on your pool system as children.
+3. (Optional) If your system depends on objects outside of the Pool Object (Pool Event Listeners), create a new prefab for your system, have the prefab variant as a child. Add other systems dependent on your pool system as children. Ensure that the PlayerObjectAssigner prefab variant does not have any children as these will be created when dragged into the scene.
 4. Create a Readme file for your prefab and tell users to drag your system prefab into the scene. When the prefab is added to the scene, it will auto link with the Object Pool system, or create a new one if one did not already exist. 
 
 
