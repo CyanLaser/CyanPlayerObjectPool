@@ -25,10 +25,10 @@ namespace Cyan.PlayerObjectPool
 
         // The minimum duration between serialization requests to reduce overall network load when multiple people join
         // at the same time. 
-        private const float DelaySerializationDuration = 2f;
+        private const float DelaySerializationDuration = 1f;
         // How many times will the pool try to delay serialization while the network is clogged? After reaching this
         // number, the assignment will be forced to try serializing.
-        private const int MaxCloggedDelayAttempts = 2;
+        private const int MaxCloggedDelayAttempts = 4;
         // The duration to wait to verify all pool indices after a player has become the new master. This delay is
         // needed to ensure that all players have joined/left since the master swap. It is possible that the previous
         // master assigned pool indices to players that have not yet joined on the new master's client. In this case, 
@@ -383,7 +383,6 @@ namespace Cyan.PlayerObjectPool
                 _FillUnclaimedIndexQueue();
                 
                 _DelayRequestSerialization();
-                _DelayUpdateAssignment();
             }
         }
 
@@ -496,7 +495,11 @@ namespace Cyan.PlayerObjectPool
             {
                 _LogError("Failed to serialize data! Requesting again after delay.");
                 _DelayRequestSerialization();
+                return;
             }
+            
+            // Results were successful, update player assignments.
+            _DelayUpdateAssignment();
         }
 
         #endregion
@@ -748,7 +751,6 @@ namespace Cyan.PlayerObjectPool
             _SetPlayerIndexTag(id, index);
             
             _DelayRequestSerialization();
-            _DelayUpdateAssignment();
         }
 
         // Clear the assignment for a given index and player. This should only be called by Master.
@@ -778,7 +780,6 @@ namespace Cyan.PlayerObjectPool
             _ClearPlayerIndexTagIfExpected(playerId, index);
 
             _DelayRequestSerialization();
-            _DelayUpdateAssignment();
         }
 
         // Delay requesting serialization. On each call, it will ensure that serialization does not happen until at
@@ -820,7 +821,19 @@ namespace Cyan.PlayerObjectPool
             // Request serialization of the object pool assignments so that everyone else can see the updated
             // assignments. 
             RequestSerialization();
+            
+#if UNITY_EDITOR
+            // Assigning objects is handled in OnPostSerialization when results are true.
+            // CyanEmu does not handle calling this method so it needs to be called manually in editor.
+            OnPostSerialization(_trueSerializationResults);
+#endif
         }
+        
+#if UNITY_EDITOR
+        // SerializationResults cannot be created at runtime in Udon.
+        // In order to test assignments in editor with CyanEmu, this is used when manually calling OnPostSerialization. 
+        private readonly SerializationResult _trueSerializationResults = new SerializationResult(true, 0);
+#endif
         
         // Check assignment changes in the next frame. This method is used to ensure that only one assignment update
         // check happens per frame. This should be the main method called to verify changes to assignments.
