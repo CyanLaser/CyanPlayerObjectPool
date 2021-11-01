@@ -23,6 +23,8 @@ namespace Cyan.PlayerObjectPool
         // These constants affect the behaviour of the pool
         #region Constants
 
+        // Any time comparisons should use this epsilon to verify differences, otherwise they may not fire when expected.
+        private const float TimeCheckEpsilon = 0.1f;
         // The minimum duration between serialization requests to reduce overall network load when multiple people join
         // at the same time. 
         private const float DelaySerializationDuration = 1f;
@@ -793,7 +795,7 @@ namespace Cyan.PlayerObjectPool
         private void _DelayRequestSerialization()
         {
             // Set the last request time to now.
-            _lastSerializationRequestTime = Time.time;
+            _lastSerializationRequestTime = Time.timeSinceLevelLoad;
             // Delay call to handle serialization.
             SendCustomEventDelayedSeconds(nameof(_OnDelayRequestSerialization), DelaySerializationDuration);
         }
@@ -805,7 +807,7 @@ namespace Cyan.PlayerObjectPool
         {
             // If the last request time was less than the expected duration, return early since this means another
             // request has happened since this one was requested.
-            if (Time.time - _lastSerializationRequestTime < DelaySerializationDuration) {
+            if (Time.timeSinceLevelLoad - _lastSerializationRequestTime < DelaySerializationDuration - TimeCheckEpsilon) {
                 return;
             }
 
