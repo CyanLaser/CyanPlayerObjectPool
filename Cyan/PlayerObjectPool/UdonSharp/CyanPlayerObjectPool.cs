@@ -34,7 +34,7 @@ namespace Cyan.PlayerObjectPool
         // master assigned pool indices to players that have not yet joined on the new master's client. In this case, 
         // the new master should wait to assign indices to prevent reassignment for those players.
         private const float DelayNewMasterVerificationDuration = 1f;
-
+        
         #endregion
         
         // Tag based constants. These values should be unique to not cause overlap with other systems and prefabs.
@@ -133,8 +133,13 @@ namespace Cyan.PlayerObjectPool
         private CyanPlayerObjectAssigner[] _assignmentListeners;
         // Current number of object assigners to forward events to. 
         private int _listenersCount = 0;
-
         
+        // SerializationResults cannot be created at runtime in Udon. Create at compile time to allow calling
+        // OnPostSerialization during runtime.
+        // This is only used in Editor, or when there is only one player in the instance.
+        private readonly SerializationResult _trueSerializationResults = new SerializationResult(true, 0);
+
+
         #region Public API
 
         /// <summary>
@@ -821,20 +826,22 @@ namespace Cyan.PlayerObjectPool
             // Request serialization of the object pool assignments so that everyone else can see the updated
             // assignments. 
             RequestSerialization();
+
+            // Serialization will only happen when multiple players are in the world.
+            // If there is only one player, update assignment directly. 
+            bool shouldManuallyUpdateAssignment = VRCPlayerApi.GetPlayerCount() == 1;
+
+            // CyanEmu does not handle calling OnPostSerialization ever, so it always needs to be called manually in editor.
+#if UNITY_EDITOR
+            shouldManuallyUpdateAssignment = true;
+#endif
             
-#if UNITY_EDITOR
-            // Assigning objects is handled in OnPostSerialization when results are true.
-            // CyanEmu does not handle calling this method so it needs to be called manually in editor.
-            OnPostSerialization(_trueSerializationResults);
-#endif
+            if (shouldManuallyUpdateAssignment)
+            {
+                OnPostSerialization(_trueSerializationResults);
+            }
         }
-        
-#if UNITY_EDITOR
-        // SerializationResults cannot be created at runtime in Udon.
-        // In order to test assignments in editor with CyanEmu, this is used when manually calling OnPostSerialization. 
-        private readonly SerializationResult _trueSerializationResults = new SerializationResult(true, 0);
-#endif
-        
+
         // Check assignment changes in the next frame. This method is used to ensure that only one assignment update
         // check happens per frame. This should be the main method called to verify changes to assignments.
         private void _DelayUpdateAssignment()
