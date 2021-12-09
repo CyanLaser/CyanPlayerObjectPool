@@ -94,18 +94,30 @@ namespace Cyan.PlayerObjectPool
                 CyanPlayerObjectPoolEditorHelpers.AddIndent();
 
                 int assignerSize = _setupHelper.GetObjectCount();
+                
                 // Only show Pool options when in a valid scene and not a prefab editor.
                 if (shouldInitialize)
                 {
+                    int poolSize = _setupHelper.GetPoolSize();
+                    
+                    EditorGUILayout.BeginHorizontal();
+
                     if (GUILayout.Button("Ping Object Pool"))
                     {
                         EditorGUIUtility.PingObject(_setupHelper.GetPoolUdon().gameObject);
                     }
+                    
+                    GUILayout.Space(5);
+                    
+                    if (GUILayout.Button("Respawn All Pool Objects"))
+                    {
+                        _setupHelper.RespawnAllPoolObjects();
+                    }
+                    
+                    EditorGUILayout.EndHorizontal();
                 
                     EditorGUI.BeginDisabledGroup(true);
 
-                    int poolSize = _setupHelper.GetPoolSize();
-                    
                     EditorGUILayout.IntField("Pool Size", poolSize);
 
                     EditorGUI.EndDisabledGroup();
@@ -133,8 +145,7 @@ namespace Cyan.PlayerObjectPool
                 // Only apply changes when the scene is valid and not in a prefab editor.
                 if (changes && shouldInitialize)
                 {
-                    _setupHelper.ClearChildren();
-                    _setupHelper.UpdatePoolSize();
+                    _setupHelper.RespawnAllPoolObjects();
                 }
             
                 CyanPlayerObjectPoolEditorHelpers.RemoveIndent();

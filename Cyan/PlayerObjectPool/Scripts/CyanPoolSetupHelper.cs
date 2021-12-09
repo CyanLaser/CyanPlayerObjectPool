@@ -139,6 +139,23 @@ namespace Cyan.PlayerObjectPool
             }
         }
 
+        public void RespawnAllPoolObjects()
+        {
+            if (!ShouldInitialize())
+            {
+                return;
+            }
+            
+            // No pool object prefab to update size.
+            if (poolObjectPrefab == null)
+            {
+                return;
+            }
+
+            ClearChildren();
+            UpdatePoolSize();
+        }
+
         // Verify that the pool's current size matches the Object Pool's size.
         public void VerifyPoolSize()
         {

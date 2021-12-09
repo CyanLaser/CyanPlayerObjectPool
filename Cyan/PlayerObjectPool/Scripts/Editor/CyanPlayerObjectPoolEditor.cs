@@ -133,6 +133,15 @@ namespace Cyan.PlayerObjectPool
                     _sizeProp.intValue = Mathf.Clamp(value, MinPoolObjects, MaxPoolObjects);
                 }
                 
+                // Only display button to respawn objects if the scene can be edited.  
+                if (ShouldCheckScene() && GUILayout.Button("Respawn All Pool Objects"))
+                {
+                    foreach (var helper in FindObjectsOfType<CyanPoolSetupHelper>())
+                    {
+                        helper.RespawnAllPoolObjects();
+                    }
+                }
+                
                 CyanPlayerObjectPoolEditorHelpers.RemoveIndent();
             }
             
