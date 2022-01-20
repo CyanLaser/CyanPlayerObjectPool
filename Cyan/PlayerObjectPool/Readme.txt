@@ -1,5 +1,6 @@
 CyanPlayerObjectPool
 Created by CyanLaser#4695
+https://github.com/CyanLaser/CyanPlayerObjectPool
 
 Assigns a unique object to every player in the world.
 
