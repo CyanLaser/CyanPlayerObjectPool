@@ -1,4 +1,5 @@
 ﻿
+using System;
 using JetBrains.Annotations;
 using UdonSharp;
 using UnityEngine;
@@ -17,11 +18,11 @@ public class TemplatePoolEventListener : UdonSharpBehaviour
     
     // This event is called when any player is assigned a pool object.
     // The variables will be set before the event is called.
-    [PublicAPI, HideInInspector]
+    [PublicAPI, NonSerialized]
     public VRCPlayerApi playerAssignedPlayer;
-    [PublicAPI, HideInInspector] 
+    [PublicAPI, NonSerialized] 
     public int playerAssignedIndex;
-    [PublicAPI, HideInInspector]
+    [PublicAPI, NonSerialized]
     public UdonBehaviour playerAssignedPoolObject;
     [PublicAPI]
     public void _OnPlayerAssigned()
@@ -31,11 +32,11 @@ public class TemplatePoolEventListener : UdonSharpBehaviour
     
     // This event is called when any player's object has been unassigned.
     // The variables will be set before the event is called.
-    [PublicAPI, HideInInspector]
+    [PublicAPI, NonSerialized]
     public VRCPlayerApi playerUnassignedPlayer;
-    [PublicAPI, HideInInspector] 
+    [PublicAPI, NonSerialized] 
     public int playerUnassignedIndex;
-    [PublicAPI, HideInInspector]
+    [PublicAPI, NonSerialized]
     public UdonBehaviour playerUnassignedPoolObject;
     [PublicAPI]
     public void _OnPlayerUnassigned()

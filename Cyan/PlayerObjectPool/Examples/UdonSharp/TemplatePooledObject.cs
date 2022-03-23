@@ -1,4 +1,5 @@
-﻿using JetBrains.Annotations;
+﻿using System;
+using JetBrains.Annotations;
 using UdonSharp;
 using UnityEngine;
 using VRC.SDKBase;
@@ -7,7 +8,7 @@ using VRC.SDKBase;
 public class TemplatePooledObject : UdonSharpBehaviour
 {
     // Who is the current owner of this object. Null if object is not currently in use. 
-    [PublicAPI, HideInInspector]
+    [PublicAPI, NonSerialized]
     public VRCPlayerApi Owner;
     
     // This method will be called on all clients when the object is enabled and the Owner has been assigned.

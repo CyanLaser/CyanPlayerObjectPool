@@ -1,8 +1,10 @@
-﻿using JetBrains.Annotations;
+﻿using System;
+using JetBrains.Annotations;
 using UdonSharp;
 using UnityEngine;
 using UnityEngine.UI;
 using VRC.SDKBase;
+using Random = UnityEngine.Random;
 
 namespace Cyan.PlayerObjectPool
 {
@@ -11,7 +13,7 @@ namespace Cyan.PlayerObjectPool
     public class DemoPooledObject : UdonSharpBehaviour
     {
         // Who is the current owner of this object. Null if object is not currently in use. 
-        [PublicAPI, HideInInspector]
+        [PublicAPI, NonSerialized]
         public VRCPlayerApi Owner;
         
         public Text text;

@@ -1,4 +1,5 @@
 ﻿
+using System;
 using JetBrains.Annotations;
 using UdonSharp;
 using UnityEngine;
@@ -40,11 +41,11 @@ namespace Cyan.PlayerObjectPool
             DisableInteractive = false;
         }
         
-        [PublicAPI, HideInInspector]
+        [PublicAPI, NonSerialized] 
         public VRCPlayerApi playerAssignedPlayer;
-        [PublicAPI, HideInInspector] 
+        [PublicAPI, NonSerialized] 
         public int playerAssignedIndex;
-        [PublicAPI, HideInInspector]
+        [PublicAPI, NonSerialized]
         public UdonBehaviour playerAssignedPoolObject;
         [PublicAPI]
         public void _OnPlayerAssigned()
@@ -52,11 +53,11 @@ namespace Cyan.PlayerObjectPool
             Debug.Log($"Object {playerAssignedIndex} assigned to player {playerAssignedPlayer.displayName} {playerAssignedPlayer.playerId}");
         }
         
-        [PublicAPI, HideInInspector]
+        [PublicAPI, NonSerialized]
         public VRCPlayerApi playerUnassignedPlayer;
-        [PublicAPI, HideInInspector] 
+        [PublicAPI, NonSerialized] 
         public int playerUnassignedIndex;
-        [PublicAPI, HideInInspector]
+        [PublicAPI, NonSerialized]
         public UdonBehaviour playerUnassignedPoolObject;
         [PublicAPI]
         public void _OnPlayerUnassigned()

@@ -108,7 +108,7 @@ namespace Cyan.PlayerObjectPool
         
         // Array of UdonBehaviours that are in the pool. Type is Component so that it can be properly casted to either
         // UdonBehaviour or custom UdonSharpBehaviour while still having valid type checking.
-        [HideInInspector]
+        [NonSerialized, PublicAPI]
         public Component[] pooledUdon = new Component[0];
 
         // The list of GameObjects in the pool. 
@@ -405,37 +405,37 @@ namespace Cyan.PlayerObjectPool
         /// </summary>
         #region Public API for Graph and CyanTrigger programs
 
-        [HideInInspector, PublicAPI] 
+        [NonSerialized, PublicAPI] 
         public VRCPlayerApi playerInput;
         
-        [HideInInspector, PublicAPI] 
+        [NonSerialized, PublicAPI] 
         public int playerIdInput;
 
-        [HideInInspector, PublicAPI] 
+        [NonSerialized, PublicAPI] 
         public VRCPlayerApi[] playerArrayInput;
 
-        [HideInInspector, PublicAPI] 
+        [NonSerialized, PublicAPI] 
         public Component[] poolObjectArrayInput;
         
-        [HideInInspector, PublicAPI]
+        [NonSerialized, PublicAPI]
         public GameObject poolObjectOutput;
         
-        [HideInInspector, PublicAPI] 
+        [NonSerialized, PublicAPI] 
         public UdonBehaviour poolUdonOutput;
         
-        [HideInInspector, PublicAPI] 
+        [NonSerialized, PublicAPI] 
         public VRCPlayerApi[] playerArrayOutput;
         
-        [HideInInspector, PublicAPI] 
+        [NonSerialized, PublicAPI] 
         public int playerCountOutput;
 
-        [HideInInspector, PublicAPI] 
+        [NonSerialized, PublicAPI] 
         public Component[] poolObjectArrayOutput;
         
-        [HideInInspector, PublicAPI] 
+        [NonSerialized, PublicAPI] 
         public int poolObjectCountOutput;
         
-        [HideInInspector, PublicAPI] 
+        [NonSerialized, PublicAPI] 
         public int playerIndexOutput;
         
         [PublicAPI]

@@ -12,132 +12,126 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4f11136daadff0b44ac2278a314682ab, type: 3}
   m_Name: DemoGraphPooledObject
   m_EditorClassIdentifier: 
-  serializedUdonProgramAsset: {fileID: 11400000, guid: fd72ab7c0d40667499e551e7ccf034a4,
+  serializedUdonProgramAsset: {fileID: 11400000, guid: 42c6cf3d3e0aa334f868f6d946029f05,
     type: 2}
-  udonAssembly: ".data_start\r\n\r\n    .export Owner\r\n    .export text\r\n    .export
-    value\r\n    .sync value, none\r\n    \r\n    __Boolean_0: %SystemBoolean, null\r\n
-    \   __VRCPlayerApi_0: %VRCSDKBaseVRCPlayerApi, null\r\n    __min_0: %SystemInt32,
-    null\r\n    __max_0: %SystemInt32, null\r\n    __instance_0: %VRCUdonUdonBehaviour,
-    this\r\n    __instance_1: %VRCUdonUdonBehaviour, this\r\n    __eventName_0: %SystemString,
-    null\r\n    __Boolean_1: %SystemBoolean, null\r\n    __VRCPlayerApi_1: %VRCSDKBaseVRCPlayerApi,
+  udonAssembly: ".data_start\r\n\r\n    .export Owner\r\n    .export text\r\n   
+    .export value\r\n    .sync value, none\r\n    \r\n    __Boolean_0: %SystemBoolean,
+    null\r\n    __instance_0: %VRCSDKBaseVRCPlayerApi, null\r\n    __min_0: %SystemInt32,
+    null\r\n    __max_0: %SystemInt32, null\r\n    __instance_1: %VRCUdonUdonBehaviour,
+    this\r\n    __instance_2: %VRCUdonUdonBehaviour, this\r\n    __eventName_0: %SystemString,
+    null\r\n    __Boolean_1: %SystemBoolean, null\r\n    __instance_3: %VRCSDKBaseVRCPlayerApi,
     null\r\n    __obj_0: %UnityEngineGameObject, this\r\n    __Int32_0: %SystemInt32,
-    null\r\n    __instance_2: %VRCUdonUdonBehaviour, this\r\n    __instance_3: %VRCUdonUdonBehaviour,
-    this\r\n    __eventName_1: %SystemString, null\r\n    __instance_4: %UnityEngineTransform,
+    null\r\n    __instance_4: %VRCUdonUdonBehaviour, this\r\n    __instance_5: %VRCUdonUdonBehaviour,
+    this\r\n    __eventName_1: %SystemString, null\r\n    __instance_6: %UnityEngineTransform,
     this\r\n    __position_0: %UnityEngineVector3, null\r\n    __rotation_0: %UnityEngineQuaternion,
-    null\r\n    __instance_5: %VRCUdonUdonBehaviour, this\r\n    __eventName_2: %SystemString,
+    null\r\n    __instance_7: %VRCUdonUdonBehaviour, this\r\n    __eventName_2: %SystemString,
     null\r\n    __Boolean_2: %SystemBoolean, null\r\n    __Int32_1: %SystemInt32,
-    null\r\n    __Int32_2: %SystemInt32, null\r\n    __instance_6: %VRCUdonUdonBehaviour,
+    null\r\n    __Int32_2: %SystemInt32, null\r\n    __instance_8: %VRCUdonUdonBehaviour,
     this\r\n    __eventName_3: %SystemString, null\r\n    __object_0: %SystemObject,
-    null\r\n    __result_0: %SystemBoolean, null\r\n    __instance_7: %UnityEngineUIText,
-    null\r\n    __value_0: %SystemString, null\r\n    __str0_0: %SystemString, null\r\n
-    \   __str1_0: %SystemString, null\r\n    __str2_0: %SystemString, null\r\n    __str0_1:
+    null\r\n    __result_0: %SystemBoolean, null\r\n    __instance_9: %UnityEngineUIText,
+    null\r\n    __value_0: %SystemString, null\r\n    __str0_0: %SystemString, null\r\n   
+    __str1_0: %SystemString, null\r\n    __str2_0: %SystemString, null\r\n    __str0_1:
     %SystemString, null\r\n    __str1_1: %SystemString, null\r\n    __str2_1: %SystemString,
-    null\r\n    __VRCPlayerApi_2: %VRCSDKBaseVRCPlayerApi, null\r\n    __instance_8:
-    %SystemInt32, null\r\n    __instance_9: %VRCSDKBaseVRCPlayerApi, null\r\n    __instance_A:
-    %SystemInt32, null\r\n    __instance_B: %UnityEngineUIText, null\r\n    __value_1:
-    %SystemString, null\r\n    __object_1: %SystemObject, null\r\n    __result_1:
-    %SystemBoolean, null\r\n    __Boolean_3: %SystemBoolean, null\r\n    __Int32_3:
-    %SystemInt32, null\r\n    __Int32_4: %SystemInt32, null\r\n    __Int32_5: %SystemInt32,
-    null\r\n    __instance_C: %UnityEngineTransform, this\r\n    __value_2: %UnityEngineVector3,
-    null\r\n    __Vector3_0: %UnityEngineVector3, null\r\n    __Vector3_1: %UnityEngineVector3,
-    null\r\n    __instance_D: %VRCSDKBaseVRCPlayerApi, null\r\n    __Vector3_2: %UnityEngineVector3,
-    null\r\n    __Single_0: %SystemSingle, null\r\n    __instance_E: %UnityEngineTransform,
-    this\r\n    __worldPosition_0: %UnityEngineVector3, null\r\n    __TrackingData_0:
-    %VRCSDKBaseVRCPlayerApiTrackingData, null\r\n    __instance_F: %VRCSDKBaseVRCPlayerApi,
-    null\r\n    __tt_0: %VRCSDKBaseVRCPlayerApiTrackingDataType, null\r\n    __Boolean_4:
-    %SystemBoolean, null\r\n    __VRCPlayerApi_3: %VRCSDKBaseVRCPlayerApi, null\r\n
-    \   __Int32_6: %SystemInt32, null\r\n    __Int32_7: %SystemInt32, null\r\n    __Int32_8:
-    %SystemInt32, null\r\n    __Int32_9: %SystemInt32, null\r\n    __instance_10:
-    %VRCUdonUdonBehaviour, this\r\n    __instance_11: %VRCUdonUdonBehaviour, this\r\n
-    \   __eventName_4: %SystemString, null\r\n    Owner: %VRCSDKBaseVRCPlayerApi,
-    null\r\n    text: %UnityEngineUIText, null\r\n    value: %SystemInt32, null\r\n
-    \   _prevValue: %SystemInt32, null\r\n    _localPlayer: %VRCSDKBaseVRCPlayerApi,
-    null\r\n\r\n.data_end\r\n\r\n.code_start\r\n\r\n    .export _OnOwnerSet\r\n    \r\n
-    \   _OnOwnerSet:\r\n    \r\n        PUSH, Owner\r\n        PUSH, __VRCPlayerApi_0\r\n
-    \       COPY\r\n        PUSH, __VRCPlayerApi_0\r\n        PUSH, __Boolean_0\r\n
-    \       EXTERN, \"VRCSDKBaseVRCPlayerApi.__get_isLocal__SystemBoolean\"\r\n        PUSH,
-    __Boolean_0\r\n        JUMP_IF_FALSE, 0x0000008C\r\n        PUSH, __min_0\r\n
-    \       PUSH, __max_0\r\n        PUSH, value\r\n        EXTERN, \"UnityEngineRandom.__Range__SystemInt32_SystemInt32__SystemInt32\"\r\n
-    \       PUSH, __instance_0\r\n        EXTERN, \"VRCUdonCommonInterfacesIUdonEventReceiver.__RequestSerialization__SystemVoid\"\r\n
-    \       PUSH, __instance_1\r\n        PUSH, __eventName_0\r\n        EXTERN, \"VRCUdonCommonInterfacesIUdonEventReceiver.__SendCustomEvent__SystemString__SystemVoid\"\r\n
-    \       JUMP, 0x0000008C\r\n        JUMP, 0xFFFFFFFC\r\n    \r\n    .export _OnCleanup\r\n
-    \   \r\n    _OnCleanup:\r\n    \r\n        PUSH, __obj_0\r\n        PUSH, __VRCPlayerApi_1\r\n
-    \       EXTERN, \"VRCSDKBaseNetworking.__GetOwner__UnityEngineGameObject__VRCSDKBaseVRCPlayerApi\"\r\n
-    \       PUSH, __VRCPlayerApi_1\r\n        PUSH, __Boolean_1\r\n        EXTERN,
-    \"VRCSDKBaseVRCPlayerApi.__get_isLocal__SystemBoolean\"\r\n        PUSH, __Boolean_1\r\n
-    \       JUMP_IF_FALSE, 0x00000118\r\n        PUSH, __Int32_0\r\n        PUSH,
-    value\r\n        COPY\r\n        PUSH, __instance_2\r\n        EXTERN, \"VRCUdonCommonInterfacesIUdonEventReceiver.__RequestSerialization__SystemVoid\"\r\n
-    \       PUSH, __instance_3\r\n        PUSH, __eventName_1\r\n        EXTERN, \"VRCUdonCommonInterfacesIUdonEventReceiver.__SendCustomEvent__SystemString__SystemVoid\"\r\n
-    \       JUMP, 0x00000118\r\n        PUSH, __position_0\r\n        EXTERN, \"UnityEngineVector3.__get_zero__UnityEngineVector3\"\r\n
-    \       PUSH, __rotation_0\r\n        EXTERN, \"UnityEngineQuaternion.__get_identity__UnityEngineQuaternion\"\r\n
-    \       PUSH, __instance_4\r\n        PUSH, __position_0\r\n        PUSH, __rotation_0\r\n
-    \       EXTERN, \"UnityEngineTransform.__SetPositionAndRotation__UnityEngineVector3_UnityEngineQuaternion__SystemVoid\"\r\n
-    \       JUMP, 0xFFFFFFFC\r\n    \r\n    .export _start\r\n    \r\n    _start:\r\n
-    \   \r\n        PUSH, _localPlayer\r\n        EXTERN, \"VRCSDKBaseNetworking.__get_LocalPlayer__VRCSDKBaseVRCPlayerApi\"\r\n
-    \       JUMP, 0xFFFFFFFC\r\n    \r\n    .export _onDeserialization\r\n    \r\n
-    \   _onDeserialization:\r\n    \r\n        PUSH, __instance_5\r\n        PUSH,
-    __eventName_2\r\n        EXTERN, \"VRCUdonCommonInterfacesIUdonEventReceiver.__SendCustomEvent__SystemString__SystemVoid\"\r\n
-    \       JUMP, 0xFFFFFFFC\r\n    \r\n    .export _OnValueChanged\r\n    \r\n    _OnValueChanged:\r\n
-    \   \r\n        PUSH, value\r\n        PUSH, _prevValue\r\n        PUSH, __Boolean_2\r\n
-    \       EXTERN, \"SystemInt32.__op_Equality__SystemInt32_SystemInt32__SystemBoolean\"\r\n
-    \       PUSH, __Boolean_2\r\n        JUMP_IF_FALSE, 0x000001D0\r\n        JUMP,
-    0x000001FC\r\n        PUSH, value\r\n        PUSH, _prevValue\r\n        COPY\r\n
-    \       PUSH, __instance_6\r\n        PUSH, __eventName_3\r\n        EXTERN, \"VRCUdonCommonInterfacesIUdonEventReceiver.__SendCustomEvent__SystemString__SystemVoid\"\r\n
-    \       JUMP, 0xFFFFFFFC\r\n    \r\n    .export _UpdateDebugDisplay\r\n    \r\n
-    \   _UpdateDebugDisplay:\r\n    \r\n        PUSH, Owner\r\n        PUSH, __object_0\r\n
-    \       COPY\r\n        PUSH, __object_0\r\n        PUSH, __result_0\r\n        EXTERN,
-    \"VRCSDKBaseUtilities.__IsValid__SystemObject__SystemBoolean\"\r\n        PUSH,
-    __result_0\r\n        JUMP_IF_FALSE, 0x0000034C\r\n        PUSH, text\r\n        PUSH,
-    __instance_7\r\n        COPY\r\n        PUSH, Owner\r\n        PUSH, __VRCPlayerApi_2\r\n
-    \       COPY\r\n        PUSH, __VRCPlayerApi_2\r\n        PUSH, __str0_1\r\n        EXTERN,
-    \"VRCSDKBaseVRCPlayerApi.__get_displayName__SystemString\"\r\n        PUSH, Owner\r\n
-    \       PUSH, __instance_9\r\n        COPY\r\n        PUSH, __instance_9\r\n        PUSH,
-    __instance_8\r\n        EXTERN, \"VRCSDKBaseVRCPlayerApi.__get_playerId__SystemInt32\"\r\n
-    \       PUSH, __instance_8\r\n        PUSH, __str2_1\r\n        EXTERN, \"SystemInt32.__ToString__SystemString\"\r\n
-    \       PUSH, __str0_1\r\n        PUSH, __str1_1\r\n        PUSH, __str2_1\r\n
-    \       PUSH, __str0_0\r\n        EXTERN, \"SystemString.__Concat__SystemString_SystemString_SystemString__SystemString\"\r\n
-    \       PUSH, value\r\n        PUSH, __str2_0\r\n        EXTERN, \"SystemInt32.__ToString__SystemString\"\r\n
-    \       PUSH, __str0_0\r\n        PUSH, __str1_0\r\n        PUSH, __str2_0\r\n
-    \       PUSH, __value_0\r\n        EXTERN, \"SystemString.__Concat__SystemString_SystemString_SystemString__SystemString\"\r\n
-    \       PUSH, __instance_7\r\n        PUSH, __value_0\r\n        EXTERN, \"UnityEngineUIText.__set_text__SystemString__SystemVoid\"\r\n
-    \       JUMP, 0x00000378\r\n        PUSH, text\r\n        PUSH, __instance_B\r\n
-    \       COPY\r\n        PUSH, __instance_B\r\n        PUSH, __value_1\r\n        EXTERN,
-    \"UnityEngineUIText.__set_text__SystemString__SystemVoid\"\r\n        JUMP, 0xFFFFFFFC\r\n
-    \   \r\n    .export _update\r\n    \r\n    _update:\r\n    \r\n        PUSH, Owner\r\n
-    \       PUSH, __object_1\r\n        COPY\r\n        PUSH, __object_1\r\n        PUSH,
-    __result_1\r\n        EXTERN, \"VRCSDKBaseUtilities.__IsValid__SystemObject__SystemBoolean\"\r\n
-    \       PUSH, __result_1\r\n        JUMP_IF_FALSE, 0x00000508\r\n        PUSH,
-    __Int32_5\r\n        PUSH, __Int32_4\r\n        COPY\r\n        PUSH, value\r\n
-    \       PUSH, __Int32_4\r\n        PUSH, __Boolean_3\r\n        EXTERN, \"SystemInt32.__op_Inequality__SystemInt32_SystemInt32__SystemBoolean\"\r\n
-    \       PUSH, __Boolean_3\r\n        JUMP_IF_FALSE, 0x00000500\r\n        PUSH,
-    Owner\r\n        PUSH, __instance_D\r\n        COPY\r\n        PUSH, __instance_D\r\n
-    \       PUSH, __Vector3_0\r\n        EXTERN, \"VRCSDKBaseVRCPlayerApi.__GetPosition__UnityEngineVector3\"\r\n
-    \       PUSH, __Vector3_2\r\n        EXTERN, \"UnityEngineVector3.__get_up__UnityEngineVector3\"\r\n
-    \       PUSH, __Vector3_2\r\n        PUSH, __Single_0\r\n        PUSH, __Vector3_1\r\n
-    \       EXTERN, \"UnityEngineVector3.__op_Multiply__UnityEngineVector3_SystemSingle__UnityEngineVector3\"\r\n
-    \       PUSH, __Vector3_0\r\n        PUSH, __Vector3_1\r\n        PUSH, __value_2\r\n
-    \       EXTERN, \"UnityEngineVector3.__op_Addition__UnityEngineVector3_UnityEngineVector3__UnityEngineVector3\"\r\n
-    \       PUSH, __instance_C\r\n        PUSH, __value_2\r\n        EXTERN, \"UnityEngineTransform.__set_position__UnityEngineVector3__SystemVoid\"\r\n
-    \       PUSH, _localPlayer\r\n        PUSH, __instance_F\r\n        COPY\r\n        PUSH,
-    __instance_F\r\n        PUSH, __tt_0\r\n        PUSH, __TrackingData_0\r\n        EXTERN,
-    \"VRCSDKBaseVRCPlayerApi.__GetTrackingData__VRCSDKBaseVRCPlayerApiTrackingDataType__VRCSDKBaseVRCPlayerApiTrackingData\"\r\n
-    \       PUSH, __TrackingData_0\r\n        PUSH, __worldPosition_0\r\n        EXTERN,
-    \"VRCSDKBaseVRCPlayerApiTrackingData.__get_position__UnityEngineVector3\"\r\n
-    \       PUSH, __instance_E\r\n        PUSH, __worldPosition_0\r\n        EXTERN,
-    \"UnityEngineTransform.__LookAt__UnityEngineVector3__SystemVoid\"\r\n        JUMP,
-    0x00000500\r\n        JUMP, 0x00000508\r\n        JUMP, 0xFFFFFFFC\r\n    \r\n
-    \   .export _IncreaseValue\r\n    \r\n    _IncreaseValue:\r\n    \r\n        PUSH,
-    Owner\r\n        PUSH, __VRCPlayerApi_3\r\n        COPY\r\n        PUSH, __VRCPlayerApi_3\r\n
-    \       PUSH, __Boolean_4\r\n        EXTERN, \"VRCSDKBaseVRCPlayerApi.__get_isLocal__SystemBoolean\"\r\n
-    \       PUSH, __Boolean_4\r\n        JUMP_IF_FALSE, 0x000005BC\r\n        PUSH,
-    value\r\n        PUSH, __Int32_9\r\n        PUSH, __Int32_6\r\n        EXTERN,
-    \"SystemInt32.__op_Addition__SystemInt32_SystemInt32__SystemInt32\"\r\n        PUSH,
-    __Int32_6\r\n        PUSH, __Int32_7\r\n        PUSH, value\r\n        EXTERN,
-    \"SystemInt32.__op_Remainder__SystemInt32_SystemInt32__SystemInt32\"\r\n        PUSH,
-    __instance_10\r\n        EXTERN, \"VRCUdonCommonInterfacesIUdonEventReceiver.__RequestSerialization__SystemVoid\"\r\n
-    \       PUSH, __instance_11\r\n        PUSH, __eventName_4\r\n        EXTERN,
-    \"VRCUdonCommonInterfacesIUdonEventReceiver.__SendCustomEvent__SystemString__SystemVoid\"\r\n
-    \       JUMP, 0x000005BC\r\n        JUMP, 0xFFFFFFFC\r\n    \r\n\r\n.code_end\r\n"
+    null\r\n    __instance_A: %VRCSDKBaseVRCPlayerApi, null\r\n    __instance_B:
+    %SystemInt32, null\r\n    __instance_C: %VRCSDKBaseVRCPlayerApi, null\r\n   
+    __instance_D: %SystemInt32, null\r\n    __instance_E: %UnityEngineUIText, null\r\n   
+    __value_1: %SystemString, null\r\n    __object_1: %SystemObject, null\r\n   
+    __result_1: %SystemBoolean, null\r\n    __Boolean_3: %SystemBoolean, null\r\n   
+    __Int32_3: %SystemInt32, null\r\n    __Int32_4: %SystemInt32, null\r\n    __Int32_5:
+    %SystemInt32, null\r\n    __instance_F: %UnityEngineTransform, this\r\n    __value_2:
+    %UnityEngineVector3, null\r\n    __Vector3_0: %UnityEngineVector3, null\r\n   
+    __Vector3_1: %UnityEngineVector3, null\r\n    __instance_10: %VRCSDKBaseVRCPlayerApi,
+    null\r\n    __Vector3_2: %UnityEngineVector3, null\r\n    __Single_0: %SystemSingle,
+    null\r\n    __instance_11: %UnityEngineTransform, this\r\n    __worldPosition_0:
+    %UnityEngineVector3, null\r\n    __instance_12: %VRCSDKBaseVRCPlayerApiTrackingData,
+    null\r\n    __instance_13: %VRCSDKBaseVRCPlayerApi, null\r\n    __tt_0: %VRCSDKBaseVRCPlayerApiTrackingDataType,
+    null\r\n    __Boolean_4: %SystemBoolean, null\r\n    __instance_14: %VRCSDKBaseVRCPlayerApi,
+    null\r\n    __Int32_6: %SystemInt32, null\r\n    __Int32_7: %SystemInt32, null\r\n   
+    __Int32_8: %SystemInt32, null\r\n    __Int32_9: %SystemInt32, null\r\n    __instance_15:
+    %VRCUdonUdonBehaviour, this\r\n    __instance_16: %VRCUdonUdonBehaviour, this\r\n   
+    __eventName_4: %SystemString, null\r\n    Owner: %VRCSDKBaseVRCPlayerApi, null\r\n   
+    text: %UnityEngineUIText, null\r\n    value: %SystemInt32, null\r\n    _prevValue:
+    %SystemInt32, null\r\n    _localPlayer: %VRCSDKBaseVRCPlayerApi, null\r\n\r\n.data_end\r\n\r\n.code_start\r\n\r\n   
+    .export _OnOwnerSet\r\n    \r\n    _OnOwnerSet:\r\n    \r\n        PUSH, Owner\r\n       
+    PUSH, __instance_0\r\n        COPY\r\n        PUSH, __instance_0\r\n        PUSH,
+    __Boolean_0\r\n        EXTERN, \"VRCSDKBaseVRCPlayerApi.__get_isLocal__SystemBoolean\"\r\n       
+    PUSH, __Boolean_0\r\n        JUMP_IF_FALSE, 0x0000008C\r\n        PUSH, __min_0\r\n       
+    PUSH, __max_0\r\n        PUSH, value\r\n        EXTERN, \"UnityEngineRandom.__Range__SystemInt32_SystemInt32__SystemInt32\"\r\n       
+    PUSH, __instance_1\r\n        EXTERN, \"VRCUdonCommonInterfacesIUdonEventReceiver.__RequestSerialization__SystemVoid\"\r\n       
+    PUSH, __instance_2\r\n        PUSH, __eventName_0\r\n        EXTERN, \"VRCUdonCommonInterfacesIUdonEventReceiver.__SendCustomEvent__SystemString__SystemVoid\"\r\n       
+    JUMP, 0x0000008C\r\n        JUMP, 0xFFFFFFFC\r\n    \r\n    .export _OnCleanup\r\n   
+    \r\n    _OnCleanup:\r\n    \r\n        PUSH, __obj_0\r\n        PUSH, __instance_3\r\n       
+    EXTERN, \"VRCSDKBaseNetworking.__GetOwner__UnityEngineGameObject__VRCSDKBaseVRCPlayerApi\"\r\n       
+    PUSH, __instance_3\r\n        PUSH, __Boolean_1\r\n        EXTERN, \"VRCSDKBaseVRCPlayerApi.__get_isLocal__SystemBoolean\"\r\n       
+    PUSH, __Boolean_1\r\n        JUMP_IF_FALSE, 0x00000118\r\n        PUSH, __Int32_0\r\n       
+    PUSH, value\r\n        COPY\r\n        PUSH, __instance_4\r\n        EXTERN,
+    \"VRCUdonCommonInterfacesIUdonEventReceiver.__RequestSerialization__SystemVoid\"\r\n       
+    PUSH, __instance_5\r\n        PUSH, __eventName_1\r\n        EXTERN, \"VRCUdonCommonInterfacesIUdonEventReceiver.__SendCustomEvent__SystemString__SystemVoid\"\r\n       
+    JUMP, 0x00000118\r\n        PUSH, __position_0\r\n        EXTERN, \"UnityEngineVector3.__get_zero__UnityEngineVector3\"\r\n       
+    PUSH, __rotation_0\r\n        EXTERN, \"UnityEngineQuaternion.__get_identity__UnityEngineQuaternion\"\r\n       
+    PUSH, __instance_6\r\n        PUSH, __position_0\r\n        PUSH, __rotation_0\r\n       
+    EXTERN, \"UnityEngineTransform.__SetPositionAndRotation__UnityEngineVector3_UnityEngineQuaternion__SystemVoid\"\r\n       
+    JUMP, 0xFFFFFFFC\r\n    \r\n    .export _start\r\n    \r\n    _start:\r\n   
+    \r\n        PUSH, _localPlayer\r\n        EXTERN, \"VRCSDKBaseNetworking.__get_LocalPlayer__VRCSDKBaseVRCPlayerApi\"\r\n       
+    JUMP, 0xFFFFFFFC\r\n    \r\n    .export _onDeserialization\r\n    \r\n    _onDeserialization:\r\n   
+    \r\n        PUSH, __instance_7\r\n        PUSH, __eventName_2\r\n        EXTERN,
+    \"VRCUdonCommonInterfacesIUdonEventReceiver.__SendCustomEvent__SystemString__SystemVoid\"\r\n       
+    JUMP, 0xFFFFFFFC\r\n    \r\n    .export _OnValueChanged\r\n    \r\n    _OnValueChanged:\r\n   
+    \r\n        PUSH, value\r\n        PUSH, _prevValue\r\n        PUSH, __Boolean_2\r\n       
+    EXTERN, \"SystemInt32.__op_Equality__SystemInt32_SystemInt32__SystemBoolean\"\r\n       
+    PUSH, __Boolean_2\r\n        JUMP_IF_FALSE, 0x000001D0\r\n        JUMP, 0x000001FC\r\n       
+    PUSH, value\r\n        PUSH, _prevValue\r\n        COPY\r\n        PUSH, __instance_8\r\n       
+    PUSH, __eventName_3\r\n        EXTERN, \"VRCUdonCommonInterfacesIUdonEventReceiver.__SendCustomEvent__SystemString__SystemVoid\"\r\n       
+    JUMP, 0xFFFFFFFC\r\n    \r\n    .export _UpdateDebugDisplay\r\n    \r\n    _UpdateDebugDisplay:\r\n   
+    \r\n        PUSH, Owner\r\n        PUSH, __object_0\r\n        COPY\r\n       
+    PUSH, __object_0\r\n        PUSH, __result_0\r\n        EXTERN, \"VRCSDKBaseUtilities.__IsValid__SystemObject__SystemBoolean\"\r\n       
+    PUSH, __result_0\r\n        JUMP_IF_FALSE, 0x0000034C\r\n        PUSH, text\r\n       
+    PUSH, __instance_9\r\n        COPY\r\n        PUSH, Owner\r\n        PUSH, __instance_A\r\n       
+    COPY\r\n        PUSH, __instance_A\r\n        PUSH, __str0_1\r\n        EXTERN,
+    \"VRCSDKBaseVRCPlayerApi.__get_displayName__SystemString\"\r\n        PUSH, Owner\r\n       
+    PUSH, __instance_C\r\n        COPY\r\n        PUSH, __instance_C\r\n        PUSH,
+    __instance_B\r\n        EXTERN, \"VRCSDKBaseVRCPlayerApi.__get_playerId__SystemInt32\"\r\n       
+    PUSH, __instance_B\r\n        PUSH, __str2_1\r\n        EXTERN, \"SystemInt32.__ToString__SystemString\"\r\n       
+    PUSH, __str0_1\r\n        PUSH, __str1_1\r\n        PUSH, __str2_1\r\n       
+    PUSH, __str0_0\r\n        EXTERN, \"SystemString.__Concat__SystemString_SystemString_SystemString__SystemString\"\r\n       
+    PUSH, value\r\n        PUSH, __str2_0\r\n        EXTERN, \"SystemInt32.__ToString__SystemString\"\r\n       
+    PUSH, __str0_0\r\n        PUSH, __str1_0\r\n        PUSH, __str2_0\r\n       
+    PUSH, __value_0\r\n        EXTERN, \"SystemString.__Concat__SystemString_SystemString_SystemString__SystemString\"\r\n       
+    PUSH, __instance_9\r\n        PUSH, __value_0\r\n        EXTERN, \"UnityEngineUIText.__set_text__SystemString__SystemVoid\"\r\n       
+    JUMP, 0x00000378\r\n        PUSH, text\r\n        PUSH, __instance_E\r\n       
+    COPY\r\n        PUSH, __instance_E\r\n        PUSH, __value_1\r\n        EXTERN,
+    \"UnityEngineUIText.__set_text__SystemString__SystemVoid\"\r\n        JUMP, 0xFFFFFFFC\r\n   
+    \r\n    .export _update\r\n    \r\n    _update:\r\n    \r\n        PUSH, Owner\r\n       
+    PUSH, __object_1\r\n        COPY\r\n        PUSH, __object_1\r\n        PUSH,
+    __result_1\r\n        EXTERN, \"VRCSDKBaseUtilities.__IsValid__SystemObject__SystemBoolean\"\r\n       
+    PUSH, __result_1\r\n        JUMP_IF_FALSE, 0x00000508\r\n        PUSH, __Int32_5\r\n       
+    PUSH, __Int32_4\r\n        COPY\r\n        PUSH, value\r\n        PUSH, __Int32_4\r\n       
+    PUSH, __Boolean_3\r\n        EXTERN, \"SystemInt32.__op_Inequality__SystemInt32_SystemInt32__SystemBoolean\"\r\n       
+    PUSH, __Boolean_3\r\n        JUMP_IF_FALSE, 0x00000500\r\n        PUSH, Owner\r\n       
+    PUSH, __instance_10\r\n        COPY\r\n        PUSH, __instance_10\r\n       
+    PUSH, __Vector3_0\r\n        EXTERN, \"VRCSDKBaseVRCPlayerApi.__GetPosition__UnityEngineVector3\"\r\n       
+    PUSH, __Vector3_2\r\n        EXTERN, \"UnityEngineVector3.__get_up__UnityEngineVector3\"\r\n       
+    PUSH, __Vector3_2\r\n        PUSH, __Single_0\r\n        PUSH, __Vector3_1\r\n       
+    EXTERN, \"UnityEngineVector3.__op_Multiply__UnityEngineVector3_SystemSingle__UnityEngineVector3\"\r\n       
+    PUSH, __Vector3_0\r\n        PUSH, __Vector3_1\r\n        PUSH, __value_2\r\n       
+    EXTERN, \"UnityEngineVector3.__op_Addition__UnityEngineVector3_UnityEngineVector3__UnityEngineVector3\"\r\n       
+    PUSH, __instance_F\r\n        PUSH, __value_2\r\n        EXTERN, \"UnityEngineTransform.__set_position__UnityEngineVector3__SystemVoid\"\r\n       
+    PUSH, _localPlayer\r\n        PUSH, __instance_13\r\n        COPY\r\n       
+    PUSH, __instance_13\r\n        PUSH, __tt_0\r\n        PUSH, __instance_12\r\n       
+    EXTERN, \"VRCSDKBaseVRCPlayerApi.__GetTrackingData__VRCSDKBaseVRCPlayerApiTrackingDataType__VRCSDKBaseVRCPlayerApiTrackingData\"\r\n       
+    PUSH, __instance_12\r\n        PUSH, __worldPosition_0\r\n        EXTERN, \"VRCSDKBaseVRCPlayerApiTrackingData.__get_position__UnityEngineVector3\"\r\n       
+    PUSH, __instance_11\r\n        PUSH, __worldPosition_0\r\n        EXTERN, \"UnityEngineTransform.__LookAt__UnityEngineVector3__SystemVoid\"\r\n       
+    JUMP, 0x00000500\r\n        JUMP, 0x00000508\r\n        JUMP, 0xFFFFFFFC\r\n   
+    \r\n    .export _IncreaseValue\r\n    \r\n    _IncreaseValue:\r\n    \r\n       
+    PUSH, Owner\r\n        PUSH, __instance_14\r\n        COPY\r\n        PUSH, __instance_14\r\n       
+    PUSH, __Boolean_4\r\n        EXTERN, \"VRCSDKBaseVRCPlayerApi.__get_isLocal__SystemBoolean\"\r\n       
+    PUSH, __Boolean_4\r\n        JUMP_IF_FALSE, 0x000005BC\r\n        PUSH, value\r\n       
+    PUSH, __Int32_9\r\n        PUSH, __Int32_6\r\n        EXTERN, \"SystemInt32.__op_Addition__SystemInt32_SystemInt32__SystemInt32\"\r\n       
+    PUSH, __Int32_6\r\n        PUSH, __Int32_7\r\n        PUSH, value\r\n       
+    EXTERN, \"SystemInt32.__op_Remainder__SystemInt32_SystemInt32__SystemInt32\"\r\n       
+    PUSH, __instance_15\r\n        EXTERN, \"VRCUdonCommonInterfacesIUdonEventReceiver.__RequestSerialization__SystemVoid\"\r\n       
+    PUSH, __instance_16\r\n        PUSH, __eventName_4\r\n        EXTERN, \"VRCUdonCommonInterfacesIUdonEventReceiver.__SendCustomEvent__SystemString__SystemVoid\"\r\n       
+    JUMP, 0x000005BC\r\n        JUMP, 0xFFFFFFFC\r\n    \r\n\r\n.code_end\r\n"
   assemblyError: 
   graphData:
     name: 
@@ -159,9 +153,11 @@ MonoBehaviour:
       - unityObjectValue: {fileID: 0}
         stringValue: System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089|Owner
       - unityObjectValue: {fileID: 0}
-        stringValue: System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089|True
+        stringValue: System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral,
+          PublicKeyToken=b77a5c561934e089|True
       - unityObjectValue: {fileID: 0}
-        stringValue: System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089|False
+        stringValue: System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral,
+          PublicKeyToken=b77a5c561934e089|False
       - unityObjectValue: {fileID: 0}
         stringValue: System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089|none
     - fullName: Event_Custom
@@ -200,9 +196,11 @@ MonoBehaviour:
       - unityObjectValue: {fileID: 0}
         stringValue: System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089|text
       - unityObjectValue: {fileID: 0}
-        stringValue: System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089|True
+        stringValue: System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral,
+          PublicKeyToken=b77a5c561934e089|True
       - unityObjectValue: {fileID: 0}
-        stringValue: System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089|False
+        stringValue: System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral,
+          PublicKeyToken=b77a5c561934e089|False
       - unityObjectValue: {fileID: 0}
         stringValue: System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089|none
     - fullName: Variable_SystemInt32
@@ -221,9 +219,11 @@ MonoBehaviour:
       - unityObjectValue: {fileID: 0}
         stringValue: System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089|value
       - unityObjectValue: {fileID: 0}
-        stringValue: System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089|True
+        stringValue: System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral,
+          PublicKeyToken=b77a5c561934e089|True
       - unityObjectValue: {fileID: 0}
-        stringValue: System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089|True
+        stringValue: System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral,
+          PublicKeyToken=b77a5c561934e089|True
       - unityObjectValue: {fileID: 0}
         stringValue: System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089|none
     - fullName: Variable_SystemInt32
@@ -242,9 +242,11 @@ MonoBehaviour:
       - unityObjectValue: {fileID: 0}
         stringValue: System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089|_prevValue
       - unityObjectValue: {fileID: 0}
-        stringValue: System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089|False
+        stringValue: System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral,
+          PublicKeyToken=b77a5c561934e089|False
       - unityObjectValue: {fileID: 0}
-        stringValue: System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089|False
+        stringValue: System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral,
+          PublicKeyToken=b77a5c561934e089|False
       - unityObjectValue: {fileID: 0}
         stringValue: System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089|none
     - fullName: Variable_VRCSDKBaseVRCPlayerApi
@@ -263,9 +265,11 @@ MonoBehaviour:
       - unityObjectValue: {fileID: 0}
         stringValue: System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089|_localPlayer
       - unityObjectValue: {fileID: 0}
-        stringValue: System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089|False
+        stringValue: System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral,
+          PublicKeyToken=b77a5c561934e089|False
       - unityObjectValue: {fileID: 0}
-        stringValue: System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089|False
+        stringValue: System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral,
+          PublicKeyToken=b77a5c561934e089|False
       - unityObjectValue: {fileID: 0}
         stringValue: System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089|none
     - fullName: Event_Start
@@ -289,7 +293,8 @@ MonoBehaviour:
       - unityObjectValue: {fileID: 0}
         stringValue: 
       - unityObjectValue: {fileID: 0}
-        stringValue: System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089|False
+        stringValue: System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral,
+          PublicKeyToken=b77a5c561934e089|False
     - fullName: VRCSDKBaseNetworking.__get_LocalPlayer__VRCSDKBaseVRCPlayerApi
       uid: 04e79981-aa46-438e-9da0-60b25a7788b6
       position: {x: 244.42085, y: -252.18814}
@@ -357,7 +362,8 @@ MonoBehaviour:
       - 345ee921-9b3c-4b1a-9113-3e82cdba062f
       nodeValues:
       - unityObjectValue: {fileID: 0}
-        stringValue: System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089|False
+        stringValue: System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral,
+          PublicKeyToken=b77a5c561934e089|False
     - fullName: Set_Variable
       uid: 345ee921-9b3c-4b1a-9113-3e82cdba062f
       position: {x: 826.958, y: 1402.4684}
@@ -373,7 +379,8 @@ MonoBehaviour:
       - unityObjectValue: {fileID: 0}
         stringValue: 
       - unityObjectValue: {fileID: 0}
-        stringValue: System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089|False
+        stringValue: System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral,
+          PublicKeyToken=b77a5c561934e089|False
     - fullName: Get_Variable
       uid: 99ccce23-5938-4535-98a7-bf8855efc830
       position: {x: 650.5365, y: 1537.8263}
@@ -507,7 +514,8 @@ MonoBehaviour:
       - unityObjectValue: {fileID: 0}
         stringValue: 
       - unityObjectValue: {fileID: 0}
-        stringValue: 'System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089| '
+        stringValue: 'System.String, mscorlib, Version=4.0.0.0, Culture=neutral,
+          PublicKeyToken=b77a5c561934e089| '
       - unityObjectValue: {fileID: 0}
         stringValue: 
     - fullName: SystemInt32.__ToString__SystemString
@@ -571,7 +579,8 @@ MonoBehaviour:
       - 36efacf5-c167-4f96-96ca-e6ccfc406ed0
       nodeValues:
       - unityObjectValue: {fileID: 0}
-        stringValue: System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089|False
+        stringValue: System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral,
+          PublicKeyToken=b77a5c561934e089|False
     - fullName: Set_Variable
       uid: 36efacf5-c167-4f96-96ca-e6ccfc406ed0
       position: {x: 969.375, y: 76.28489}
@@ -587,7 +596,8 @@ MonoBehaviour:
       - unityObjectValue: {fileID: 0}
         stringValue: 
       - unityObjectValue: {fileID: 0}
-        stringValue: System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089|False
+        stringValue: System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral,
+          PublicKeyToken=b77a5c561934e089|False
     - fullName: UnityEngineRandom.__Range__SystemInt32_SystemInt32__SystemInt32
       uid: 503680c8-eabc-4edb-9445-5bd4e764a7b0
       position: {x: 720.20215, y: 197.72766}
@@ -649,7 +659,8 @@ MonoBehaviour:
       - ed486f3e-036f-4d50-bfd7-5f790191f18f
       nodeValues:
       - unityObjectValue: {fileID: 0}
-        stringValue: System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089|False
+        stringValue: System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral,
+          PublicKeyToken=b77a5c561934e089|False
     - fullName: Set_Variable
       uid: ed486f3e-036f-4d50-bfd7-5f790191f18f
       position: {x: 1176.4927, y: 586.68225}
@@ -665,7 +676,8 @@ MonoBehaviour:
       - unityObjectValue: {fileID: 0}
         stringValue: 
       - unityObjectValue: {fileID: 0}
-        stringValue: System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089|False
+        stringValue: System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral,
+          PublicKeyToken=b77a5c561934e089|False
     - fullName: VRCUdonCommonInterfacesIUdonEventReceiver.__RequestSerialization__SystemVoid
       uid: 4f46ba26-b31a-4aa2-9083-136bb2a1325a
       position: {x: 1305.863, y: 588.003}
@@ -794,7 +806,8 @@ MonoBehaviour:
       - 75c35d29-02d3-4132-b9f6-473b0eb44f1c
       nodeValues:
       - unityObjectValue: {fileID: 0}
-        stringValue: System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089|False
+        stringValue: System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral,
+          PublicKeyToken=b77a5c561934e089|False
     - fullName: Const_SystemInt32
       uid: b132723f-3185-4a47-b084-16255c25fc7d
       position: {x: 447.16116, y: 2823.9753}
@@ -948,7 +961,8 @@ MonoBehaviour:
       - d9bf8e8a-eece-48a8-81bf-2fe04865293d
       nodeValues:
       - unityObjectValue: {fileID: 0}
-        stringValue: System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089|False
+        stringValue: System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral,
+          PublicKeyToken=b77a5c561934e089|False
     - fullName: Set_Variable
       uid: d9bf8e8a-eece-48a8-81bf-2fe04865293d
       position: {x: 864.25757, y: 3326.77}
@@ -964,7 +978,8 @@ MonoBehaviour:
       - unityObjectValue: {fileID: 0}
         stringValue: 
       - unityObjectValue: {fileID: 0}
-        stringValue: System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089|False
+        stringValue: System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral,
+          PublicKeyToken=b77a5c561934e089|False
     - fullName: VRCUdonCommonInterfacesIUdonEventReceiver.__RequestSerialization__SystemVoid
       uid: 2f2f5a16-a206-47ce-a706-2b4281260641
       position: {x: 1063.5885, y: 3326.57}
@@ -1043,7 +1058,8 @@ MonoBehaviour:
       - unityObjectValue: {fileID: 0}
         stringValue: 
       - unityObjectValue: {fileID: 0}
-        stringValue: 'System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089|
+        stringValue: 'System.String, mscorlib, Version=4.0.0.0, Culture=neutral,
+          PublicKeyToken=b77a5c561934e089|
 
 '
       - unityObjectValue: {fileID: 0}
@@ -1135,8 +1151,8 @@ MonoBehaviour:
   - type: 3
     uid: 6faa9995-d151-4649-8bd4-1240a6abc63f
     jsonData: '{"uid":"6faa9995-d151-4649-8bd4-1240a6abc63f","layout":{"serializedVersion":"2","x":580.7703247070313,"y":3243.706298828125,"width":652.9417724609375,"height":59.642330169677737},"title":"If
-      the owner is the local player, add one to the value and keep it within the range
-      [0, 99]","layer":0,"elementTypeColor":{"r":0.0,"g":0.0,"b":0.0,"a":0.0}}'
+      the owner is the local player, add one to the value and keep it within the
+      range [0, 99]","layer":0,"elementTypeColor":{"r":0.0,"g":0.0,"b":0.0,"a":0.0}}'
   - type: 3
     uid: 8e3609f7-5e3b-4bed-9116-141d23fbd9f5
     jsonData: '{"uid":"8e3609f7-5e3b-4bed-9116-141d23fbd9f5","layout":{"serializedVersion":"2","x":271.6199951171875,"y":845.5000610351563,"width":202.74998474121095,"height":71.05000305175781},"title":"Set

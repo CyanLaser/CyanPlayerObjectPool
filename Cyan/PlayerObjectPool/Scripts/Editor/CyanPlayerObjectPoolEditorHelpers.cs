@@ -35,9 +35,9 @@ namespace Cyan.PlayerObjectPool
 
         public static void RemoveIndent()
         {
-            --_indent;
             EditorGUILayout.EndVertical();
             EditorGUILayout.EndHorizontal();
+            --_indent;
         }
         
         public static bool RenderFoldout(bool value, GUIContent content)
