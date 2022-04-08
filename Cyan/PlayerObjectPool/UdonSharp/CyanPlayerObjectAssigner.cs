@@ -143,6 +143,9 @@ namespace Cyan.PlayerObjectPool
         // If this pool has been initialized and contains objects to distribute. If there are no objects, then this
         // system will only forward events to the pool event listener.
         private bool _enabledAndInitialized = false;
+        
+        // If event listener is UdonSharp event listener, save a reference to it to allow for calling methods with parameters.
+        private CyanPlayerObjectPoolEventListener _eventListener;
 
         #region Public API
         
@@ -567,6 +570,12 @@ namespace Cyan.PlayerObjectPool
             {
                 _localAssignment[i] = -1;
             }
+    
+            if (VRC.SDKBase.Utilities.IsValid(poolEventListener))
+            {
+                // Try to get the UdonSharp version of the event listener. It is fine if this fails.
+                _eventListener = poolEventListener.GetComponent<CyanPlayerObjectPoolEventListener>();
+            }
             
             // Register this object assigner so that it will get events for object assigned and unassigned.
             _objectPool._RegisterObjectAssigner(this);
@@ -648,26 +657,36 @@ namespace Cyan.PlayerObjectPool
 #endif
 
                 poolUdon = (UdonBehaviour)pooledUdon[index];
-                poolUdon.SetProgramVariable("Owner", player);
-                poolUdon.SendCustomEvent("_OnOwnerSet");
+                CyanPlayerObjectPoolObject poolObject = (CyanPlayerObjectPoolObject)(Component)poolUdon;
+                poolObject.Owner = player;
+                poolObject._OnOwnerSet();
                 if (disableUnassignedObjects)
                 {
                     poolObj.SetActive(true);
                 }
             }
-            
+
             // Notify pool listener that a player has joined and the object has been assigned.
-            if (VRC.SDKBase.Utilities.IsValid(poolEventListener))
+            if (VRC.SDKBase.Utilities.IsValid(_eventListener))
+            {
+                _eventListener._OnPlayerAssigned(player, index, poolUdon);
+                
+                if (isLocal)
+                {
+                    _eventListener._OnLocalPlayerAssigned();
+                }
+            }
+            else if (VRC.SDKBase.Utilities.IsValid(poolEventListener))
             {
                 poolEventListener.SetProgramVariable(PlayerAssignedPlayerVariableName, player);
                 poolEventListener.SetProgramVariable(PlayerAssignedIndexVariableName, index);
                 poolEventListener.SetProgramVariable(PlayerAssignedUdonVariableName, poolUdon);
                 poolEventListener.SendCustomEvent(OnPlayerAssignedEvent);
-            }
-            
-            if (isLocal && VRC.SDKBase.Utilities.IsValid(poolEventListener))
-            {
-                poolEventListener.SendCustomEvent(OnLocalPlayerAssignedEvent);
+                
+                if (isLocal)
+                {
+                    poolEventListener.SendCustomEvent(OnLocalPlayerAssignedEvent);
+                }
             }
         }
 
@@ -699,16 +718,21 @@ namespace Cyan.PlayerObjectPool
                 }
 
                 poolUdon = (UdonBehaviour) pooledUdon[index];
-                poolUdon.SendCustomEvent("_OnCleanup");
-                poolUdon.SetProgramVariable("Owner", null);
+                CyanPlayerObjectPoolObject poolObject = (CyanPlayerObjectPoolObject)(Component)poolUdon;
+                poolObject._OnCleanup();
+                poolObject.Owner = null;
                 if (disableUnassignedObjects)
                 {
                     poolObj.SetActive(false);
                 }
             }
-
+            
             // Notify pool listener that a player has left and the object has been unassigned.
-            if (VRC.SDKBase.Utilities.IsValid(poolEventListener))
+            if (VRC.SDKBase.Utilities.IsValid(_eventListener))
+            {
+                _eventListener._OnPlayerUnassigned(player, index, poolUdon);
+            }
+            else if (VRC.SDKBase.Utilities.IsValid(poolEventListener))
             {
                 poolEventListener.SetProgramVariable(PlayerUnassignedPlayerVariableName, player);
                 poolEventListener.SetProgramVariable(PlayerUnassignedIndexVariableName, index);

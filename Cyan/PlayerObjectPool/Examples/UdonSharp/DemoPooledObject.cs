@@ -10,12 +10,8 @@ namespace Cyan.PlayerObjectPool
 {
     [AddComponentMenu("")]
     [UdonBehaviourSyncMode(BehaviourSyncMode.Manual)]
-    public class DemoPooledObject : UdonSharpBehaviour
+    public class DemoPooledObject : CyanPlayerObjectPoolObject
     {
-        // Who is the current owner of this object. Null if object is not currently in use. 
-        [PublicAPI, NonSerialized]
-        public VRCPlayerApi Owner;
-        
         public Text text;
         
         [UdonSynced]
@@ -30,7 +26,7 @@ namespace Cyan.PlayerObjectPool
         }
 
         [PublicAPI]
-        public void _OnOwnerSet()
+        public override void _OnOwnerSet()
         {
             // Initialize the object here
             if (Owner.isLocal)
@@ -40,7 +36,7 @@ namespace Cyan.PlayerObjectPool
         }
 
         [PublicAPI]
-        public void _OnCleanup()
+        public override void _OnCleanup()
         {
             // Cleanup the object here
             if (Networking.IsMaster) 
