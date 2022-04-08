@@ -11,6 +11,7 @@ namespace Cyan.PlayerObjectPool
         private readonly GUIContent _editorFoldoutGuiContent = new GUIContent("Editor Settings", "");
         
         private SerializedProperty _ownershipProp;
+        private SerializedProperty _disableProp;
         private SerializedProperty _eventListenerProp;
         
         // CyanPoolSetupHelper properties
@@ -24,6 +25,7 @@ namespace Cyan.PlayerObjectPool
         private void Awake()
         {
             _ownershipProp = serializedObject.FindProperty(nameof(CyanPlayerObjectAssigner.setNetworkOwnershipForPoolObjects));
+            _disableProp = serializedObject.FindProperty(nameof(CyanPlayerObjectAssigner.disableUnassignedObjects));
             _eventListenerProp = serializedObject.FindProperty(nameof(CyanPlayerObjectAssigner.poolEventListener));
             
             _setupHelper = (target as CyanPlayerObjectAssigner).GetComponent<CyanPoolSetupHelper>();
@@ -64,6 +66,7 @@ namespace Cyan.PlayerObjectPool
                 CyanPlayerObjectPoolEditorHelpers.AddIndent();
                 
                 EditorGUILayout.PropertyField(_ownershipProp, new GUIContent("Assign Network Owner", _ownershipProp.tooltip));
+                EditorGUILayout.PropertyField(_disableProp);
                 EditorGUILayout.PropertyField(_eventListenerProp);
                 
                 CyanPlayerObjectPoolEditorHelpers.RemoveIndent();

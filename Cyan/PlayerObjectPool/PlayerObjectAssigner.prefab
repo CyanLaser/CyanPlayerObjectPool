@@ -72,6 +72,7 @@ MonoBehaviour:
     SerializationNodes: []
   _udonSharpBackingUdonBehaviour: {fileID: 4488810526670663005}
   setNetworkOwnershipForPoolObjects: 1
+  disableUnassignedObjects: 1
   poolEventListener: {fileID: 0}
 --- !u!114 &4488810526670663005
 MonoBehaviour:

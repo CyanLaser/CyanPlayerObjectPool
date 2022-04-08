@@ -95,11 +95,21 @@ namespace Cyan.PlayerObjectPool
         [Tooltip("When assigning objects to players, should the assigned player also take ownership over this object? If your pool objects do not use Synced variables, then this option can be considered for less network overhead. Default value is True.")]
         public bool setNetworkOwnershipForPoolObjects = true;
 
-        // UdonBehaviour that will listen for different events from the Object pool system. 
-        // Current events:
-        // - _OnLocalPlayerAssigned
-        // - _OnPlayerAssigned
-        // - _OnPlayerUnassigned
+        /// <summary>
+        /// When true, on assignment, the GameObject will be enabled and on unassignment, the GameObject will be
+        /// disabled. When disabled, you will need to handle the object's current active state manually.
+        /// </summary>
+        [Tooltip("When true, on assignment, the pool object's GameObject will be enabled and on unassignment, the pool object's GameObject will be disabled. When false, you will need to handle the object's current active state manually.")]
+        public bool disableUnassignedObjects = true;
+        
+        /// <summary>
+        /// UdonBehaviour that will listen for different events from the Object pool system. 
+        /// Current events:
+        /// - _OnLocalPlayerAssigned
+        /// - _OnPlayerAssigned
+        /// - _OnPlayerUnassigned
+        /// </summary>
+        [Tooltip("UdonBehaviour that will listen for different events from the Object pool system. Current events: _OnLocalPlayerAssigned, _OnPlayerAssigned, _OnPlayerUnassigned")]
         public UdonBehaviour poolEventListener;
         
         #endregion
@@ -571,7 +581,10 @@ namespace Cyan.PlayerObjectPool
                 GameObject poolObj = child.gameObject;
                 _poolObjects[i] = poolObj;
                 pooledUdon[i] = poolObj.GetComponent(typeof(UdonBehaviour));
-                poolObj.SetActive(false);
+                if (disableUnassignedObjects)
+                {
+                    poolObj.SetActive(false);
+                }
             }
             
             // Delete extra objects since they are not needed
@@ -625,7 +638,10 @@ namespace Cyan.PlayerObjectPool
                 poolUdon = (UdonBehaviour)pooledUdon[index];
                 poolUdon.SetProgramVariable("Owner", player);
                 poolUdon.SendCustomEvent("_OnOwnerSet");
-                poolObj.SetActive(true);
+                if (disableUnassignedObjects)
+                {
+                    poolObj.SetActive(true);
+                }
             }
             
             // Notify pool listener that a player has joined and the object has been assigned.
@@ -673,7 +689,10 @@ namespace Cyan.PlayerObjectPool
                 poolUdon = (UdonBehaviour) pooledUdon[index];
                 poolUdon.SendCustomEvent("_OnCleanup");
                 poolUdon.SetProgramVariable("Owner", null);
-                poolObj.SetActive(false);
+                if (disableUnassignedObjects)
+                {
+                    poolObj.SetActive(false);
+                }
             }
 
             // Notify pool listener that a player has left and the object has been unassigned.
