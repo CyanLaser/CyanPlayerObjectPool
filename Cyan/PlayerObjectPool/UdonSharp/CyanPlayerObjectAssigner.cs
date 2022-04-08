@@ -111,6 +111,13 @@ namespace Cyan.PlayerObjectPool
         /// </summary>
         [Tooltip("UdonBehaviour that will listen for different events from the Object pool system. Current events: _OnLocalPlayerAssigned, _OnPlayerAssigned, _OnPlayerUnassigned")]
         public UdonBehaviour poolEventListener;
+
+        /// <summary>
+        /// The transform used to store the pool objects. If empty, this transform will be used. This can be used to prevent issues with execution order.
+        /// https://feedback.vrchat.com/vrchat-udon-closed-alpha-bugs/p/1123-udon-objects-with-udon-children-initialize-late-despite-execution-order-ove
+        /// </summary>
+        [Tooltip("The transform used to store the pool objects. If empty, this transform will be used. This can be used to prevent issues with execution order.")]
+        public Transform poolObjectsParent;
         
         #endregion
         
@@ -533,8 +540,13 @@ namespace Cyan.PlayerObjectPool
             }
             
             _objectPool = GameObject.Find(poolPath).GetComponent<CyanPlayerObjectPool>();
+
+            if (poolObjectsParent == null)
+            {
+                poolObjectsParent = transform;
+            }
             
-            int assignerSize = transform.childCount;
+            int assignerSize = poolObjectsParent.childCount;
             int poolSize = _objectPool.poolSize;
             
             // Pool has invalid size, return early without initializing system.
@@ -577,7 +589,7 @@ namespace Cyan.PlayerObjectPool
             // Go through and get the pool objects. 
             for (int i = 0; i < poolSize; ++i)
             {
-                Transform child = transform.GetChild(i);
+                Transform child = poolObjectsParent.GetChild(i);
                 GameObject poolObj = child.gameObject;
                 _poolObjects[i] = poolObj;
                 pooledUdon[i] = poolObj.GetComponent(typeof(UdonBehaviour));
@@ -590,7 +602,7 @@ namespace Cyan.PlayerObjectPool
             // Delete extra objects since they are not needed
             for (int i = poolSize; i < assignerSize; ++i)
             {
-                Transform child = transform.GetChild(i);
+                Transform child = poolObjectsParent.GetChild(i);
                 GameObject poolObj = child.gameObject;
                 Destroy(poolObj);
             }

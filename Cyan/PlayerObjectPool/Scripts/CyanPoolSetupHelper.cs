@@ -1,6 +1,5 @@
 ﻿
 using UnityEngine;
-using VRC.Udon;
 
 #if UNITY_EDITOR
 using UnityEditor;
@@ -19,6 +18,8 @@ namespace Cyan.PlayerObjectPool
 
         [HideInInspector, SerializeField]
         private CyanPlayerObjectPool pool;
+        [SerializeField] 
+        private CyanPlayerObjectAssigner assigner;
         
 #if UNITY_EDITOR
         // On dragging this as a prefab into the scene, create the necessary number of pool objects based on the
@@ -31,7 +32,7 @@ namespace Cyan.PlayerObjectPool
             }
 
             hideFlags = HideFlags.DontSaveInBuild;
-            
+
             GetPoolUdon();
             VerifyPoolSize();
         }
@@ -118,7 +119,16 @@ namespace Cyan.PlayerObjectPool
         
         public int GetObjectCount()
         {
-            return transform.childCount;
+            return GetPoolParentTransform().childCount;
+        }
+
+        public Transform GetPoolParentTransform()
+        {
+            if (assigner.poolObjectsParent)
+            {
+                return assigner.poolObjectsParent;
+            }
+            return assigner.transform;
         }
 
         // Update the number of pool objects for this assigner based on the current size of the Object pool.
@@ -130,9 +140,10 @@ namespace Cyan.PlayerObjectPool
         // Delete all children under this Object Assigner.
         public void ClearChildren()
         {
+            Transform poolTransform = GetPoolParentTransform();
             while (GetObjectCount() > 0)
             {
-                GameObject poolObject = transform.GetChild(0).gameObject;
+                GameObject poolObject = poolTransform.GetChild(0).gameObject;
                 Undo.DestroyObjectImmediate(poolObject);
             }
         }
@@ -178,10 +189,11 @@ namespace Cyan.PlayerObjectPool
                 return;
             }
             
+            Transform poolTransform = GetPoolParentTransform();
             // Too many children, delete the last items until size is met.
             while (GetObjectCount() > size)
             {
-                GameObject poolObject = transform.GetChild(GetObjectCount() - 1).gameObject;
+                GameObject poolObject = poolTransform.GetChild(GetObjectCount() - 1).gameObject;
                 Undo.DestroyObjectImmediate(poolObject);
             }
 
@@ -192,12 +204,12 @@ namespace Cyan.PlayerObjectPool
                 // If pool object is a prefab, spawn as a prefab instance
                 if (PrefabUtility.IsPartOfPrefabAsset(poolObjectPrefab))
                 {
-                    poolObject = (GameObject)PrefabUtility.InstantiatePrefab(poolObjectPrefab, transform);
+                    poolObject = (GameObject)PrefabUtility.InstantiatePrefab(poolObjectPrefab, poolTransform);
                 }
                 // If pool object is not a prefab, instantiate as normal gameobject.
                 else
                 {
-                    poolObject = Instantiate(poolObjectPrefab, transform);
+                    poolObject = Instantiate(poolObjectPrefab, poolTransform);
                     poolObject.name = poolObjectPrefab.name;
                 }
                 

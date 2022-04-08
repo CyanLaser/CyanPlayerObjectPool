@@ -49,6 +49,7 @@ MonoBehaviour:
     type: 3}
   poolObjectPrefab: {fileID: 0}
   pool: {fileID: 0}
+  assigner: {fileID: -3945521236885312116}
 --- !u!114 &-3945521236885312116
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -74,6 +75,7 @@ MonoBehaviour:
   setNetworkOwnershipForPoolObjects: 1
   disableUnassignedObjects: 1
   poolEventListener: {fileID: 0}
+  poolObjectsParent: {fileID: 3276687640108633848}
 --- !u!114 &4488810526670663005
 MonoBehaviour:
   m_ObjectHideFlags: 0
