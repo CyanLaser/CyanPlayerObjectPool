@@ -15,7 +15,7 @@ Assigns a unique object to every player in the world.
 
 Dependencies
 
-UdonSharp - https://github.com/Merlin-san/UdonSharp
+UdonSharp 1.0 - https://github.com/vrchat-community/UdonSharp
 While UdonSharp is required to run, you may use UdonGraph or CyanTrigger to create your pooled object programs.
 
 

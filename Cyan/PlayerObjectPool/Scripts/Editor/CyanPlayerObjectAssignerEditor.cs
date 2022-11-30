@@ -11,7 +11,9 @@ namespace Cyan.PlayerObjectPool
         private readonly GUIContent _editorFoldoutGuiContent = new GUIContent("Editor Settings", "");
         
         private SerializedProperty _ownershipProp;
+        private SerializedProperty _disableProp;
         private SerializedProperty _eventListenerProp;
+        private SerializedProperty _poolObjectParentProp;
         
         // CyanPoolSetupHelper properties
         private CyanPoolSetupHelper _setupHelper;
@@ -24,7 +26,9 @@ namespace Cyan.PlayerObjectPool
         private void Awake()
         {
             _ownershipProp = serializedObject.FindProperty(nameof(CyanPlayerObjectAssigner.setNetworkOwnershipForPoolObjects));
+            _disableProp = serializedObject.FindProperty(nameof(CyanPlayerObjectAssigner.disableUnassignedObjects));
             _eventListenerProp = serializedObject.FindProperty(nameof(CyanPlayerObjectAssigner.poolEventListener));
+            _poolObjectParentProp = serializedObject.FindProperty(nameof(CyanPlayerObjectAssigner.poolObjectsParent));
             
             _setupHelper = (target as CyanPlayerObjectAssigner).GetComponent<CyanPoolSetupHelper>();
             if (_setupHelper != null)
@@ -64,7 +68,31 @@ namespace Cyan.PlayerObjectPool
                 CyanPlayerObjectPoolEditorHelpers.AddIndent();
                 
                 EditorGUILayout.PropertyField(_ownershipProp, new GUIContent("Assign Network Owner", _ownershipProp.tooltip));
+                EditorGUILayout.PropertyField(_disableProp);
                 EditorGUILayout.PropertyField(_eventListenerProp);
+                
+                EditorGUI.BeginChangeCheck();
+                
+                Transform prev = (Transform)_poolObjectParentProp.objectReferenceValue;
+                
+                EditorGUILayout.PropertyField(_poolObjectParentProp);
+                
+                if (_poolObjectParentProp.objectReferenceValue == null)
+                {
+                    _poolObjectParentProp.objectReferenceValue = (target as CyanPlayerObjectAssigner).transform;
+                }
+                
+                if (EditorGUI.EndChangeCheck() && prev != null)
+                {
+                    Transform cur = (Transform)_poolObjectParentProp.objectReferenceValue;
+                    if (prev != cur)
+                    {
+                        while (prev.childCount != 0)
+                        {
+                            prev.GetChild(0).SetParent(cur, false);
+                        }
+                    }
+                }
                 
                 CyanPlayerObjectPoolEditorHelpers.RemoveIndent();
             }

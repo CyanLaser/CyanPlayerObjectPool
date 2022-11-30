@@ -55,7 +55,7 @@ namespace Cyan.PlayerObjectPool
                 int count = 0;
                 foreach (var obj in _instance.gameObject.scene.GetRootGameObjects())
                 {
-                    CyanPlayerObjectPool[] pools = obj.GetUdonSharpComponentsInChildren<CyanPlayerObjectPool>(true);
+                    CyanPlayerObjectPool[] pools = obj.GetComponentsInChildren<CyanPlayerObjectPool>(true);
                     count += pools.Length;
                 }
 

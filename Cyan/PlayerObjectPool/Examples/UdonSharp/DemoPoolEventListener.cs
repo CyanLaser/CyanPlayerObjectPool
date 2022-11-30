@@ -1,13 +1,11 @@
 ﻿
-using JetBrains.Annotations;
-using UdonSharp;
 using UnityEngine;
 using VRC.SDKBase;
 using VRC.Udon;
 
 namespace Cyan.PlayerObjectPool
 {
-    public class DemoPoolEventListener : UdonSharpBehaviour
+    public class DemoPoolEventListener : CyanPlayerObjectPoolEventListener
     {
         public CyanPlayerObjectAssigner objectPool;
         private DemoPooledObject _localPoolObject;
@@ -28,8 +26,7 @@ namespace Cyan.PlayerObjectPool
             _localPoolObject._IncreaseValue();
         }
 
-        [PublicAPI]
-        public void _OnLocalPlayerAssigned()
+        public override void _OnLocalPlayerAssigned()
         {
             Debug.Log("The local player has been assigned an object from the pool!");
             
@@ -39,29 +36,15 @@ namespace Cyan.PlayerObjectPool
             // Allow the user to interact with this object.
             DisableInteractive = false;
         }
-        
-        [PublicAPI, HideInInspector]
-        public VRCPlayerApi playerAssignedPlayer;
-        [PublicAPI, HideInInspector] 
-        public int playerAssignedIndex;
-        [PublicAPI, HideInInspector]
-        public UdonBehaviour playerAssignedPoolObject;
-        [PublicAPI]
-        public void _OnPlayerAssigned()
+
+        public override void _OnPlayerAssigned(VRCPlayerApi player, int poolIndex, UdonBehaviour poolObject)
         {
-            Debug.Log($"Object {playerAssignedIndex} assigned to player {playerAssignedPlayer.displayName} {playerAssignedPlayer.playerId}");
+            Debug.Log($"Object {poolIndex} assigned to player {player.displayName} {player.playerId}");
         }
-        
-        [PublicAPI, HideInInspector]
-        public VRCPlayerApi playerUnassignedPlayer;
-        [PublicAPI, HideInInspector] 
-        public int playerUnassignedIndex;
-        [PublicAPI, HideInInspector]
-        public UdonBehaviour playerUnassignedPoolObject;
-        [PublicAPI]
-        public void _OnPlayerUnassigned()
+
+        public override void _OnPlayerUnassigned(VRCPlayerApi player, int poolIndex, UdonBehaviour poolObject)
         {
-            Debug.Log($"Object {playerUnassignedIndex} unassigned from player {playerUnassignedPlayer.displayName} {playerUnassignedPlayer.playerId}");
+            Debug.Log($"Object {poolIndex} unassigned from player {player.displayName} {player.playerId}");
         }
     }
 }
