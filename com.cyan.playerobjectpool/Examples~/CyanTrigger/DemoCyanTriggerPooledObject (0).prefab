@@ -70,7 +70,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 7239175875574932085}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 1980459831, guid: f70555f144d8491a825f0804e09c671c, type: 3}
+  m_Script: {fileID: 11500000, guid: 0cd44c1031e13a943bb63640046fad76, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   m_UiScaleMode: 0
@@ -163,12 +163,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 7239175876222275329}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 708705254, guid: f70555f144d8491a825f0804e09c671c, type: 3}
+  m_Script: {fileID: 11500000, guid: 5f7201a12d95ffc409449d95f23cf332, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
   m_Color: {r: 0.19607843, g: 0.19607843, b: 0.19607843, a: 1}
   m_RaycastTarget: 1
+  m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -195,7 +196,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 7239175876222275329}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: -900027084, guid: f70555f144d8491a825f0804e09c671c, type: 3}
+  m_Script: {fileID: 11500000, guid: e19747de3f5aca642ab2be37e372fb86, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   m_EffectColor: {r: 1, g: 1, b: 1, a: 0.5}
@@ -250,11 +251,14 @@ MonoBehaviour:
     proximity: 2
     interactText: Use
     triggerDataInstance:
-      version: 3
+      version: 6
       updateOrder: 0
+      autoSetSyncMode: 1
       programSyncMode: 2
+      programName: 
       events:
       - name: _Unnamed
+        eventId: 9bfba7e9-d0ee-4051-96c0-038f5d4e670e
         eventInstance:
           actionType:
             directEvent: Event_OnVariableChanged
@@ -272,7 +276,20 @@ MonoBehaviour:
             comment: 
         actionInstances:
         - actionType:
-            directEvent: CyanTrigger.__SendCustomEvent__CyanTrigger__SystemString
+            directEvent: CyanTriggerSpecial_Comment
+            guid: 
+          inputs: []
+          multiInput: []
+          expanded: 1
+          comment:
+            comment: OnVariableChanged happens when the variable's data has been
+              changed, either locally or from over the network (OnDeserialization
+              Event). Note that this method may happen before the owner has been
+              assigned to this object. Be sure to check for that case and handle
+              initial variable updates both in OnDeserialization (OnVariableChanged)
+              and in _OnOwnerSet.
+        - actionType:
+            directEvent: VRCUdonCommonInterfacesIUdonEventReceiver.__SendCustomEvent__SystemString__SystemVoid
             guid: 
           inputs:
           - isVariable: 0
@@ -289,8 +306,8 @@ MonoBehaviour:
               unityObjects: []
           multiInput:
           - isVariable: 1
-            name: This CyanTrigger
-            variableID: _this_cyantrigger
+            name: This UdonBehaviour
+            variableID: _this_udonbehaviour
             data:
               objEncoded: Lg==
               unityObjects: []
@@ -302,21 +319,17 @@ MonoBehaviour:
           userGateExtraData: []
           broadcast: 0
           delay: 0
+          replay: 0
         expanded: 1
       - name: _OnOwnerSet
+        eventId: ed24efa7-ec11-4390-ba27-0d16ef808e0a
         eventInstance:
           actionType:
             directEvent: Event_Custom
             guid: 
-          inputs:
-          - isVariable: 0
-            name: 
-            variableID: 
-            data:
-              objEncoded: Ai8AAAAAARcAAABTAHkAcwB0AGUAbQAuAFMAdAByAGkAbgBnACwAIABtAHMAYwBvAHIAbABpAGIAAAAAACgBAAAAAAU=
-              unityObjects: []
+          inputs: []
           multiInput: []
-          expanded: 1
+          expanded: 0
           comment:
             comment: 
         actionInstances:
@@ -333,7 +346,7 @@ MonoBehaviour:
             directEvent: CyanTriggerSpecial_Condition
             guid: 
           inputs:
-          - isVariable: 0
+          - isVariable: 1
             name: 
             variableID: 8dfbcd25-5e56-497d-9a5e-8b379e2f6956
             data:
@@ -421,26 +434,51 @@ MonoBehaviour:
           expanded: 1
           comment:
             comment: 
-        eventOptions:
-          userGate: 0
-          userGateExtraData: []
-          broadcast: 0
-          delay: 0
-        expanded: 1
-      - name: _OnCleanup
-        eventInstance:
-          actionType:
-            directEvent: Event_Custom
+        - actionType:
+            directEvent: VRCUdonCommonInterfacesIUdonEventReceiver.__SendCustomEvent__SystemString__SystemVoid
             guid: 
           inputs:
           - isVariable: 0
             name: 
             variableID: 
             data:
-              objEncoded: Ai8AAAAAARcAAABTAHkAcwB0AGUAbQAuAFMAdAByAGkAbgBnACwAIABtAHMAYwBvAHIAbABpAGIAAAAAACgBAAAAAAU=
+              objEncoded: Lg==
               unityObjects: []
+          - isVariable: 0
+            name: 
+            variableID: 
+            data:
+              objEncoded: Ai8AAAAAARcAAABTAHkAcwB0AGUAbQAuAFMAdAByAGkAbgBnACwAIABtAHMAYwBvAHIAbABpAGIAAAAAACgBDgAAAF8AVQBwAGQAYQB0AGUARABpAHMAcABsAGEAeQAF
+              unityObjects: []
+          multiInput:
+          - isVariable: 1
+            name: This UdonBehaviour
+            variableID: _this_udonbehaviour
+            data:
+              objEncoded: Lg==
+              unityObjects: []
+          expanded: 0
+          comment:
+            comment: "After assigning the owner, have everyone act as if the value
+              has changed, as the owner has.\r This is needed as an edge case when
+              the synced value of this pool object is changed BEFORE\r the owner
+              has been assigned. See OnVariableChanged as well."
+        eventOptions:
+          userGate: 0
+          userGateExtraData: []
+          broadcast: 0
+          delay: 0
+          replay: 0
+        expanded: 1
+      - name: _OnCleanup
+        eventId: 462a01b1-2d06-4fa5-bfad-decbad70abd7
+        eventInstance:
+          actionType:
+            directEvent: Event_Custom
+            guid: 
+          inputs: []
           multiInput: []
-          expanded: 1
+          expanded: 0
           comment:
             comment: 
         actionInstances:
@@ -501,21 +539,17 @@ MonoBehaviour:
           userGateExtraData: []
           broadcast: 0
           delay: 0
+          replay: 0
         expanded: 1
       - name: _UpdateDisplay
+        eventId: 8c59eabf-4168-4907-bbbb-da50f1311549
         eventInstance:
           actionType:
             directEvent: Event_Custom
             guid: 
-          inputs:
-          - isVariable: 0
-            name: 
-            variableID: 
-            data:
-              objEncoded: Ai8AAAAAARcAAABTAHkAcwB0AGUAbQAuAFMAdAByAGkAbgBnACwAIABtAHMAYwBvAHIAbABpAGIAAAAAACgBAAAAAAU=
-              unityObjects: []
+          inputs: []
           multiInput: []
-          expanded: 1
+          expanded: 0
           comment:
             comment: 
         actionInstances:
@@ -531,7 +565,7 @@ MonoBehaviour:
             directEvent: CyanTriggerSpecial_Condition
             guid: 
           inputs:
-          - isVariable: 0
+          - isVariable: 1
             name: 
             variableID: 2b6fca49-f528-4c66-a3ba-b6ce8af1e639
             data:
@@ -578,20 +612,20 @@ MonoBehaviour:
           comment:
             comment: 
         - actionType:
-            directEvent: CyanTriggerVariable_SystemString
+            directEvent: SystemString__.Set__SystemString__SystemString
             guid: 
           inputs:
-          - isVariable: 0
-            name: 
-            variableID: 59c91e68-0ccb-40df-a424-50ced20d597f
-            data:
-              objEncoded: Ai8AAAAAARcAAABTAHkAcwB0AGUAbQAuAFMAdAByAGkAbgBnACwAIABtAHMAYwBvAHIAbABpAGIAAAAAACgBCQAAAG8AdwBuAGUAcgBOAGEAbQBlAAU=
-              unityObjects: []
           - isVariable: 0
             name: 
             variableID: 
             data:
               objEncoded: Ai8AAAAAARcAAABTAHkAcwB0AGUAbQAuAFMAdAByAGkAbgBnACwAIABtAHMAYwBvAHIAbABpAGIAAAAAACgBAAAAAAU=
+              unityObjects: []
+          - isVariable: 1
+            name: 
+            variableID: 59c91e68-0ccb-40df-a424-50ced20d597f
+            data:
+              objEncoded: Ai8AAAAAARcAAABTAHkAcwB0AGUAbQAuAFMAdAByAGkAbgBnACwAIABtAHMAYwBvAHIAbABpAGIAAAAAACgBCQAAAG8AdwBuAGUAcgBOAGEAbQBlAAU=
               unityObjects: []
           multiInput: []
           expanded: 0
@@ -618,20 +652,20 @@ MonoBehaviour:
           comment:
             comment: Get the owner's name
         - actionType:
-            directEvent: CyanTriggerVariable_SystemInt32
+            directEvent: SystemInt32__.Set__SystemInt32__SystemInt32
             guid: 
           inputs:
-          - isVariable: 0
-            name: 
-            variableID: a4ae4680-a8f5-47ac-b01c-0e8e9d12fc95
-            data:
-              objEncoded: Ai8AAAAAARcAAABTAHkAcwB0AGUAbQAuAFMAdAByAGkAbgBnACwAIABtAHMAYwBvAHIAbABpAGIAAAAAACgBBwAAAG8AdwBuAGUAcgBJAGQABQ==
-              unityObjects: []
           - isVariable: 0
             name: 
             variableID: 
             data:
               objEncoded: Ai8AAAAAARYAAABTAHkAcwB0AGUAbQAuAEkAbgB0ADMAMgAsACAAbQBzAGMAbwByAGwAaQBiAAAAAAAYAAAAAAU=
+              unityObjects: []
+          - isVariable: 1
+            name: 
+            variableID: a4ae4680-a8f5-47ac-b01c-0e8e9d12fc95
+            data:
+              objEncoded: Ai8AAAAAARcAAABTAHkAcwB0AGUAbQAuAFMAdAByAGkAbgBnACwAIABtAHMAYwBvAHIAbABpAGIAAAAAACgBBwAAAG8AdwBuAGUAcgBJAGQABQ==
               unityObjects: []
           multiInput: []
           expanded: 0
@@ -658,20 +692,20 @@ MonoBehaviour:
           comment:
             comment: Get the owner's id
         - actionType:
-            directEvent: CyanTriggerVariable_SystemString
+            directEvent: SystemString__.Set__SystemString__SystemString
             guid: 
           inputs:
-          - isVariable: 0
-            name: 
-            variableID: 8f70dd6a-f1a0-4b54-906e-c50c07bf2a4f
-            data:
-              objEncoded: Ai8AAAAAARcAAABTAHkAcwB0AGUAbQAuAFMAdAByAGkAbgBnACwAIABtAHMAYwBvAHIAbABpAGIAAAAAACgBDQAAAG8AdwBuAGUAcgBJAGQAUwB0AHIAaQBuAGcABQ==
-              unityObjects: []
           - isVariable: 0
             name: 
             variableID: 
             data:
               objEncoded: Ai8AAAAAARcAAABTAHkAcwB0AGUAbQAuAFMAdAByAGkAbgBnACwAIABtAHMAYwBvAHIAbABpAGIAAAAAACgBAAAAAAU=
+              unityObjects: []
+          - isVariable: 1
+            name: 
+            variableID: 8f70dd6a-f1a0-4b54-906e-c50c07bf2a4f
+            data:
+              objEncoded: Ai8AAAAAARcAAABTAHkAcwB0AGUAbQAuAFMAdAByAGkAbgBnACwAIABtAHMAYwBvAHIAbABpAGIAAAAAACgBDQAAAG8AdwBuAGUAcgBJAGQAUwB0AHIAaQBuAGcABQ==
               unityObjects: []
           multiInput: []
           expanded: 0
@@ -698,20 +732,20 @@ MonoBehaviour:
           comment:
             comment: Convert owner id into a string
         - actionType:
-            directEvent: CyanTriggerVariable_SystemString
+            directEvent: SystemString__.Set__SystemString__SystemString
             guid: 
           inputs:
-          - isVariable: 0
-            name: 
-            variableID: 1098f56b-2f53-4376-b2f1-723f561b62bb
-            data:
-              objEncoded: Ai8AAAAAARcAAABTAHkAcwB0AGUAbQAuAFMAdAByAGkAbgBnACwAIABtAHMAYwBvAHIAbABpAGIAAAAAACgBCwAAAGQAaQBzAHAAbABhAHkAVABlAHgAdAAF
-              unityObjects: []
           - isVariable: 0
             name: 
             variableID: 
             data:
               objEncoded: Ai8AAAAAARcAAABTAHkAcwB0AGUAbQAuAFMAdAByAGkAbgBnACwAIABtAHMAYwBvAHIAbABpAGIAAAAAACgBAAAAAAU=
+              unityObjects: []
+          - isVariable: 1
+            name: 
+            variableID: 1098f56b-2f53-4376-b2f1-723f561b62bb
+            data:
+              objEncoded: Ai8AAAAAARcAAABTAHkAcwB0AGUAbQAuAFMAdAByAGkAbgBnACwAIABtAHMAYwBvAHIAbABpAGIAAAAAACgBCwAAAGQAaQBzAHAAbABhAHkAVABlAHgAdAAF
               unityObjects: []
           multiInput: []
           expanded: 0
@@ -750,20 +784,20 @@ MonoBehaviour:
           comment:
             comment: Combine the owner name and owner id text
         - actionType:
-            directEvent: CyanTriggerVariable_SystemString
+            directEvent: SystemString__.Set__SystemString__SystemString
             guid: 
           inputs:
-          - isVariable: 0
-            name: 
-            variableID: adc67005-fb81-42b3-a0bd-dca22479bd6a
-            data:
-              objEncoded: Ai8AAAAAARcAAABTAHkAcwB0AGUAbQAuAFMAdAByAGkAbgBnACwAIABtAHMAYwBvAHIAbABpAGIAAAAAACgBCwAAAHYAYQBsAHUAZQBTAHQAcgBpAG4AZwAF
-              unityObjects: []
           - isVariable: 0
             name: 
             variableID: 
             data:
               objEncoded: Ai8AAAAAARcAAABTAHkAcwB0AGUAbQAuAFMAdAByAGkAbgBnACwAIABtAHMAYwBvAHIAbABpAGIAAAAAACgBAAAAAAU=
+              unityObjects: []
+          - isVariable: 1
+            name: 
+            variableID: adc67005-fb81-42b3-a0bd-dca22479bd6a
+            data:
+              objEncoded: Ai8AAAAAARcAAABTAHkAcwB0AGUAbQAuAFMAdAByAGkAbgBnACwAIABtAHMAYwBvAHIAbABpAGIAAAAAACgBCwAAAHYAYQBsAHUAZQBTAHQAcgBpAG4AZwAF
               unityObjects: []
           multiInput: []
           expanded: 0
@@ -910,8 +944,10 @@ MonoBehaviour:
           userGateExtraData: []
           broadcast: 0
           delay: 0
+          replay: 0
         expanded: 1
       - name: _Unnamed
+        eventId: 44f94b27-7040-438c-8b18-ee6da5f113e1
         eventInstance:
           actionType:
             directEvent: Event_Update
@@ -934,7 +970,7 @@ MonoBehaviour:
             directEvent: CyanTriggerSpecial_Condition
             guid: 
           inputs:
-          - isVariable: 0
+          - isVariable: 1
             name: 
             variableID: 0c3b2798-8a62-4fb2-8e2f-538d5f1394a8
             data:
@@ -981,20 +1017,20 @@ MonoBehaviour:
           comment:
             comment: 
         - actionType:
-            directEvent: CyanTriggerVariable_UnityEngineVector3
+            directEvent: UnityEngineVector3__.Set__UnityEngineVector3__UnityEngineVector3
             guid: 
           inputs:
-          - isVariable: 0
-            name: 
-            variableID: c4492b8e-763e-4b8d-b6f2-9a79926d2fb9
-            data:
-              objEncoded: Ai8AAAAAARcAAABTAHkAcwB0AGUAbQAuAFMAdAByAGkAbgBnACwAIABtAHMAYwBvAHIAbABpAGIAAAAAACgBCAAAAHAAbwBzAGkAdABpAG8AbgAF
-              unityObjects: []
           - isVariable: 0
             name: 
             variableID: 
             data:
               objEncoded: Ai8AAAAAASsAAABVAG4AaQB0AHkARQBuAGcAaQBuAGUALgBWAGUAYwB0AG8AcgAzACwAIABVAG4AaQB0AHkARQBuAGcAaQBuAGUALgBDAG8AcgBlAE0AbwBkAHUAbABlAAAAAAAgAAAAACAAAAAAIAAAAAAF
+              unityObjects: []
+          - isVariable: 1
+            name: 
+            variableID: c4492b8e-763e-4b8d-b6f2-9a79926d2fb9
+            data:
+              objEncoded: Ai8AAAAAARcAAABTAHkAcwB0AGUAbQAuAFMAdAByAGkAbgBnACwAIABtAHMAYwBvAHIAbABpAGIAAAAAACgBCAAAAHAAbwBzAGkAdABpAG8AbgAF
               unityObjects: []
           multiInput: []
           expanded: 0
@@ -1073,20 +1109,20 @@ MonoBehaviour:
           comment:
             comment: Set this object's position to be above the Owner's head.
         - actionType:
-            directEvent: CyanTriggerVariable_VRCSDKBaseVRCPlayerApiTrackingData
+            directEvent: VRCSDKBaseVRCPlayerApiTrackingData__.Set__VRCSDKBaseVRCPlayerApiTrackingData__VRCSDKBaseVRCPlayerApiTrackingData
             guid: 
           inputs:
-          - isVariable: 0
-            name: 
-            variableID: d8788a38-df41-4b4e-8cbd-83bdc5d3077b
-            data:
-              objEncoded: Ai8AAAAAARcAAABTAHkAcwB0AGUAbQAuAFMAdAByAGkAbgBnACwAIABtAHMAYwBvAHIAbABpAGIAAAAAACgBGwAAAGwAbwBjAGEAbABQAGwAYQB5AGUAcgBIAGUAYQBkAFQAcgBhAGMAawBpAG4AZwBEAGEAdABhAAU=
-              unityObjects: []
           - isVariable: 0
             name: 
             variableID: 
             data:
               objEncoded: Ai8AAAAAATEAAABWAFIAQwAuAFMARABLAEIAYQBzAGUALgBWAFIAQwBQAGwAYQB5AGUAcgBBAHAAaQArAFQAcgBhAGMAawBpAG4AZwBEAGEAdABhACwAIABWAFIAQwBTAEQASwBCAGEAcwBlAAAAAAADAQgAAABwAG8AcwBpAHQAaQBvAG4ALwEAAAABKwAAAFUAbgBpAHQAeQBFAG4AZwBpAG4AZQAuAFYAZQBjAHQAbwByADMALAAgAFUAbgBpAHQAeQBFAG4AZwBpAG4AZQAuAEMAbwByAGUATQBvAGQAdQBsAGUAIAAAAAAgAAAAACAAAAAABQMBCAAAAHIAbwB0AGEAdABpAG8AbgAvAgAAAAEuAAAAVQBuAGkAdAB5AEUAbgBnAGkAbgBlAC4AUQB1AGEAdABlAHIAbgBpAG8AbgAsACAAVQBuAGkAdAB5AEUAbgBnAGkAbgBlAC4AQwBvAHIAZQBNAG8AZAB1AGwAZQAgAAAAACAAAAAAIAAAAAAgAAAAAAUF
+              unityObjects: []
+          - isVariable: 1
+            name: 
+            variableID: d8788a38-df41-4b4e-8cbd-83bdc5d3077b
+            data:
+              objEncoded: Ai8AAAAAARcAAABTAHkAcwB0AGUAbQAuAFMAdAByAGkAbgBnACwAIABtAHMAYwBvAHIAbABpAGIAAAAAACgBGwAAAGwAbwBjAGEAbABQAGwAYQB5AGUAcgBIAGUAYQBkAFQAcgBhAGMAawBpAG4AZwBEAGEAdABhAAU=
               unityObjects: []
           multiInput: []
           expanded: 0
@@ -1119,20 +1155,20 @@ MonoBehaviour:
           comment:
             comment: Get the local player's head data
         - actionType:
-            directEvent: CyanTriggerVariable_UnityEngineVector3
+            directEvent: UnityEngineVector3__.Set__UnityEngineVector3__UnityEngineVector3
             guid: 
           inputs:
-          - isVariable: 0
-            name: 
-            variableID: 52801799-33f1-490b-ace5-48c7f17b4a0e
-            data:
-              objEncoded: Ai8AAAAAARcAAABTAHkAcwB0AGUAbQAuAFMAdAByAGkAbgBnACwAIABtAHMAYwBvAHIAbABpAGIAAAAAACgBFwAAAGwAbwBjAGEAbABQAGwAYQB5AGUAcgBIAGUAYQBkAFAAbwBzAGkAdABpAG8AbgAF
-              unityObjects: []
           - isVariable: 0
             name: 
             variableID: 
             data:
               objEncoded: Ai8AAAAAASsAAABVAG4AaQB0AHkARQBuAGcAaQBuAGUALgBWAGUAYwB0AG8AcgAzACwAIABVAG4AaQB0AHkARQBuAGcAaQBuAGUALgBDAG8AcgBlAE0AbwBkAHUAbABlAAAAAAAgAAAAACAAAAAAIAAAAAAF
+              unityObjects: []
+          - isVariable: 1
+            name: 
+            variableID: 52801799-33f1-490b-ace5-48c7f17b4a0e
+            data:
+              objEncoded: Ai8AAAAAARcAAABTAHkAcwB0AGUAbQAuAFMAdAByAGkAbgBnACwAIABtAHMAYwBvAHIAbABpAGIAAAAAACgBFwAAAGwAbwBjAGEAbABQAGwAYQB5AGUAcgBIAGUAYQBkAFAAbwBzAGkAdABpAG8AbgAF
               unityObjects: []
           multiInput: []
           expanded: 0
@@ -1205,21 +1241,17 @@ MonoBehaviour:
           userGateExtraData: []
           broadcast: 0
           delay: 0
+          replay: 0
         expanded: 1
       - name: _IncreaseValue
+        eventId: 47a592d7-cf63-4935-9ec8-a8ee945a4f6e
         eventInstance:
           actionType:
             directEvent: Event_Custom
             guid: 
-          inputs:
-          - isVariable: 0
-            name: 
-            variableID: 
-            data:
-              objEncoded: Ai8AAAAAARcAAABTAHkAcwB0AGUAbQAuAFMAdAByAGkAbgBnACwAIABtAHMAYwBvAHIAbABpAGIAAAAAACgBAAAAAAU=
-              unityObjects: []
+          inputs: []
           multiInput: []
-          expanded: 1
+          expanded: 0
           comment:
             comment: 
         actionInstances:
@@ -1236,7 +1268,7 @@ MonoBehaviour:
             directEvent: CyanTriggerSpecial_Condition
             guid: 
           inputs:
-          - isVariable: 0
+          - isVariable: 1
             name: 
             variableID: 10827e76-7369-447c-ad4a-6f8a7b4b79bd
             data:
@@ -1283,20 +1315,20 @@ MonoBehaviour:
           comment:
             comment: 
         - actionType:
-            directEvent: CyanTriggerVariable_SystemInt32
+            directEvent: SystemInt32__.Set__SystemInt32__SystemInt32
             guid: 
           inputs:
-          - isVariable: 0
-            name: 
-            variableID: ac99a86a-618f-472a-bed3-6ab292d88e71
-            data:
-              objEncoded: Ai8AAAAAARcAAABTAHkAcwB0AGUAbQAuAFMAdAByAGkAbgBnACwAIABtAHMAYwBvAHIAbABpAGIAAAAAACgBAwAAAHMAdQBtAAU=
-              unityObjects: []
           - isVariable: 1
             name: Value
             variableID: a022d480-0bdf-4b0c-a28b-51452802b3b7
             data:
               objEncoded: Ai8AAAAAARYAAABTAHkAcwB0AGUAbQAuAEkAbgB0ADMAMgAsACAAbQBzAGMAbwByAGwAaQBiAAAAAAAYAAAAAAU=
+              unityObjects: []
+          - isVariable: 1
+            name: 
+            variableID: ac99a86a-618f-472a-bed3-6ab292d88e71
+            data:
+              objEncoded: Ai8AAAAAARcAAABTAHkAcwB0AGUAbQAuAFMAdAByAGkAbgBnACwAIABtAHMAYwBvAHIAbABpAGIAAAAAACgBAwAAAHMAdQBtAAU=
               unityObjects: []
           multiInput: []
           expanded: 0
@@ -1376,6 +1408,7 @@ MonoBehaviour:
           userGateExtraData: []
           broadcast: 0
           delay: 0
+          replay: 0
         expanded: 1
       variables:
       - isVariable: 0
@@ -1388,6 +1421,10 @@ MonoBehaviour:
           typeDef: VRC.SDKBase.VRCPlayerApi, VRCSDKBase, Version=0.0.0.0, Culture=neutral,
             PublicKeyToken=null
         sync: 0
+        showInInspector: 1
+        typeInfo: 0
+        comment:
+          comment: 
       - isVariable: 0
         name: Text
         variableID: cf2da57e-72d1-42bc-a56d-25942295270b
@@ -1399,6 +1436,10 @@ MonoBehaviour:
           typeDef: UnityEngine.UI.Text, UnityEngine.UI, Version=1.0.0.0, Culture=neutral,
             PublicKeyToken=null
         sync: 0
+        showInInspector: 1
+        typeInfo: 0
+        comment:
+          comment: 
       - isVariable: 0
         name: Value
         variableID: a022d480-0bdf-4b0c-a28b-51452802b3b7
@@ -1408,8 +1449,16 @@ MonoBehaviour:
         type:
           typeDef: System.Int32, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089
         sync: 1
+        showInInspector: 1
+        typeInfo: 0
+        comment:
+          comment: 
       comment:
         comment: 
+      expandVariables: 1
+      expandOtherSettings: 1
+      expandSyncSection: 0
+      ignoreEventWarnings: 0
     udonBehaviour: {fileID: 8654659620817909414}
 --- !u!114 &8654659620817909414
 MonoBehaviour:
@@ -1430,9 +1479,10 @@ MonoBehaviour:
   SynchronizePosition: 0
   AllowCollisionOwnershipTransfer: 1
   Reliable: 1
-  serializedProgramAsset: {fileID: 11400000, guid: 9c3fe766e23cdaf44ab47a294c1fd584,
+  _syncMethod: 1
+  serializedProgramAsset: {fileID: 11400000, guid: 15be5edd5a3cac64eb5b7c7c6726d13f,
     type: 2}
-  programSource: {fileID: 11400000, guid: aaa95946b38d3474e986547f2220617c, type: 2}
+  programSource: {fileID: 11400000, guid: cc18f4b6c2dd8c74d9f7ce3362168f28, type: 2}
   serializedPublicVariablesBytesString: Ai8AAAAAATIAAABWAFIAQwAuAFUAZABvAG4ALgBDAG8AbQBtAG8AbgAuAFUAZABvAG4AVgBhAHIAaQBhAGIAbABlAFQAYQBiAGwAZQAsACAAVgBSAEMALgBVAGQAbwBuAC4AQwBvAG0AbQBvAG4AAAAAAAYBAAAAAAAAACcBBAAAAHQAeQBwAGUAAWgAAABTAHkAcwB0AGUAbQAuAEMAbwBsAGwAZQBjAHQAaQBvAG4AcwAuAEcAZQBuAGUAcgBpAGMALgBMAGkAcwB0AGAAMQBbAFsAVgBSAEMALgBVAGQAbwBuAC4AQwBvAG0AbQBvAG4ALgBJAG4AdABlAHIAZgBhAGMAZQBzAC4ASQBVAGQAbwBuAFYAYQByAGkAYQBiAGwAZQAsACAAVgBSAEMALgBVAGQAbwBuAC4AQwBvAG0AbQBvAG4AXQBdACwAIABtAHMAYwBvAHIAbABpAGIAAQEJAAAAVgBhAHIAaQBhAGIAbABlAHMALwEAAAABaAAAAFMAeQBzAHQAZQBtAC4AQwBvAGwAbABlAGMAdABpAG8AbgBzAC4ARwBlAG4AZQByAGkAYwAuAEwAaQBzAHQAYAAxAFsAWwBWAFIAQwAuAFUAZABvAG4ALgBDAG8AbQBtAG8AbgAuAEkAbgB0AGUAcgBmAGEAYwBlAHMALgBJAFUAZABvAG4AVgBhAHIAaQBhAGIAbABlACwAIABWAFIAQwAuAFUAZABvAG4ALgBDAG8AbQBtAG8AbgBdAF0ALAAgAG0AcwBjAG8AcgBsAGkAYgABAAAABgAAAAAAAAAABwUHBQ==
   publicVariablesUnityEngineObjects: []
   publicVariablesSerializationDataFormat: 0

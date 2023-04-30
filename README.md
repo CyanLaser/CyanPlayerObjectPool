@@ -29,12 +29,26 @@ A VRChat system that will assign a unique object to every player in the world.
 See the example scenes for more details on proper setup.
 
 
+## Examples
+
+Samples for each compiler type can be imported through the Package Manager. Open the Package Manager through "Window/Package Manager". Once open, in the top right, click the drop down and select "In Project". Find "Cyan Player Object Pool" under the heading labeled "Custom". In the Samples section, you can then import examples using UdonGraph, UdonSharp, or CyanTrigger. Once impored, the examples can be found in in your assets folder under "Assets/Samples/CyanPlayerObjectPool/".
+
+
 ## Pooled Object Requirements
 
 When creating an Udon program to be used as a pooled object, it needs three things:
 1. A public VRCPlayerApi variable named "Owner". This variable will store the current assigned owner for the object, or null if no owner has been assigned.
 2. A public event named "_OnOwnerSet". This event will be called by everyone when the object is assigned a new owner.
 3. A public event named "_OnCleanup". This event will be called by everyone when the object owner is leaving the world and the object is about to be unassigned. 
+
+
+## Known Potential Issues
+
+- When creating a pooled object with synced variables, be sure to check if the owner has been assigned when updating data based on those variables (OnVariableChanged and OnDesrialization). When a player joins and is receiving synced data, it is possible that the variable data for the pool object will be set before the object has been assigned. The solution to this is to verify the owner is valid before handing variable changes, and to handle variable changes in both _OnOwnerSet and in OnDeserialization. See example programs for more details.
+
+- When creating a pooled object with synced variables, synced values will not send when the object is disabled. When a player leaves the instance, all players will disable the pooled object, which prevents any cleanup code from syncing the last value assigned. One solution is to ensure that ALL players reset all variables, and not just the new owner. Another solution is to uncheck the option in the PlayerObjectAssigner "Disable Unassigned Objects". This will leave the objects enabled at all times, allowing you to manually disable them if needed.
+
+- When creating pooled objects with update order (Execution Order), there are known bugs that this order is inconsistent when nested under another UdonBehaviour with its own update order set. The PlayerObjectAssigner has this set, which will affect the pooled objects. The solution to this is to move the pooled objects under a different parent, and set the "Pool Objects Parent" value in the PlayerObjectAssigner.
 
 
 # Advanced Use

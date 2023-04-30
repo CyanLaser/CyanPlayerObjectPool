@@ -1,0 +1,233 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &6466507093370580791
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 5454796645173130692}
+  - component: {fileID: 1181118861461511621}
+  - component: {fileID: 1267990233830225175}
+  m_Layer: 0
+  m_Name: TemplatePoolEventListener
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &5454796645173130692
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6466507093370580791}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 1, z: 0}
+  m_LocalScale: {x: 0.2, y: 0.2, z: 0.2}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1181118861461511621
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6466507093370580791}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3dd4a7956009f7d429a09b8371329c82, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  triggerInstance:
+    proximity: 2
+    interactText: Use
+    triggerDataInstance:
+      version: 6
+      updateOrder: 0
+      autoSetSyncMode: 1
+      programSyncMode: 2
+      programName: 
+      events:
+      - name: _OnLocalPlayerAssigned
+        eventId: 9ba932f5-2f1b-4d50-b77d-1dc7e789aecc
+        eventInstance:
+          actionType:
+            directEvent: Event_Custom
+            guid: 
+          inputs: []
+          multiInput: []
+          expanded: 1
+          comment:
+            comment: This event is called when the local player's pool object has
+              been assigned.
+        actionInstances: []
+        eventOptions:
+          userGate: 0
+          userGateExtraData: []
+          broadcast: 0
+          delay: 0
+          replay: 0
+        expanded: 1
+      - name: _OnPlayerAssigned
+        eventId: 1c84abdc-2b4b-49d9-b4c0-1c3bcdc9bff8
+        eventInstance:
+          actionType:
+            directEvent: Event_Custom
+            guid: 
+          inputs: []
+          multiInput: []
+          expanded: 1
+          comment:
+            comment: This event is called when any player is assigned a pool object.
+              The playerAssignedId and playerAssignedPoolObject variables will be
+              set before this event is called.
+        actionInstances: []
+        eventOptions:
+          userGate: 0
+          userGateExtraData: []
+          broadcast: 0
+          delay: 0
+          replay: 0
+        expanded: 1
+      - name: _OnPlayerUnassigned
+        eventId: 3c908768-6bcd-49e2-b23c-335790d974a0
+        eventInstance:
+          actionType:
+            directEvent: Event_Custom
+            guid: 
+          inputs: []
+          multiInput: []
+          expanded: 1
+          comment:
+            comment: This event is called when any player's object has been unassigned.
+              The playerUnassignedId and playerUnassignedPoolObject variables will
+              be set before this event is called.
+        actionInstances: []
+        eventOptions:
+          userGate: 0
+          userGateExtraData: []
+          broadcast: 0
+          delay: 0
+          replay: 0
+        expanded: 1
+      variables:
+      - isVariable: 0
+        name: playerAssignedPlayer
+        variableID: f12c3ee8-e181-499a-8bc7-45ea6a0c41ae
+        data:
+          objEncoded: Lg==
+          unityObjects: []
+        type:
+          typeDef: VRC.SDKBase.VRCPlayerApi, VRCSDKBase, Version=0.0.0.0, Culture=neutral,
+            PublicKeyToken=null
+        sync: 0
+        showInInspector: 1
+        typeInfo: 0
+        comment:
+          comment: 
+      - isVariable: 0
+        name: playerAssignedPoolObject
+        variableID: f1aa35c2-8603-48cc-a0fe-d76e26edc067
+        data:
+          objEncoded: Lg==
+          unityObjects: []
+        type:
+          typeDef: VRC.Udon.UdonBehaviour, VRC.Udon, Version=0.0.0.0, Culture=neutral,
+            PublicKeyToken=null
+        sync: 0
+        showInInspector: 1
+        typeInfo: 0
+        comment:
+          comment: 
+      - isVariable: 0
+        name: playerAssignedIndex
+        variableID: eb444b02-f2d8-4368-9d65-43cbb5202560
+        data:
+          objEncoded: Ai8AAAAAARYAAABTAHkAcwB0AGUAbQAuAEkAbgB0ADMAMgAsACAAbQBzAGMAbwByAGwAaQBiAAAAAAAYAAAAAAU=
+          unityObjects: []
+        type:
+          typeDef: System.Int32, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089
+        sync: 0
+        showInInspector: 1
+        typeInfo: 0
+        comment:
+          comment: 
+      - isVariable: 0
+        name: playerUnassignedPlayer
+        variableID: d725719e-d2e4-424f-be05-f53f3c5dd488
+        data:
+          objEncoded: Lg==
+          unityObjects: []
+        type:
+          typeDef: VRC.SDKBase.VRCPlayerApi, VRCSDKBase, Version=0.0.0.0, Culture=neutral,
+            PublicKeyToken=null
+        sync: 0
+        showInInspector: 1
+        typeInfo: 0
+        comment:
+          comment: 
+      - isVariable: 0
+        name: playerUnassignedPoolObject
+        variableID: fd64ee2b-4c88-4aa9-b79d-ec71f6c7ae57
+        data:
+          objEncoded: Lg==
+          unityObjects: []
+        type:
+          typeDef: VRC.Udon.UdonBehaviour, VRC.Udon, Version=0.0.0.0, Culture=neutral,
+            PublicKeyToken=null
+        sync: 0
+        showInInspector: 1
+        typeInfo: 0
+        comment:
+          comment: 
+      - isVariable: 0
+        name: playerUnassignedIndex
+        variableID: 0502be4f-5e58-4c8b-8f81-6ef62aa3a8cc
+        data:
+          objEncoded: Ai8AAAAAARYAAABTAHkAcwB0AGUAbQAuAEkAbgB0ADMAMgAsACAAbQBzAGMAbwByAGwAaQBiAAAAAAAYAAAAAAU=
+          unityObjects: []
+        type:
+          typeDef: System.Int32, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089
+        sync: 0
+        showInInspector: 1
+        typeInfo: 0
+        comment:
+          comment: 
+      comment:
+        comment: 
+      expandVariables: 0
+      expandOtherSettings: 1
+      expandSyncSection: 0
+      ignoreEventWarnings: 0
+    udonBehaviour: {fileID: 1267990233830225175}
+--- !u!114 &1267990233830225175
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6466507093370580791}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 45115577ef41a5b4ca741ed302693907, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  interactTextPlacement: {fileID: 0}
+  interactText: Use
+  interactTextGO: {fileID: 0}
+  proximity: 2
+  SynchronizePosition: 0
+  AllowCollisionOwnershipTransfer: 1
+  Reliable: 1
+  _syncMethod: 0
+  serializedProgramAsset: {fileID: 0}
+  programSource: {fileID: 11400000, guid: cc18f4b6c2dd8c74d9f7ce3362168f28, type: 2}
+  serializedPublicVariablesBytesString: Ai8AAAAAATIAAABWAFIAQwAuAFUAZABvAG4ALgBDAG8AbQBtAG8AbgAuAFUAZABvAG4AVgBhAHIAaQBhAGIAbABlAFQAYQBiAGwAZQAsACAAVgBSAEMALgBVAGQAbwBuAC4AQwBvAG0AbQBvAG4AAAAAAAYBAAAAAAAAACcBBAAAAHQAeQBwAGUAAWgAAABTAHkAcwB0AGUAbQAuAEMAbwBsAGwAZQBjAHQAaQBvAG4AcwAuAEcAZQBuAGUAcgBpAGMALgBMAGkAcwB0AGAAMQBbAFsAVgBSAEMALgBVAGQAbwBuAC4AQwBvAG0AbQBvAG4ALgBJAG4AdABlAHIAZgBhAGMAZQBzAC4ASQBVAGQAbwBuAFYAYQByAGkAYQBiAGwAZQAsACAAVgBSAEMALgBVAGQAbwBuAC4AQwBvAG0AbQBvAG4AXQBdACwAIABtAHMAYwBvAHIAbABpAGIAAQEJAAAAVgBhAHIAaQBhAGIAbABlAHMALwEAAAABaAAAAFMAeQBzAHQAZQBtAC4AQwBvAGwAbABlAGMAdABpAG8AbgBzAC4ARwBlAG4AZQByAGkAYwAuAEwAaQBzAHQAYAAxAFsAWwBWAFIAQwAuAFUAZABvAG4ALgBDAG8AbQBtAG8AbgAuAEkAbgB0AGUAcgBmAGEAYwBlAHMALgBJAFUAZABvAG4AVgBhAHIAaQBhAGIAbABlACwAIABWAFIAQwAuAFUAZABvAG4ALgBDAG8AbQBtAG8AbgBdAF0ALAAgAG0AcwBjAG8AcgBsAGkAYgABAAAABgAAAAAAAAAABwUHBQ==
+  publicVariablesUnityEngineObjects: []
+  publicVariablesSerializationDataFormat: 0

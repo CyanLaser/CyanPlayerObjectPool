@@ -435,7 +435,7 @@ MonoBehaviour:
       Data: 26|System.RuntimeType, mscorlib
     - Name: 
       Entry: 1
-      Data: Cyan.PlayerObjectPool.CyanPlayerObjectPool, Assembly-CSharp
+      Data: Cyan.PlayerObjectPool.CyanPlayerObjectPool, Cyan.PlayerObjectPool.UdonSharp
     - Name: 
       Entry: 8
       Data: 
@@ -639,7 +639,7 @@ MonoBehaviour:
       Data: 36|System.RuntimeType, mscorlib
     - Name: 
       Entry: 1
-      Data: Cyan.PlayerObjectPool.CyanPlayerObjectPoolEventListener, Assembly-CSharp
+      Data: Cyan.PlayerObjectPool.CyanPlayerObjectPoolEventListener, Cyan.PlayerObjectPool.UdonSharp
     - Name: 
       Entry: 8
       Data: 

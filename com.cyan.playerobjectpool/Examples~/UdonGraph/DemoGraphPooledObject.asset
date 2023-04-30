@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4f11136daadff0b44ac2278a314682ab, type: 3}
   m_Name: DemoGraphPooledObject
   m_EditorClassIdentifier: 
-  serializedUdonProgramAsset: {fileID: 11400000, guid: 42c6cf3d3e0aa334f868f6d946029f05,
+  serializedUdonProgramAsset: {fileID: 11400000, guid: a9b839aa2cd31a0459c6510206acb7be,
     type: 2}
   udonAssembly: ".data_start\r\n\r\n    .export Owner\r\n    .export text\r\n   
     .export value\r\n    .sync value, none\r\n    \r\n    __Boolean_0: %SystemBoolean,
@@ -55,13 +55,13 @@ MonoBehaviour:
     .export _OnOwnerSet\r\n    \r\n    _OnOwnerSet:\r\n    \r\n        PUSH, Owner\r\n       
     PUSH, __instance_0\r\n        COPY\r\n        PUSH, __instance_0\r\n        PUSH,
     __Boolean_0\r\n        EXTERN, \"VRCSDKBaseVRCPlayerApi.__get_isLocal__SystemBoolean\"\r\n       
-    PUSH, __Boolean_0\r\n        JUMP_IF_FALSE, 0x0000008C\r\n        PUSH, __min_0\r\n       
+    PUSH, __Boolean_0\r\n        JUMP_IF_FALSE, 0x00000074\r\n        PUSH, __min_0\r\n       
     PUSH, __max_0\r\n        PUSH, value\r\n        EXTERN, \"UnityEngineRandom.__Range__SystemInt32_SystemInt32__SystemInt32\"\r\n       
     PUSH, __instance_1\r\n        EXTERN, \"VRCUdonCommonInterfacesIUdonEventReceiver.__RequestSerialization__SystemVoid\"\r\n       
-    PUSH, __instance_2\r\n        PUSH, __eventName_0\r\n        EXTERN, \"VRCUdonCommonInterfacesIUdonEventReceiver.__SendCustomEvent__SystemString__SystemVoid\"\r\n       
-    JUMP, 0x0000008C\r\n        JUMP, 0xFFFFFFFC\r\n    \r\n    .export _OnCleanup\r\n   
-    \r\n    _OnCleanup:\r\n    \r\n        PUSH, __obj_0\r\n        PUSH, __instance_3\r\n       
-    EXTERN, \"VRCSDKBaseNetworking.__GetOwner__UnityEngineGameObject__VRCSDKBaseVRCPlayerApi\"\r\n       
+    JUMP, 0x00000074\r\n        PUSH, __instance_2\r\n        PUSH, __eventName_0\r\n       
+    EXTERN, \"VRCUdonCommonInterfacesIUdonEventReceiver.__SendCustomEvent__SystemString__SystemVoid\"\r\n       
+    JUMP, 0xFFFFFFFC\r\n    \r\n    .export _OnCleanup\r\n    \r\n    _OnCleanup:\r\n   
+    \r\n        PUSH, __obj_0\r\n        PUSH, __instance_3\r\n        EXTERN, \"VRCSDKBaseNetworking.__GetOwner__UnityEngineGameObject__VRCSDKBaseVRCPlayerApi\"\r\n       
     PUSH, __instance_3\r\n        PUSH, __Boolean_1\r\n        EXTERN, \"VRCSDKBaseVRCPlayerApi.__get_isLocal__SystemBoolean\"\r\n       
     PUSH, __Boolean_1\r\n        JUMP_IF_FALSE, 0x00000118\r\n        PUSH, __Int32_0\r\n       
     PUSH, value\r\n        COPY\r\n        PUSH, __instance_4\r\n        EXTERN,
@@ -162,11 +162,11 @@ MonoBehaviour:
         stringValue: System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089|none
     - fullName: Event_Custom
       uid: f0ff706e-eeaf-4530-a6ca-e42628b72049
-      position: {x: 300.10712, y: 76.034645}
+      position: {x: 280, y: -201.32254}
       nodeUIDs:
       - 
       flowUIDs:
-      - c60d68b3-55f9-4c5d-b817-f96632e5eb5f
+      - 31541a8f-dc3e-44b6-99e6-460bfc04afb0
       nodeValues:
       - unityObjectValue: {fileID: 0}
         stringValue: System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089|_OnOwnerSet
@@ -274,14 +274,14 @@ MonoBehaviour:
         stringValue: System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089|none
     - fullName: Event_Start
       uid: b6a13395-003e-4b3e-ae72-dc9c5648338c
-      position: {x: 242.83977, y: -337.7784}
+      position: {x: 233.32253, y: -615.74}
       nodeUIDs: []
       flowUIDs:
       - 93520af3-9250-486d-926c-95ae91dac822
       nodeValues: []
     - fullName: Set_Variable
       uid: 93520af3-9250-486d-926c-95ae91dac822
-      position: {x: 480.7115, y: -336.9537}
+      position: {x: 471.3225, y: -614.74}
       nodeUIDs:
       - 
       - 04e79981-aa46-438e-9da0-60b25a7788b6|0
@@ -297,7 +297,7 @@ MonoBehaviour:
           PublicKeyToken=b77a5c561934e089|False
     - fullName: VRCSDKBaseNetworking.__get_LocalPlayer__VRCSDKBaseVRCPlayerApi
       uid: 04e79981-aa46-438e-9da0-60b25a7788b6
-      position: {x: 244.42085, y: -252.18814}
+      position: {x: 234.32253, y: -529.74}
       nodeUIDs: []
       flowUIDs: []
       nodeValues: []
@@ -552,7 +552,7 @@ MonoBehaviour:
         stringValue: System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089|_OnValueChanged
     - fullName: Get_Variable
       uid: 62e3b573-0004-4026-a72b-d245db0d64e8
-      position: {x: 306.98267, y: 175.40326}
+      position: {x: 694.615, y: -106.9675}
       nodeUIDs:
       - 
       flowUIDs: []
@@ -563,7 +563,7 @@ MonoBehaviour:
         stringValue: 
     - fullName: VRCSDKBaseVRCPlayerApi.__get_isLocal__SystemBoolean
       uid: 21f208b7-3f7b-43f6-950a-41cf7a2970e8
-      position: {x: 527.2782, y: 171.90521}
+      position: {x: 897.93756, y: -106.99999}
       nodeUIDs:
       - 62e3b573-0004-4026-a72b-d245db0d64e8|0
       flowUIDs: []
@@ -572,7 +572,7 @@ MonoBehaviour:
         stringValue: 
     - fullName: Branch
       uid: c60d68b3-55f9-4c5d-b817-f96632e5eb5f
-      position: {x: 689.14514, y: 75.18394}
+      position: {x: 1080.5825, y: -200.67749}
       nodeUIDs:
       - 21f208b7-3f7b-43f6-950a-41cf7a2970e8|0
       flowUIDs:
@@ -583,7 +583,7 @@ MonoBehaviour:
           PublicKeyToken=b77a5c561934e089|False
     - fullName: Set_Variable
       uid: 36efacf5-c167-4f96-96ca-e6ccfc406ed0
-      position: {x: 969.375, y: 76.28489}
+      position: {x: 1391, y: -201.32254}
       nodeUIDs:
       - 
       - 503680c8-eabc-4edb-9445-5bd4e764a7b0|0
@@ -600,7 +600,7 @@ MonoBehaviour:
           PublicKeyToken=b77a5c561934e089|False
     - fullName: UnityEngineRandom.__Range__SystemInt32_SystemInt32__SystemInt32
       uid: 503680c8-eabc-4edb-9445-5bd4e764a7b0
-      position: {x: 720.20215, y: 197.72766}
+      position: {x: 1165.805, y: -80.32249}
       nodeUIDs:
       - 
       - 
@@ -612,17 +612,17 @@ MonoBehaviour:
         stringValue: System.Int32, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089|100
     - fullName: VRCUdonCommonInterfacesIUdonEventReceiver.__RequestSerialization__SystemVoid
       uid: 07c23bf6-5323-42ed-b1d3-4074a8f3139b
-      position: {x: 1126.7285, y: 79.354836}
+      position: {x: 1549, y: -198.32254}
       nodeUIDs:
       - 
       flowUIDs:
-      - 8736cf6e-4da1-4991-9ffa-2752664c7571
+      - 
       nodeValues:
       - unityObjectValue: {fileID: 0}
         stringValue: 
     - fullName: VRCUdonCommonInterfacesIUdonEventReceiver.__SendCustomEvent__SystemString__SystemVoid
       uid: 8736cf6e-4da1-4991-9ffa-2752664c7571
-      position: {x: 1332.7959, y: 81.87229}
+      position: {x: 644.0424, y: 197.06503}
       nodeUIDs:
       - 
       - 
@@ -631,7 +631,7 @@ MonoBehaviour:
       - unityObjectValue: {fileID: 0}
         stringValue: 
       - unityObjectValue: {fileID: 0}
-        stringValue: System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089|_OnValueChanged
+        stringValue: System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089|_UpdateDebugDisplay
     - fullName: VRCSDKBaseNetworking.__GetOwner__UnityEngineGameObject__VRCSDKBaseVRCPlayerApi
       uid: cbbfd1ea-2df4-4c8e-b6f3-0c92be40de20
       position: {x: 693.6444, y: 699.87634}
@@ -680,7 +680,7 @@ MonoBehaviour:
           PublicKeyToken=b77a5c561934e089|False
     - fullName: VRCUdonCommonInterfacesIUdonEventReceiver.__RequestSerialization__SystemVoid
       uid: 4f46ba26-b31a-4aa2-9083-136bb2a1325a
-      position: {x: 1305.863, y: 588.003}
+      position: {x: 1348.3201, y: 586.6775}
       nodeUIDs:
       - 
       flowUIDs:
@@ -690,7 +690,7 @@ MonoBehaviour:
         stringValue: 
     - fullName: VRCUdonCommonInterfacesIUdonEventReceiver.__SendCustomEvent__SystemString__SystemVoid
       uid: 0c06890d-fa64-4406-86ef-52f31eee0515
-      position: {x: 1511.9303, y: 590.5203}
+      position: {x: 1577.7427, y: 587}
       nodeUIDs:
       - 
       - 
@@ -1083,20 +1083,28 @@ MonoBehaviour:
       nodeValues:
       - unityObjectValue: {fileID: 0}
         stringValue: System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089|_IncreaseValue
+    - fullName: Block
+      uid: 31541a8f-dc3e-44b6-99e6-460bfc04afb0
+      position: {x: 539, y: -198.32254}
+      nodeUIDs: []
+      flowUIDs:
+      - c60d68b3-55f9-4c5d-b817-f96632e5eb5f
+      - 8736cf6e-4da1-4991-9ffa-2752664c7571
+      nodeValues: []
     updateOrder: 0
   graphElementData:
   - type: 2
     uid: ccc64cfb-74d0-459f-a3ab-1fe9845fd710
-    jsonData: '{"uid":"ccc64cfb-74d0-459f-a3ab-1fe9845fd710","layout":{"serializedVersion":"2","x":215.23040771484376,"y":-119.87782287597656,"width":1416.0,"height":472.0},"containedElements":["f0ff706e-eeaf-4530-a6ca-e42628b72049","13a8fb05-002e-4ecd-883c-05658eaea826","3d3f6c5d-9308-4f27-82f9-8864885e8e64","c21e10d8-5fa8-4378-81b5-5bd8d8c0e03f","cf76ea89-568b-4eb3-a817-e441d0274792","612a27fc-0db1-4cb0-bcbe-0931bdbc3967","e013a9aa-07ce-4854-bb6f-2cf2617e2816","e0f0c883-4c5a-4842-9c41-2c5be250a4b3","62e3b573-0004-4026-a72b-d245db0d64e8","21f208b7-3f7b-43f6-950a-41cf7a2970e8","c60d68b3-55f9-4c5d-b817-f96632e5eb5f","36efacf5-c167-4f96-96ca-e6ccfc406ed0","503680c8-eabc-4edb-9445-5bd4e764a7b0","10e74ad2-4086-4825-ada9-25940868db75","07c23bf6-5323-42ed-b1d3-4074a8f3139b","8736cf6e-4da1-4991-9ffa-2752664c7571"],"title":"On
+    jsonData: '{"uid":"ccc64cfb-74d0-459f-a3ab-1fe9845fd710","layout":{"serializedVersion":"2","x":202.13755798339845,"y":-407.6052551269531,"width":1579.0,"height":761.0},"containedElements":["f0ff706e-eeaf-4530-a6ca-e42628b72049","13a8fb05-002e-4ecd-883c-05658eaea826","3d3f6c5d-9308-4f27-82f9-8864885e8e64","c21e10d8-5fa8-4378-81b5-5bd8d8c0e03f","cf76ea89-568b-4eb3-a817-e441d0274792","612a27fc-0db1-4cb0-bcbe-0931bdbc3967","e013a9aa-07ce-4854-bb6f-2cf2617e2816","e0f0c883-4c5a-4842-9c41-2c5be250a4b3","62e3b573-0004-4026-a72b-d245db0d64e8","21f208b7-3f7b-43f6-950a-41cf7a2970e8","c60d68b3-55f9-4c5d-b817-f96632e5eb5f","36efacf5-c167-4f96-96ca-e6ccfc406ed0","503680c8-eabc-4edb-9445-5bd4e764a7b0","10e74ad2-4086-4825-ada9-25940868db75","07c23bf6-5323-42ed-b1d3-4074a8f3139b","8736cf6e-4da1-4991-9ffa-2752664c7571","f943dfe7-8448-417d-8341-f29cdefa009d","15b4583d-1998-4ee2-8060-77fcab46cf8d","ba0643e2-118c-4e96-a59c-a4114f7bbdae","41ff04f7-c4f7-4038-8159-7fdf030088cf","bbd34de3-09db-4d5a-be80-12a447f4bcb6","eab5df02-ae1b-445d-9b26-0497d7a6ed51","37928e96-c263-45e4-b5b1-1abfc43f914f","31541a8f-dc3e-44b6-99e6-460bfc04afb0","f129f463-6a9a-4f04-8d2a-83256bd805ee"],"title":"On
       Owner Set","layer":0,"elementTypeColor":{"r":0.0,"g":0.0,"b":0.0,"a":0.0}}'
   - type: 3
     uid: 13a8fb05-002e-4ecd-883c-05658eaea826
-    jsonData: '{"uid":"13a8fb05-002e-4ecd-883c-05658eaea826","layout":{"serializedVersion":"2","x":240.23037719726563,"y":-55.877830505371097,"width":330.0,"height":127.0},"title":"This
+    jsonData: '{"uid":"13a8fb05-002e-4ecd-883c-05658eaea826","layout":{"serializedVersion":"2","x":227.1375732421875,"y":-349.6052551269531,"width":330.0,"height":127.0},"title":"This
       Event will be called on all clients when the object is enabled and the Owner
       has been assigned.","layer":0,"elementTypeColor":{"r":0.0,"g":0.0,"b":0.0,"a":0.0}}'
   - type: 2
     uid: b998856e-fee0-4d70-b091-7d1c06120f28
-    jsonData: '{"uid":"b998856e-fee0-4d70-b091-7d1c06120f28","layout":{"serializedVersion":"2","x":216.88287353515626,"y":374.5924072265625,"width":1595.0,"height":670.0},"containedElements":["fe5b75d3-3818-4922-bf85-8d19f38a5175","34eba742-ba91-4c02-9523-99af3cbcd499","112d6694-2817-4a3a-aa63-c8e44d1ef4ea","184bbba4-2289-479d-8906-5dac5818d568","622d8eb9-8406-46d7-8f73-e39386a52056","5dfc5faf-026f-422a-9882-0beb5803f0d9","c9a94c0a-6036-4e58-9685-df9a782ae5cf","6db8a933-65b7-43a6-af40-399ec814fe02","cbbfd1ea-2df4-4c8e-b6f3-0c92be40de20","12eb1044-eec7-4149-bf8b-8f11a3437db3","aa332534-d1e2-4513-9f56-cdd709721fc3","ed486f3e-036f-4d50-bfd7-5f790191f18f","4f46ba26-b31a-4aa2-9083-136bb2a1325a","0c06890d-fa64-4406-86ef-52f31eee0515","3650c61a-48aa-485d-bcbc-84e0a0683058","427dd9f4-6d18-4e8d-a89e-27c887ae9e25","2da3fe10-9358-4d81-b32c-5069dab7fe6c","be349c74-cb55-405a-a820-769905747ee6","7f97d37f-3c01-41e3-8ee2-973f190c5fd7","ba4e6f21-c01f-4b6a-97e7-8925245da089","e37a89a6-8d38-4ee3-ad9b-1b2dba85edf6","07fd12b2-6d4a-4a61-87aa-c7ef90e55e5e","4136371b-d67f-4a5f-953e-b68f6c175669","562d54c8-e2c0-45eb-97ab-450921c06514","edc1bab2-f2d7-4d16-b310-7f01c3a0fbfc","36bb0f8d-2a17-4c95-bac1-cbccc87b8672","fbae84ce-a483-4d6f-a3dc-5015f816d2c3","5477d5b8-dc9f-4068-889c-d16042f64e0f","395dc933-e7d6-4c8a-b2a3-c4813d2a8ec1","8e3609f7-5e3b-4bed-9116-141d23fbd9f5"],"title":"On
+    jsonData: '{"uid":"b998856e-fee0-4d70-b091-7d1c06120f28","layout":{"serializedVersion":"2","x":216.8829345703125,"y":381.592529296875,"width":1664.0,"height":662.0},"containedElements":["fe5b75d3-3818-4922-bf85-8d19f38a5175","34eba742-ba91-4c02-9523-99af3cbcd499","112d6694-2817-4a3a-aa63-c8e44d1ef4ea","184bbba4-2289-479d-8906-5dac5818d568","622d8eb9-8406-46d7-8f73-e39386a52056","5dfc5faf-026f-422a-9882-0beb5803f0d9","c9a94c0a-6036-4e58-9685-df9a782ae5cf","6db8a933-65b7-43a6-af40-399ec814fe02","cbbfd1ea-2df4-4c8e-b6f3-0c92be40de20","12eb1044-eec7-4149-bf8b-8f11a3437db3","aa332534-d1e2-4513-9f56-cdd709721fc3","ed486f3e-036f-4d50-bfd7-5f790191f18f","4f46ba26-b31a-4aa2-9083-136bb2a1325a","0c06890d-fa64-4406-86ef-52f31eee0515","3650c61a-48aa-485d-bcbc-84e0a0683058","427dd9f4-6d18-4e8d-a89e-27c887ae9e25","2da3fe10-9358-4d81-b32c-5069dab7fe6c","be349c74-cb55-405a-a820-769905747ee6","7f97d37f-3c01-41e3-8ee2-973f190c5fd7","ba4e6f21-c01f-4b6a-97e7-8925245da089","e37a89a6-8d38-4ee3-ad9b-1b2dba85edf6","07fd12b2-6d4a-4a61-87aa-c7ef90e55e5e","4136371b-d67f-4a5f-953e-b68f6c175669","562d54c8-e2c0-45eb-97ab-450921c06514","edc1bab2-f2d7-4d16-b310-7f01c3a0fbfc","36bb0f8d-2a17-4c95-bac1-cbccc87b8672","fbae84ce-a483-4d6f-a3dc-5015f816d2c3","5477d5b8-dc9f-4068-889c-d16042f64e0f","395dc933-e7d6-4c8a-b2a3-c4813d2a8ec1","8e3609f7-5e3b-4bed-9116-141d23fbd9f5"],"title":"On
       Cleanup","layer":0,"elementTypeColor":{"r":0.0,"g":0.0,"b":0.0,"a":0.0}}'
   - type: 3
     uid: 34eba742-ba91-4c02-9523-99af3cbcd499
@@ -1108,7 +1116,7 @@ MonoBehaviour:
     jsonData: '{"visible":true,"layout":{"serializedVersion":"2","x":10.0,"y":130.0,"width":209.0,"height":286.0}}'
   - type: 3
     uid: 10e74ad2-4086-4825-ada9-25940868db75
-    jsonData: '{"uid":"10e74ad2-4086-4825-ada9-25940868db75","layout":{"serializedVersion":"2","x":796.6785888671875,"y":-24.509273529052736,"width":631.7137451171875,"height":90.72117614746094},"title":"If
+    jsonData: '{"uid":"10e74ad2-4086-4825-ada9-25940868db75","layout":{"serializedVersion":"2","x":1110.2431640625,"y":-330.1391906738281,"width":640.9713134765625,"height":92.0436782836914},"title":"If
       the owner is local, initialize the value with a random number","layer":0,"elementTypeColor":{"r":0.0,"g":0.0,"b":0.0,"a":0.0}}'
   - type: 3
     uid: 427dd9f4-6d18-4e8d-a89e-27c887ae9e25
@@ -1117,7 +1125,7 @@ MonoBehaviour:
       it is invalid","layer":0,"elementTypeColor":{"r":0.0,"g":0.0,"b":0.0,"a":0.0}}'
   - type: 2
     uid: 5fedd158-a747-4a3f-bd72-c786317ea5f5
-    jsonData: '{"uid":"5fedd158-a747-4a3f-bd72-c786317ea5f5","layout":{"serializedVersion":"2","x":215.11373901367188,"y":1073.4730224609375,"width":567.0,"height":225.0},"containedElements":["777e50af-7848-4e70-8107-db6a2eac9af2","d5030326-a20d-4adf-86ba-47f7205162cb"],"title":"OnDeserialization","layer":0,"elementTypeColor":{"r":0.0,"g":0.0,"b":0.0,"a":0.0}}'
+    jsonData: '{"uid":"5fedd158-a747-4a3f-bd72-c786317ea5f5","layout":{"serializedVersion":"2","x":215.0,"y":1082.0001220703125,"width":1366.0,"height":219.0},"containedElements":["777e50af-7848-4e70-8107-db6a2eac9af2","d5030326-a20d-4adf-86ba-47f7205162cb","2228d0fc-27c0-4720-9a89-3767f8f0f405"],"title":"OnDeserialization","layer":0,"elementTypeColor":{"r":0.0,"g":0.0,"b":0.0,"a":0.0}}'
   - type: 2
     uid: 0150aed2-d691-4668-933f-cfe6fcb6a878
     jsonData: '{"uid":"0150aed2-d691-4668-933f-cfe6fcb6a878","layout":{"serializedVersion":"2","x":210.81521606445313,"y":1327.173095703125,"width":1126.0,"height":367.0},"containedElements":["bd69fe77-a7b2-41a2-b8b2-514b0ac50c60","d9c97920-b923-4463-b782-9001f9a53cf5","9153c21a-ecf9-4b40-af74-aa64e24f7a43","5c728c05-a72c-431a-8a18-f8c3acdbe2de","cad866e1-ff54-406d-b867-46cff2320f9d","68a2a472-1be0-4b47-89f8-2b7dba9809ba","c1ef0d8c-40b2-41ea-b0bb-115558fa9bdd","3d1f2dd8-1817-47f8-83a0-d350c6817a99","ceabc805-3420-45e9-9f30-64ab7e25f6a5","336479b6-522d-4704-98ff-5ece8e1add45","0e8e7f6d-4c18-48bb-9089-dc6f5db1b6d8","41809fd3-8de6-44e4-9e2b-3dbd10f6cef4","345ee921-9b3c-4b1a-9113-3e82cdba062f","99ccce23-5938-4535-98a7-bf8855efc830","221254ca-149e-48b8-92f0-604c50bebf9c","3bc7ac5c-e65a-4676-866d-d8784bf55f6e"],"title":"On
@@ -1128,7 +1136,7 @@ MonoBehaviour:
       Debug Display","layer":0,"elementTypeColor":{"r":0.0,"g":0.0,"b":0.0,"a":0.0}}'
   - type: 2
     uid: 30b4bbe6-080e-40ad-9d2c-efd1e3faa951
-    jsonData: '{"uid":"30b4bbe6-080e-40ad-9d2c-efd1e3faa951","layout":{"serializedVersion":"2","x":217.8397674560547,"y":-403.7784729003906,"width":439.0,"height":260.0},"containedElements":["60dc3f97-266a-45ce-9261-f732f02e6462","b6a13395-003e-4b3e-ae72-dc9c5648338c","93520af3-9250-486d-926c-95ae91dac822","04e79981-aa46-438e-9da0-60b25a7788b6"],"title":"Start","layer":0,"elementTypeColor":{"r":0.0,"g":0.0,"b":0.0,"a":0.0}}'
+    jsonData: '{"uid":"30b4bbe6-080e-40ad-9d2c-efd1e3faa951","layout":{"serializedVersion":"2","x":208.00003051757813,"y":-674.0,"width":460.0,"height":252.0},"containedElements":["60dc3f97-266a-45ce-9261-f732f02e6462","b6a13395-003e-4b3e-ae72-dc9c5648338c","93520af3-9250-486d-926c-95ae91dac822","04e79981-aa46-438e-9da0-60b25a7788b6"],"title":"Start","layer":0,"elementTypeColor":{"r":0.0,"g":0.0,"b":0.0,"a":0.0}}'
   - type: 2
     uid: bca85f81-ed22-448d-922f-abef9111951a
     jsonData: '{"uid":"bca85f81-ed22-448d-922f-abef9111951a","layout":{"serializedVersion":"2","x":214.9613494873047,"y":2429.613525390625,"width":644.0,"height":502.0},"containedElements":["d99d2793-072e-4dd1-9005-76b36e964bc5","d79c32e4-c21f-41fb-9620-afa6a1b2bf1f","c4a58cb3-e7b3-45d8-a21e-795a7a3340a2","8b7f5450-fab5-4f75-b2e3-dca8ec0b5fe0","4b70c897-0e55-4734-9f8b-45cdb4da3843","383b36b5-5fcc-46c2-a0ed-814f8827cd15","14bd16ce-ec8d-4635-b1dd-1d1efbeb13f2","58556364-cd32-4a14-b34b-41661c6706e8","390ce491-d6c6-4a15-8157-a288f05aef6f","3149976b-831f-4826-9115-e7570ed9df8d","68245260-e27d-4145-be4f-2f2274f822ce","2e332d73-a26e-43f6-89b0-d638af92ed5f","b132723f-3185-4a47-b084-16255c25fc7d","f2669513-d67c-48d9-9ffd-f17d503cd9de"],"title":"Update","layer":0,"elementTypeColor":{"r":0.0,"g":0.0,"b":0.0,"a":0.0}}'
@@ -1165,8 +1173,19 @@ MonoBehaviour:
     uid: aa011b64-f167-4350-9cb0-21ecfe4c138e
     jsonData: '{"uid":"aa011b64-f167-4350-9cb0-21ecfe4c138e","layout":{"serializedVersion":"2","x":943.9954223632813,"y":1776.7159423828125,"width":353.0874328613281,"height":87.25452423095703},"title":"Set
       the text display to the owner''s name, id, and the current value","layer":0,"elementTypeColor":{"r":0.0,"g":0.0,"b":0.0,"a":0.0}}'
-  viewTransform:
-    position: {x: 35.0029, y: -1913.6366}
-    scale: 0.8695652
+  - type: 3
+    uid: f129f463-6a9a-4f04-8d2a-83256bd805ee
+    jsonData: '{"uid":"f129f463-6a9a-4f04-8d2a-83256bd805ee","layout":{"serializedVersion":"2","x":679.3244018554688,"y":56.42654800415039,"width":779.9924926757813,"height":125.96249389648438},"title":"After
+      assigning the owner, have everyone act as if the value has changed, as the
+      owner has.\r This is needed as an edge case when the synced value of this pool
+      object is changed BEFORE\r the owner has been assigned. See OnDeserialization
+      as well.","layer":0,"elementTypeColor":{"r":0.0,"g":0.0,"b":0.0,"a":0.0}}'
+  - type: 3
+    uid: 2228d0fc-27c0-4720-9a89-3767f8f0f405
+    jsonData: '{"uid":"2228d0fc-27c0-4720-9a89-3767f8f0f405","layout":{"serializedVersion":"2","x":812.0149536132813,"y":1140.876708984375,"width":744.2850341796875,"height":135.22000122070313},"title":"OnDeserialization
+      happens when synced variable data has been changed. Note that this method may
+      happen before the owner has been assigned to this object. Be sure to check
+      for that case and handle initial variable updates both in OnDeserialization
+      and in _OnOwnerSet.","layer":0,"elementTypeColor":{"r":0.0,"g":0.0,"b":0.0,"a":0.0}}'
   version: 1.0.0
   showAssembly: 0

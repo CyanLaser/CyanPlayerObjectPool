@@ -48,22 +48,19 @@ MonoBehaviour:
     proximity: 2
     interactText: Use
     triggerDataInstance:
-      version: 3
+      version: 6
       updateOrder: 0
+      autoSetSyncMode: 1
       programSyncMode: 2
+      programName: 
       events:
       - name: _OnOwnerSet
+        eventId: a7955659-c9c2-4a40-a112-7178c1df1dcf
         eventInstance:
           actionType:
             directEvent: Event_Custom
             guid: 
-          inputs:
-          - isVariable: 0
-            name: 
-            variableID: 
-            data:
-              objEncoded: Ai8AAAAAARcAAABTAHkAcwB0AGUAbQAuAFMAdAByAGkAbgBnACwAIABtAHMAYwBvAHIAbABpAGIAAAAAACgBAAAAAAU=
-              unityObjects: []
+          inputs: []
           multiInput: []
           expanded: 1
           comment:
@@ -83,24 +80,20 @@ MonoBehaviour:
           userGateExtraData: []
           broadcast: 0
           delay: 0
+          replay: 0
         expanded: 1
       - name: _OnCleanup
+        eventId: 30cba9ab-2be6-428e-a027-b7780bb6192c
         eventInstance:
           actionType:
             directEvent: Event_Custom
             guid: 
-          inputs:
-          - isVariable: 0
-            name: 
-            variableID: 
-            data:
-              objEncoded: Ai8AAAAAARcAAABTAHkAcwB0AGUAbQAuAFMAdAByAGkAbgBnACwAIABtAHMAYwBvAHIAbABpAGIAAAAAACgBAAAAAAU=
-              unityObjects: []
+          inputs: []
           multiInput: []
           expanded: 1
           comment:
-            comment: This method will be called on all clients when the original owner
-              has left and the object is about to be disabled.
+            comment: This method will be called on all clients when the original
+              owner has left and the object is about to be disabled.
         actionInstances:
         - actionType:
             directEvent: CyanTriggerSpecial_Comment
@@ -115,6 +108,7 @@ MonoBehaviour:
           userGateExtraData: []
           broadcast: 0
           delay: 0
+          replay: 0
         expanded: 1
       variables:
       - isVariable: 0
@@ -127,8 +121,16 @@ MonoBehaviour:
           typeDef: VRC.SDKBase.VRCPlayerApi, VRCSDKBase, Version=0.0.0.0, Culture=neutral,
             PublicKeyToken=null
         sync: 0
+        showInInspector: 1
+        typeInfo: 0
+        comment:
+          comment: 
       comment:
         comment: 
+      expandVariables: 0
+      expandOtherSettings: 1
+      expandSyncSection: 0
+      ignoreEventWarnings: 0
     udonBehaviour: {fileID: 4248953960706351786}
 --- !u!114 &4248953960706351786
 MonoBehaviour:
@@ -149,9 +151,9 @@ MonoBehaviour:
   SynchronizePosition: 0
   AllowCollisionOwnershipTransfer: 1
   Reliable: 1
-  serializedProgramAsset: {fileID: 11400000, guid: 9c3fe766e23cdaf44ab47a294c1fd584,
-    type: 2}
-  programSource: {fileID: 11400000, guid: aaa95946b38d3474e986547f2220617c, type: 2}
+  _syncMethod: 1
+  serializedProgramAsset: {fileID: 0}
+  programSource: {fileID: 11400000, guid: cc18f4b6c2dd8c74d9f7ce3362168f28, type: 2}
   serializedPublicVariablesBytesString: Ai8AAAAAATIAAABWAFIAQwAuAFUAZABvAG4ALgBDAG8AbQBtAG8AbgAuAFUAZABvAG4AVgBhAHIAaQBhAGIAbABlAFQAYQBiAGwAZQAsACAAVgBSAEMALgBVAGQAbwBuAC4AQwBvAG0AbQBvAG4AAAAAAAYBAAAAAAAAACcBBAAAAHQAeQBwAGUAAWgAAABTAHkAcwB0AGUAbQAuAEMAbwBsAGwAZQBjAHQAaQBvAG4AcwAuAEcAZQBuAGUAcgBpAGMALgBMAGkAcwB0AGAAMQBbAFsAVgBSAEMALgBVAGQAbwBuAC4AQwBvAG0AbQBvAG4ALgBJAG4AdABlAHIAZgBhAGMAZQBzAC4ASQBVAGQAbwBuAFYAYQByAGkAYQBiAGwAZQAsACAAVgBSAEMALgBVAGQAbwBuAC4AQwBvAG0AbQBvAG4AXQBdACwAIABtAHMAYwBvAHIAbABpAGIAAQEJAAAAVgBhAHIAaQBhAGIAbABlAHMALwEAAAABaAAAAFMAeQBzAHQAZQBtAC4AQwBvAGwAbABlAGMAdABpAG8AbgBzAC4ARwBlAG4AZQByAGkAYwAuAEwAaQBzAHQAYAAxAFsAWwBWAFIAQwAuAFUAZABvAG4ALgBDAG8AbQBtAG8AbgAuAEkAbgB0AGUAcgBmAGEAYwBlAHMALgBJAFUAZABvAG4AVgBhAHIAaQBhAGIAbABlACwAIABWAFIAQwAuAFUAZABvAG4ALgBDAG8AbQBtAG8AbgBdAF0ALAAgAG0AcwBjAG8AcgBsAGkAYgABAAAABgAAAAAAAAAABwUHBQ==
   publicVariablesUnityEngineObjects: []
   publicVariablesSerializationDataFormat: 0

@@ -1,5 +1,4 @@
-﻿using System;
-using JetBrains.Annotations;
+﻿using JetBrains.Annotations;
 using UdonSharp;
 using UnityEngine;
 using UnityEngine.UI;
@@ -33,6 +32,11 @@ namespace Cyan.PlayerObjectPool
             {
                 _SetValue(Random.Range(0, 100));
             }
+            
+            // After assigning the owner, have everyone act as if the value has changed, as the owner has.
+            // This is needed as an edge case when the synced value of this pool object is changed BEFORE
+            // the owner has been assigned. See OnDeserialization as well.
+            _UpdateDebugDisplay();
         }
 
         [PublicAPI]
@@ -48,6 +52,9 @@ namespace Cyan.PlayerObjectPool
 
         public override void OnDeserialization()
         {
+            // OnDeserialization happens when synced variable data has been changed. Note that this method may happen
+            // before the owner has been assigned to this object. Be sure to check for that case and handle initial
+            // variable updates both in OnDeserialization and in _OnOwnerSet.
             _OnValueChanged();
         }
         
@@ -73,8 +80,8 @@ namespace Cyan.PlayerObjectPool
 
         private void _UpdateDebugDisplay()
         {
-            string ownerName = Utilities.IsValid(Owner) ? Owner.displayName + " " + Owner.playerId : "Invalid";
-            text.text = ownerName + "\n" + value;
+            string ownerName = Utilities.IsValid(Owner) ? $"{Owner.displayName} {Owner.playerId}" : "Invalid";
+            text.text = $"{ownerName}\n{value}";
         }
 
         private void Update()
