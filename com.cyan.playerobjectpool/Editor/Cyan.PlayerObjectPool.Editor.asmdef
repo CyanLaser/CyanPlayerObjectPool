@@ -7,7 +7,9 @@
         "UdonSharp.Editor",
         "VRC.Udon"
     ],
-    "includePlatforms": [],
+    "includePlatforms": [
+        "Editor"
+    ],
     "excludePlatforms": [],
     "allowUnsafeCode": false,
     "overrideReferences": false,
