@@ -1,7 +1,7 @@
 {
   "name": "com.cyan.playerobjectpool",
   "displayName": "Cyan Player Object Pool",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "unity": "2019.4",
   "description": "A VRChat system that will assign a unique object to every player in the world.",
   "author" : {
@@ -30,6 +30,6 @@
     }
   ],
   "legacyFolders" : {
-		"Assets\\Cyan\\PlayerObjectPool" : "b8de48290350821488f80da1d1c22556"
-	}
+    "Assets\\Cyan\\PlayerObjectPool" : "b8de48290350821488f80da1d1c22556"
+  }
 }

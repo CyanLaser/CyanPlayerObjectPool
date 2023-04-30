@@ -18,7 +18,7 @@ namespace Cyan.PlayerObjectPool
         #region Constants
 
         // Current pool version that will be printed at start. 
-        private const string Version = "v1.1.0";
+        private const string Version = "v1.1.1";
         
         // These constants affect the behaviour of the pool
         #region Constants
