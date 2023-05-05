@@ -1,0 +1,24 @@
+{
+    "name":"Cyan Player Object Pool",
+    "id":"com.cyan.playerobjectpool.vcc-listing",
+    "url":"https://CyanLaser.github.io/CyanPlayerObjectPool/index.json",
+    "author":{
+        "name":"CyanLaser",
+        "url":"https://twitter.com/CyanLaser"
+    },
+    "description":"A VRChat system that will assign a unique object to every player in the world.",
+    "infoLink":{
+        "url":"http://github.com/CyanLaser/CyanPlayerObjectPool",
+        "text":"View on GitHub"
+    },
+    "bannerUrl":"banner.png",
+    "packages":[
+        {
+            "name":"com.cyan.playerobjectpool",
+            "releases":[
+                "https://github.com/CyanLaser/CyanPlayerObjectPool/releases/download/v1.1.2/com.cyan.playerobjectpool-1.1.2.zip",
+                "https://github.com/CyanLaser/CyanPlayerObjectPool/releases/download/v1.1.1/com.cyan.playerobjectpool.zip"
+            ]
+        }
+    ]
+}
