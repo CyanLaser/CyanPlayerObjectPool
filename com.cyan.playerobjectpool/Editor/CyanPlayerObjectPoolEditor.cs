@@ -98,6 +98,9 @@ namespace Cyan.PlayerObjectPool
         // Checks if the SDK window becomes focused, and if so will verify the pool size.
         private static void CheckForSDKFocus()
         {
+            string focusedWindow = string.Empty;
+            try { focusedWindow = UnityEditor.EditorWindow.focusedWindow.ToString(); }
+            catch { return; }
             if (UnityEditor.EditorWindow.focusedWindow.ToString().Contains("VRCSdkControlPanel") && UnityEditor.EditorWindow.focusedWindow.ToString() != previousFocusedWindow)
             {
                 // Go through each setup helper and verify their pool size.
